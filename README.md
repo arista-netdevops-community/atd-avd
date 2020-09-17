@@ -2,12 +2,12 @@
 
 Arista Test Drive + Ansible AVD Examples
 
-![ATD Lab Topology](atd-topo.png)
+<img src="atd-topo.png" alt="ATD Lab Topology" width="400"/>
 
 ATD Topology Device List
 
 | Device | IP Address   |
-| ------ | ------------ |
+| :------ | :------------ |
 | spine1 | 192.168.0.10 |
 | spine2 | 192.168.0.11 |
 | leaf1  | 192.168.0.12 |
