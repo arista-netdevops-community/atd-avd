@@ -10,7 +10,7 @@ local_users:
   arista:
     privilege: 15
     role: network-admin
-    sha512_password: "$1$4VjIjfd1$XkUVulbNDESHFzcxDU.Tk1"
+    sha512_password: "$6$1pTyTTnObzI/7KRt$LBHmqlKdE3kFGsKjw5ekJYIxHv.HVCwpJUJ9Hx44gaBXVyrlTkCY9KMhts3VstcyV4HyssyiNn2/JqNbrHFAf0"
 
 # Cloud Vision server information
 cvp_instance_ip: 192.168.0.5
