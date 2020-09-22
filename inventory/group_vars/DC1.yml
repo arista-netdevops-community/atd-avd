@@ -5,17 +5,12 @@ local_users:
   admin:
     privilege: 15
     role: network-admin
-    sha512_password: "$6$Df86J4/SFMDE3/1K$Hef4KstdoxNDaami37cBquTWOTplC.miMPjXVgQxMe92.e5wxlnXOLlebgPj8Fz1KO0za/RCO7ZIs4Q6Eiq1g1"
+    sha512_password: "$1$5O85YVVn$HrXcfOivJEnISTMb6xrJc."
 
-  cvpadmin:
+  arista:
     privilege: 15
     role: network-admin
-    sha512_password: "$6$rZKcbIZ7iWGAWTUM$TCgDn1KcavS0s.OV8lacMTUkxTByfzcGlFlYUWroxYuU7M/9bIodhRO7nXGzMweUxvbk8mJmQl8Bh44cRktUj."
-
-  ansible:
-    privilege: 15
-    role: network-admin
-    sha512_password: "$6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/"
+    sha512_password: "$1$4VjIjfd1$XkUVulbNDESHFzcxDU.Tk1"
 
 # Cloud Vision server information
 cvp_instance_ip: 192.168.0.5
@@ -23,7 +18,8 @@ cvp_ingestauth_key: atd-lab
 # cvp_ingestauth_key: telarista
 
 # OOB Management network default gateway.
-mgmt_gateway: 192.168.0.1
+# No Gateway defined in ATD Topology
+# mgmt_gateway: 192.168.0.1
 
 # dns servers.
 name_servers:
