@@ -8,7 +8,7 @@ l3leaf_node_group: DC1_LEAF1
 switch_platform: vEOS-LAB
 leaf_bgp_as: 65101
 leaf_id: 1
-switch_mgmt_ip: 10.255.0.13/24
+switch_mgmt_ip: 192.168.0.12/24
 leaf_filter_tenants: ['all']
 leaf_filter_tags: ['all']
 leaf_allowed_vrfs: ['Tenant_A_APP_Zone', 'Tenant_A_DB_Zone', 'Tenant_A_OP_Zone', 'Tenant_A_WAN_Zone', 'Tenant_A_WEB_Zone', 'Tenant_B_OP_Zone', 'Tenant_B_WAN_Zone', 'Tenant_C_OP_Zone', 'Tenant_C_WAN_Zone']
@@ -32,9 +32,9 @@ hardware_counters:
 daemon_terminattr:
   ingestgrpcurl:
     ips:
-      - 10.255.0.1
+      - 192.168.0.5
     port: 9910
-  ingestauth_key: 
+  ingestauth_key: atd-lab
   ingestvrf: MGMT
   smashexcludes: "ale,flexCounter,hardware,kni,pulse,strata"
   ingestexclude: "/Sysdb/cell/1/agent,/Sysdb/cell/2/agent"
@@ -65,7 +65,7 @@ name_server:
   source:
     vrf: MGMT
   nodes:
-    - 192.168.2.1
+    - 192.168.0.1
     - 8.8.8.8
 
 ### NTP Servers ###
@@ -74,6 +74,7 @@ ntp_server:
     vrf: MGMT
     interface: Management1
   nodes:
+    - 192.168.0.1
     - 0.fr.pool.ntp.org
     - 1.fr.pool.ntp.org
 
@@ -95,15 +96,11 @@ local_users:
   admin:
     privilege: 15
     role: network-admin
-    sha512_password: $6$Df86J4/SFMDE3/1K$Hef4KstdoxNDaami37cBquTWOTplC.miMPjXVgQxMe92.e5wxlnXOLlebgPj8Fz1KO0za/RCO7ZIs4Q6Eiq1g1
-  ansible:
+    sha512_password: $6$4Hh3HEdiGgzbXYGR$WM3lNvPcKmjNfoxeA5fpqoSXpNLkM7D84xMYUME19nqna.4MhvoTQ0SDo3eBSncR8RftDsmxmLX0gCKMtfBhp1
+  arista:
     privilege: 15
     role: network-admin
-    sha512_password: $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/
-  cvpadmin:
-    privilege: 15
-    role: network-admin
-    sha512_password: $6$rZKcbIZ7iWGAWTUM$TCgDn1KcavS0s.OV8lacMTUkxTByfzcGlFlYUWroxYuU7M/9bIodhRO7nXGzMweUxvbk8mJmQl8Bh44cRktUj.
+    sha512_password: $6$O9x7MCScI/Gbkczt$TFyd73bh9QubmKyZqteauUX7C5BMvUK7EI3jnoR5rqN1p5X9GBTHIxa.yZaN4.UG39nYODcCGcuP9Gn1siKe00
 
 ### Clock Timezone ###
 clock:
@@ -269,14 +266,14 @@ bfd_multihop:
 ### Port-Channel Interfaces ###
 port_channel_interfaces:
 ## L2 LEAF Uplink DC1_L2LEAF1 ##
-  Port-Channel5:
+  Port-Channel4:
     description: DC1_L2LEAF1_Po1
     vlans: 110-112,120-121,130-131
     mode: trunk
-    mlag: 5
+    mlag: 4
 ## mlag peer-link ##
-  Port-Channel3:
-    description: MLAG_PEER_DC1-LEAF1B_Po3
+  Port-Channel1:
+    description: MLAG_PEER_DC1-LEAF1B_Po1
     vlans: "2-4094"
     mode: trunk
     trunk_groups:
@@ -285,47 +282,48 @@ port_channel_interfaces:
 
 ### Ethernet Interfaces ###
 ethernet_interfaces:
-  Ethernet1:
+  Ethernet2:
     peer: DC1-SPINE1
-    peer_interface: Ethernet1
+    peer_interface: Ethernet2
     peer_type: spine
-    description: P2P_LINK_TO_DC1-SPINE1_Ethernet1
+    description: P2P_LINK_TO_DC1-SPINE1_Ethernet2
     mtu: 1500
     type: routed
     ip_address: 172.31.255.1/31
-  Ethernet2:
+  Ethernet3:
     peer: DC1-SPINE2
-    peer_interface: Ethernet1
+    peer_interface: Ethernet2
     peer_type: spine
-    description: P2P_LINK_TO_DC1-SPINE2_Ethernet1
+    description: P2P_LINK_TO_DC1-SPINE2_Ethernet2
     mtu: 1500
     type: routed
     ip_address: 172.31.255.3/31
 ## mlag interfaces ##
-  Ethernet3:
+  Ethernet1:
     peer: DC1-LEAF1B
-    peer_interface: Ethernet3
+    peer_interface: Ethernet1
     peer_type: mlag_peer
-    description: MLAG_PEER_DC1-LEAF1B_Ethernet3
+    description: MLAG_PEER_DC1-LEAF1B_Ethernet1
     channel_group:
-      id: 3
-      mode: active
-  Ethernet4:
-    peer: DC1-LEAF1B
-    peer_interface: Ethernet4
-    peer_type: mlag_peer
-    description: MLAG_PEER_DC1-LEAF1B_Ethernet4
-    channel_group:
-      id: 3
+      id: 1
       mode: active
 ## L2 LEAF link DC1_L2LEAF1 ##
-  Ethernet5:
+  Ethernet4:
     peer: DC1-L2LEAF1A
     peer_interface: Ethernet1
     peer_type: l2leaf
     description: DC1-L2LEAF1A_Ethernet1
     channel_group:
-      id: 5
+      id: 4
+      mode: active
+## L2 LEAF link DC1_L2LEAF1 ##
+  Ethernet5:
+    peer: DC1-L2LEAF1A
+    peer_interface: Ethernet3
+    peer_type: l2leaf
+    description: DC1-L2LEAF1A_Ethernet3
+    channel_group:
+      id: 4
       mode: active
 
 
@@ -348,8 +346,8 @@ management_interfaces:
   Management1:
     description: oob_management
     vrf: MGMT
-    ip_address: 10.255.0.13/24
-    gateway: 10.255.0.1
+    ip_address: 192.168.0.12/24
+    gateway: 192.168.0.1
 
 ### VLAN Interfaces ###
 vlan_interfaces:
@@ -597,7 +595,7 @@ virtual_source_nat_vrfs:
 static_routes:
   - vrf: MGMT
     destination_address_prefix: 0.0.0.0/0
-    gateway: 10.255.0.1
+    gateway: 192.168.0.1
 
 ### prefix-lists ###
 prefix_lists:
@@ -620,10 +618,10 @@ mlag_configuration:
   local_interface: Vlan4094
   peer_address: 10.255.252.1
   peer_address_heartbeat:
-    peer_ip: 10.255.0.14
+    peer_ip: 192.168.0.13
     vrf: MGMT
   dual_primary_detection_delay: 5
-  peer_link: Port-Channel3
+  peer_link: Port-Channel1
   reload_delay_mlag: 300
   reload_delay_non_mlag: 330
 
@@ -633,7 +631,8 @@ route_maps:
     sequence_numbers:
       10:
         type: permit
-        match: "ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY"
+        match:
+          - "ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY"
 ### Routing - BGP ###
 router_bgp:
   as: 65101
@@ -934,6 +933,9 @@ router_bgp:
 
 ### Routing - OSPF ###
 router_ospf:
+
+### Routing - ISIS ###
+router_isis:
 
 ### Queue Monitor Streaming ###
 queue_monitor_streaming:

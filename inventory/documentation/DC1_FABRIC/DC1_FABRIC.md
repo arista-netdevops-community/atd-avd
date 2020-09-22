@@ -17,31 +17,35 @@
 
 | Node | Management IP | Platform |
 | ---- | ------------- | -------- |
-| DC1-SPINE1 | 10.255.0.11/24 | vEOS-LAB |
-| DC1-SPINE2 | 10.255.0.12/24 | vEOS-LAB |
-| DC1-LEAF1A | 10.255.0.13/24 | vEOS-LAB |
-| DC1-LEAF1B | 10.255.0.14/24 | vEOS-LAB |
-| DC1-LEAF2A | 10.255.0.15/24 | vEOS-LAB |
-| DC1-LEAF2B | 10.255.0.16/24 | vEOS-LAB |
-| DC1-L2LEAF1A | 10.255.0.17/24 | vEOS-LAB |
-| DC1-L2LEAF2A | 10.255.0.18/24 | vEOS-LAB |
+| DC1-SPINE1 | 192.168.0.10/24 | vEOS-LAB |
+| DC1-SPINE2 | 192.168.0.11/24 | vEOS-LAB |
+| DC1-LEAF1A | 192.168.0.12/24 | vEOS-LAB |
+| DC1-LEAF1B | 192.168.0.13/24 | vEOS-LAB |
+| DC1-LEAF2A | 192.168.0.14/24 | vEOS-LAB |
+| DC1-LEAF2B | 192.168.0.15/24 | vEOS-LAB |
+| DC1-L2LEAF1A | 192.168.0.16/24 | vEOS-LAB |
+| DC1-L2LEAF2A | 192.168.0.17/24 | vEOS-LAB |
 
 ## Fabric Topology
 
 | Type | Leaf Node | Leaf Interface | Peer Node | Peer Interface |
 | ---- | --------- | -------------- | --------- | -------------- |
-| L3 Leaf | DC1-LEAF1A | Ethernet1 | DC1-SPINE1 | Ethernet1 |
-| L3 Leaf | DC1-LEAF1A | Ethernet2 | DC1-SPINE2 | Ethernet1 |
-| L3 Leaf | DC1-LEAF1B | Ethernet1 | DC1-SPINE1 | Ethernet2 |
-| L3 Leaf | DC1-LEAF1B | Ethernet2 | DC1-SPINE2 | Ethernet2 |
-| L3 Leaf | DC1-LEAF2A | Ethernet1 | DC1-SPINE1 | Ethernet3 |
-| L3 Leaf | DC1-LEAF2A | Ethernet2 | DC1-SPINE2 | Ethernet3 |
-| L3 Leaf | DC1-LEAF2B | Ethernet1 | DC1-SPINE1 | Ethernet4 |
-| L3 Leaf | DC1-LEAF2B | Ethernet2 | DC1-SPINE2 | Ethernet4 |
-| L2 Leaf | DC1-L2LEAF1A | Ethernet1 | DC1-LEAF1A | Ethernet5 |
-| L2 Leaf | DC1-L2LEAF1A | Ethernet2 | DC1-LEAF1B | Ethernet5 |
-| L2 Leaf | DC1-L2LEAF2A | Ethernet1 | DC1-LEAF2A | Ethernet5 |
-| L2 Leaf | DC1-L2LEAF2A | Ethernet2 | DC1-LEAF2B | Ethernet5 |
+| L3 Leaf | DC1-LEAF1A | Ethernet2 | DC1-SPINE1 | Ethernet2 |
+| L3 Leaf | DC1-LEAF1A | Ethernet3 | DC1-SPINE2 | Ethernet2 |
+| L3 Leaf | DC1-LEAF1B | Ethernet2 | DC1-SPINE1 | Ethernet3 |
+| L3 Leaf | DC1-LEAF1B | Ethernet3 | DC1-SPINE2 | Ethernet3 |
+| L3 Leaf | DC1-LEAF2A | Ethernet2 | DC1-SPINE1 | Ethernet4 |
+| L3 Leaf | DC1-LEAF2A | Ethernet3 | DC1-SPINE2 | Ethernet4 |
+| L3 Leaf | DC1-LEAF2B | Ethernet2 | DC1-SPINE1 | Ethernet5 |
+| L3 Leaf | DC1-LEAF2B | Ethernet3 | DC1-SPINE2 | Ethernet5 |
+| L2 Leaf | DC1-L2LEAF1A | Ethernet1 | DC1-LEAF1A | Ethernet4 |
+| L2 Leaf | DC1-L2LEAF1A | Ethernet3 | DC1-LEAF1A | Ethernet5 |
+| L2 Leaf | DC1-L2LEAF1A | Ethernet2 | DC1-LEAF1B | Ethernet4 |
+| L2 Leaf | DC1-L2LEAF1A | Ethernet4 | DC1-LEAF1B | Ethernet5 |
+| L2 Leaf | DC1-L2LEAF2A | Ethernet1 | DC1-LEAF2A | Ethernet4 |
+| L2 Leaf | DC1-L2LEAF2A | Ethernet3 | DC1-LEAF2A | Ethernet5 |
+| L2 Leaf | DC1-L2LEAF2A | Ethernet2 | DC1-LEAF2B | Ethernet4 |
+| L2 Leaf | DC1-L2LEAF2A | Ethernet4 | DC1-LEAF2B | Ethernet5 |
 
 ## Fabric IP Allocation
 
@@ -55,14 +59,14 @@
 
 | Leaf Node | Leaf Interface | Leaf IP Address | Spine Node | Spine Interface | Spine IP Address |
 | --------- | -------------- | --------------- | ---------- | --------------- | ---------------- |
-| DC1-LEAF1A | Ethernet1 | 172.31.255.1/31 | DC1-SPINE1 | Ethernet1 | 172.31.255.0/31 |
-| DC1-LEAF1A | Ethernet2 | 172.31.255.3/31 | DC1-SPINE2 | Ethernet1 | 172.31.255.2/31 |
-| DC1-LEAF1B | Ethernet1 | 172.31.255.5/31 | DC1-SPINE1 | Ethernet2 | 172.31.255.4/31 |
-| DC1-LEAF1B | Ethernet2 | 172.31.255.7/31 | DC1-SPINE2 | Ethernet2 | 172.31.255.6/31 |
-| DC1-LEAF2A | Ethernet1 | 172.31.255.9/31 | DC1-SPINE1 | Ethernet3 | 172.31.255.8/31 |
-| DC1-LEAF2A | Ethernet2 | 172.31.255.11/31 | DC1-SPINE2 | Ethernet3 | 172.31.255.10/31 |
-| DC1-LEAF2B | Ethernet1 | 172.31.255.13/31 | DC1-SPINE1 | Ethernet4 | 172.31.255.12/31 |
-| DC1-LEAF2B | Ethernet2 | 172.31.255.15/31 | DC1-SPINE2 | Ethernet4 | 172.31.255.14/31 |
+| DC1-LEAF1A | Ethernet2 | 172.31.255.1/31 | DC1-SPINE1 | Ethernet2 | 172.31.255.0/31 |
+| DC1-LEAF1A | Ethernet3 | 172.31.255.3/31 | DC1-SPINE2 | Ethernet2 | 172.31.255.2/31 |
+| DC1-LEAF1B | Ethernet2 | 172.31.255.5/31 | DC1-SPINE1 | Ethernet3 | 172.31.255.4/31 |
+| DC1-LEAF1B | Ethernet3 | 172.31.255.7/31 | DC1-SPINE2 | Ethernet3 | 172.31.255.6/31 |
+| DC1-LEAF2A | Ethernet2 | 172.31.255.9/31 | DC1-SPINE1 | Ethernet4 | 172.31.255.8/31 |
+| DC1-LEAF2A | Ethernet3 | 172.31.255.11/31 | DC1-SPINE2 | Ethernet4 | 172.31.255.10/31 |
+| DC1-LEAF2B | Ethernet2 | 172.31.255.13/31 | DC1-SPINE1 | Ethernet5 | 172.31.255.12/31 |
+| DC1-LEAF2B | Ethernet3 | 172.31.255.15/31 | DC1-SPINE2 | Ethernet5 | 172.31.255.14/31 |
 
 ### Overlay Loopback Interfaces (BGP EVPN Peering)
 
