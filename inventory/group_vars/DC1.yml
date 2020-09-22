@@ -19,7 +19,7 @@ local_users:
 
 # Cloud Vision server information
 cvp_instance_ip: 192.168.0.5
-cvp_ingestauth_key: ''
+cvp_ingestauth_key: atd-lab
 # cvp_ingestauth_key: telarista
 
 # OOB Management network default gateway.
@@ -27,10 +27,11 @@ mgmt_gateway: 192.168.0.1
 
 # dns servers.
 name_servers:
-  - 192.168.2.1
+  - 192.168.0.1
   - 8.8.8.8
 
 # NTP Servers IP or DNS name, first NTP server will be prefered, and sourced from Managment VRF
 ntp_servers:
+  - 192.168.0.1
   - 0.fr.pool.ntp.org
   - 1.fr.pool.ntp.org
