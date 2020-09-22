@@ -18,12 +18,12 @@ local_users:
     sha512_password: "$6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/"
 
 # Cloud Vision server information
-cvp_instance_ip: 10.255.0.1
+cvp_instance_ip: 192.168.0.5
 cvp_ingestauth_key: ''
 # cvp_ingestauth_key: telarista
 
 # OOB Management network default gateway.
-mgmt_gateway: 10.255.0.1
+mgmt_gateway: 192.168.0.1
 
 # dns servers.
 name_servers:
