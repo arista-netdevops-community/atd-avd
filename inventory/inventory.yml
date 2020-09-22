@@ -3,10 +3,10 @@ all:
   children:
     CVP:
       hosts:
-        cv_ztp:
-          ansible_host: 192.168.0.5
-          ansible_user: root
-          ansible_password: ansible
+        # cv_ztp:
+        #   ansible_host: 192.168.0.5
+        #   ansible_user: root
+        #   ansible_password: ansible
         cv_server:
           ansible_httpapi_host: 192.168.0.5
           ansible_host: 192.168.0.5
