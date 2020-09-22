@@ -2,9 +2,11 @@
 
 Arista Test Drive + Ansible AVD Examples
 
+## Lab Topology
+
 <img src="atd-topo.png" alt="ATD Lab Topology" width="600"/>
 
-ATD Topology Device List
+## ATD Topology Device List
 
 | Device | IP Address   |
 | :----- | :----------- |
