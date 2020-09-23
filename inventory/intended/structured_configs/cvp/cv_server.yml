@@ -1,52 +1,52 @@
 ---
 CVP_DEVICES:
-  DC1-SPINE1:
-    name: DC1-SPINE1
+  Spine1:
+    name: Spine1
     parentContainerName: DC1_SPINES
     configlets:
-      - DC1-AVD_DC1-SPINE1
+      - DC1-AVD_Spine1
     imageBundle: []
-  DC1-SPINE2:
-    name: DC1-SPINE2
+  Spine2:
+    name: Spine2
     parentContainerName: DC1_SPINES
     configlets:
-      - DC1-AVD_DC1-SPINE2
+      - DC1-AVD_Spine2
     imageBundle: []
-  DC1-L2LEAF1A:
-    name: DC1-L2LEAF1A
+  Host1:
+    name: Host1
     parentContainerName: DC1_L2LEAF1
     configlets:
-      - DC1-AVD_DC1-L2LEAF1A
+      - DC1-AVD_Host1
     imageBundle: []
-  DC1-L2LEAF2A:
-    name: DC1-L2LEAF2A
+ Host2:
+    name:Host2
     parentContainerName: DC1_L2LEAF2
     configlets:
       - DC1-AVD_DC1-L2LEAF2A
     imageBundle: []
-  DC1-LEAF1A:
-    name: DC1-LEAF1A
+  Leaf1:
+    name: Leaf1
     parentContainerName: DC1_LEAF1
     configlets:
-      - DC1-AVD_DC1-LEAF1A
+      - DC1-AVD_Leaf1
     imageBundle: []
-  DC1-LEAF1B:
-    name: DC1-LEAF1B
+  Leaf2:
+    name: Leaf2
     parentContainerName: DC1_LEAF1
     configlets:
-      - DC1-AVD_DC1-LEAF1B
+      - DC1-AVD_Leaf2
     imageBundle: []
-  DC1-LEAF2A:
-    name: DC1-LEAF2A
+  Leaf3:
+    name: Leaf3
     parentContainerName: DC1_LEAF2
     configlets:
-      - DC1-AVD_DC1-LEAF2A
+      - DC1-AVD_Leaf3
     imageBundle: []
-  DC1-LEAF2B:
-    name: DC1-LEAF2B
+  Leaf4:
+    name: Leaf4
     parentContainerName: DC1_LEAF2
     configlets:
-      - DC1-AVD_DC1-LEAF2B
+      - DC1-AVD_Leaf4
     imageBundle: []
 CVP_CONTAINERS:
   DC1_FABRIC:

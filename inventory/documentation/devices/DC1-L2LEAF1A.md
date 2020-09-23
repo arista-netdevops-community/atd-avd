@@ -1,4 +1,4 @@
-# DC1-L2LEAF1A
+# Host1
 
 ## Management Interfaces
 
@@ -252,14 +252,14 @@ vrf instance MGMT
 
 | Interface | Description | MTU | Type | Mode | Allowed VLANs (trunk) | Trunk Group | MLAG ID | EVPN ESI | VRF | IP Address | IPv6 Address |
 | --------- | ----------- | --- | ---- | ---- | --------------------- | ----------- | ------- | -------- | --- | ---------- | ------------ |
-| Port-Channel1 | DC1-LEAF1A_Po4 | 1500 | switched | trunk | 110-112,120-121,130-131 | - | 1 | - | - | - | - |
+| Port-Channel1 | Leaf1_Po4 | 1500 | switched | trunk | 110-112,120-121,130-131 | - | 1 | - | - | - | - |
 
 ### Port-Channel Interfaces Device Configuration
 
 ```eos
 !
 interface Port-Channel1
-   description DC1-LEAF1A_Po4
+   description Leaf1_Po4
    switchport trunk allowed vlan 110-112,120-121,130-131
    switchport mode trunk
    mlag 1
@@ -271,10 +271,10 @@ interface Port-Channel1
 
 | Interface | Description | MTU | Type | Mode | Allowed VLANs (Trunk) | Trunk Group | VRF | IP Address | Channel-Group ID | Channel-Group Type |
 | --------- | ----------- | --- | ---- | ---- | --------------------- | ----------- | --- | ---------- | ---------------- | ------------------ |
-| Ethernet1 | DC1-LEAF1A_Ethernet4 | *1500 | *switched | *trunk | *110-112,120-121,130-131 | - | - | - | 1 | active |
-| Ethernet2 | DC1-LEAF1B_Ethernet4 | *1500 | *switched | *trunk | *110-112,120-121,130-131 | - | - | - | 1 | active |
-| Ethernet3 | DC1-LEAF1A_Ethernet5 | *1500 | *switched | *trunk | *110-112,120-121,130-131 | - | - | - | 1 | active |
-| Ethernet4 | DC1-LEAF1B_Ethernet5 | *1500 | *switched | *trunk | *110-112,120-121,130-131 | - | - | - | 1 | active |
+| Ethernet1 | Leaf1_Ethernet4 | *1500 | *switched | *trunk | *110-112,120-121,130-131 | - | - | - | 1 | active |
+| Ethernet2 | Leaf2_Ethernet4 | *1500 | *switched | *trunk | *110-112,120-121,130-131 | - | - | - | 1 | active |
+| Ethernet3 | Leaf1_Ethernet5 | *1500 | *switched | *trunk | *110-112,120-121,130-131 | - | - | - | 1 | active |
+| Ethernet4 | Leaf2_Ethernet5 | *1500 | *switched | *trunk | *110-112,120-121,130-131 | - | - | - | 1 | active |
 
 *Inherited from Port-Channel Interface
 
@@ -283,19 +283,19 @@ interface Port-Channel1
 ```eos
 !
 interface Ethernet1
-   description DC1-LEAF1A_Ethernet4
+   description Leaf1_Ethernet4
    channel-group 1 mode active
 !
 interface Ethernet2
-   description DC1-LEAF1B_Ethernet4
+   description Leaf2_Ethernet4
    channel-group 1 mode active
 !
 interface Ethernet3
-   description DC1-LEAF1A_Ethernet5
+   description Leaf1_Ethernet5
    channel-group 1 mode active
 !
 interface Ethernet4
-   description DC1-LEAF1B_Ethernet5
+   description Leaf2_Ethernet5
    channel-group 1 mode active
 ```
 

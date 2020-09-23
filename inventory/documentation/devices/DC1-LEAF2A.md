@@ -1,4 +1,4 @@
-# DC1-LEAF2A
+# Leaf3
 
 ## Management Interfaces
 
@@ -379,7 +379,7 @@ vrf instance Tenant_C_WAN_Zone
 
 | Interface | Description | MTU | Type | Mode | Allowed VLANs (trunk) | Trunk Group | MLAG ID | EVPN ESI | VRF | IP Address | IPv6 Address |
 | --------- | ----------- | --- | ---- | ---- | --------------------- | ----------- | ------- | -------- | --- | ---------- | ------------ |
-| Port-Channel1 | MLAG_PEER_DC1-LEAF2B_Po1 | 1500 | switched | trunk | 2-4094 | LEAF_PEER_L3<br> MLAG | - | - | - | - | - |
+| Port-Channel1 | MLAG_PEER_Leaf4_Po1 | 1500 | switched | trunk | 2-4094 | LEAF_PEER_L3<br> MLAG | - | - | - | - | - |
 | Port-Channel4 | DC1_L2LEAF2_Po1 | 1500 | switched | trunk | 110-112,120-121,130-131 | - | 4 | - | - | - | - |
 
 ### Port-Channel Interfaces Device Configuration
@@ -387,7 +387,7 @@ vrf instance Tenant_C_WAN_Zone
 ```eos
 !
 interface Port-Channel1
-   description MLAG_PEER_DC1-LEAF2B_Po1
+   description MLAG_PEER_Leaf4_Po1
    switchport trunk allowed vlan 2-4094
    switchport mode trunk
    switchport trunk group LEAF_PEER_L3
@@ -406,11 +406,11 @@ interface Port-Channel4
 
 | Interface | Description | MTU | Type | Mode | Allowed VLANs (Trunk) | Trunk Group | VRF | IP Address | Channel-Group ID | Channel-Group Type |
 | --------- | ----------- | --- | ---- | ---- | --------------------- | ----------- | --- | ---------- | ---------------- | ------------------ |
-| Ethernet1 | MLAG_PEER_DC1-LEAF2B_Ethernet1 | *1500 | *switched | *trunk | *2-4094 | *LEAF_PEER_L3<br> *MLAG | - | - | 1 | active |
-| Ethernet2 | P2P_LINK_TO_DC1-SPINE1_Ethernet4 | 1500 | routed | access | - | - | - | 172.31.255.9/31 | - | - |
-| Ethernet3 | P2P_LINK_TO_DC1-SPINE2_Ethernet4 | 1500 | routed | access | - | - | - | 172.31.255.11/31 | - | - |
-| Ethernet4 | DC1-L2LEAF2A_Ethernet1 | *1500 | *switched | *trunk | *110-112,120-121,130-131 | - | - | - | 4 | active |
-| Ethernet5 | DC1-L2LEAF2A_Ethernet3 | *1500 | *switched | *trunk | *110-112,120-121,130-131 | - | - | - | 4 | active |
+| Ethernet1 | MLAG_PEER_Leaf4_Ethernet1 | *1500 | *switched | *trunk | *2-4094 | *LEAF_PEER_L3<br> *MLAG | - | - | 1 | active |
+| Ethernet2 | P2P_LINK_TO_Spine1_Ethernet4 | 1500 | routed | access | - | - | - | 172.31.255.9/31 | - | - |
+| Ethernet3 | P2P_LINK_TO_Spine2_Ethernet4 | 1500 | routed | access | - | - | - | 172.31.255.11/31 | - | - |
+| Ethernet4 |Host2_Ethernet1 | *1500 | *switched | *trunk | *110-112,120-121,130-131 | - | - | - | 4 | active |
+| Ethernet5 |Host2_Ethernet3 | *1500 | *switched | *trunk | *110-112,120-121,130-131 | - | - | - | 4 | active |
 
 *Inherited from Port-Channel Interface
 
@@ -419,25 +419,25 @@ interface Port-Channel4
 ```eos
 !
 interface Ethernet1
-   description MLAG_PEER_DC1-LEAF2B_Ethernet1
+   description MLAG_PEER_Leaf4_Ethernet1
    channel-group 1 mode active
 !
 interface Ethernet2
-   description P2P_LINK_TO_DC1-SPINE1_Ethernet4
+   description P2P_LINK_TO_Spine1_Ethernet4
    no switchport
    ip address 172.31.255.9/31
 !
 interface Ethernet3
-   description P2P_LINK_TO_DC1-SPINE2_Ethernet4
+   description P2P_LINK_TO_Spine2_Ethernet4
    no switchport
    ip address 172.31.255.11/31
 !
 interface Ethernet4
-   description DC1-L2LEAF2A_Ethernet1
+   descriptionHost2_Ethernet1
    channel-group 4 mode active
 !
 interface Ethernet5
-   description DC1-L2LEAF2A_Ethernet3
+   descriptionHost2_Ethernet3
    channel-group 4 mode active
 ```
 
