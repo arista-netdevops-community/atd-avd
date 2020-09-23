@@ -9,7 +9,7 @@ help: ## Display help message
 ################################################################################
 .PHONY: wipe
 wipe: ## Delete Intended Configs
-	rm -rf inventory/intended/configs/*
+	rm -f inventory/intended/configs/*
 
 
 ################################################################################
