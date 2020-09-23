@@ -18,13 +18,13 @@ wipe: ## Delete Intended Configs
 
 .PHONY: build
 build: ## Run ansible playbook to build EVPN Fabric configuration.
-	ansible-playbook dc1-fabric-deploy-cvp.yml --tags build
+	ansible-playbook dc1-fabric-config.yml --tags build
 
 .PHONY: provision
 provision: ## Run ansible playbook to deploy EVPN Fabric.
-	ansible-playbook dc1-fabric-deploy-cvp.yml --tags provision
+	ansible-playbook dc1-fabric-config.yml --tags provision
 
 .PHONY: deploy
 deploy: ## Run ansible playbook to deploy EVPN Fabric.
-	ansible-playbook dc1-fabric-deploy-cvp.yml --extra-vars "execute_tasks=true" --tags "build,provision,apply"
+	ansible-playbook dc1-fabric-config.yml --extra-vars "execute_tasks=true" --tags "build,provision,apply"
 
