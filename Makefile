@@ -8,9 +8,9 @@ help: ## Display help message
 # Alias Commands
 ################################################################################
 .PHONY: wipe
-wipe: ## Delete Intended Configs
-	rm -f inventory/intended/configs/*
-
+wipe: ## Delete Intended Structured & EOS Configs
+	rm -f inventory/intended/configs/*.cfg
+	rm -f inventory/intended/structured_configs/*.yml
 
 ################################################################################
 # AVD Commands
