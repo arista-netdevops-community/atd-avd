@@ -42,6 +42,6 @@ ztp:
     - name: Host1
       mac: '0c:1d:c0:1d:62:13'
       ip4: 10.255.0.17
-    - name:Host2
+    - name: Host2
       mac: '0c:1d:c0:1d:62:23'
       ip4: 10.255.0.18
