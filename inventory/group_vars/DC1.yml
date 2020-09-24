@@ -20,7 +20,7 @@ cvp_ingestauth_key: atd-lab
 # OOB Management network default gateway.
 # No Gateway defined in ATD Topology
 mgmt_gateway: 192.168.0.1
-mgmt_interface_vrf: MGMT
+mgmt_interface_vrf: default
 
 # dns servers.
 name_servers:
