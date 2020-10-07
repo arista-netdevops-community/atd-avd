@@ -54,5 +54,14 @@ $ ansible-playbook /playbooks/atd-fabric-deploy.yml
 
 # Execute Tasks in CVP manually
 
-
 ```
+
+## Resources
+
+- [Arista Ansible AVD Collection](https://github.com/aristanetworks/ansible-avd)
+- [Arista Cloudvision Collection](https://github.com/aristanetworks/ansible-cvp)
+- [AVD & CVP Collections demo](https://github.com/arista-netdevops-community/ansible-avd-cloudvision-demo)
+
+## License
+
+Project is published under [Apache License]().
