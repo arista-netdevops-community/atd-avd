@@ -1,4 +1,4 @@
-# spine2
+# Spine2
 
 ## Management Interfaces
 
@@ -434,6 +434,8 @@ router bfd
 
 | BGP Tuning |
 | ---------- |
+| update wait-for-convergence |
+| update wait-install |
 | no bgp default ipv4-unicast |
 | distance bgp 20 200 200 |
 | graceful-restart restart-time 300 |
@@ -489,6 +491,8 @@ router bfd
 !
 router bgp 65001
    router-id 192.0.255.2
+   update wait-for-convergence
+   update wait-install
    no bgp default ipv4-unicast
    distance bgp 20 200 200
    graceful-restart restart-time 300

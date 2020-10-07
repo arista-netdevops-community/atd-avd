@@ -1,4 +1,4 @@
-# leaf4
+# Leaf4
 
 ## Management Interfaces
 
@@ -247,7 +247,7 @@ vrf instance Tenant_A_OP_Zone
 
 | Interface | Description | MTU | Type | Mode | Allowed VLANs (trunk) | Trunk Group | MLAG ID | EVPN ESI | VRF | IP Address | IPv6 Address |
 | --------- | ----------- | --- | ---- | ---- | --------------------- | ----------- | ------- | -------- | --- | ---------- | ------------ |
-| Port-Channel1 | MLAG_PEER_leaf3_Po1 | 1500 | switched | trunk | 2-4094 | LEAF_PEER_L3<br> MLAG | - | - | - | - | - |
+| Port-Channel1 | MLAG_PEER_Leaf3_Po1 | 1500 | switched | trunk | 2-4094 | LEAF_PEER_L3<br> MLAG | - | - | - | - | - |
 | Port-Channel4 | host2_PortChanne1 | 1500 | switched | access | 110 | - | 4 | - | - | - | - |
 
 ### Port-Channel Interfaces Device Configuration
@@ -255,7 +255,7 @@ vrf instance Tenant_A_OP_Zone
 ```eos
 !
 interface Port-Channel1
-   description MLAG_PEER_leaf3_Po1
+   description MLAG_PEER_Leaf3_Po1
    switchport trunk allowed vlan 2-4094
    switchport mode trunk
    switchport trunk group LEAF_PEER_L3
@@ -273,7 +273,7 @@ interface Port-Channel4
 
 | Interface | Description | MTU | Type | Mode | Allowed VLANs (Trunk) | Trunk Group | VRF | IP Address | Channel-Group ID | Channel-Group Type |
 | --------- | ----------- | --- | ---- | ---- | --------------------- | ----------- | --- | ---------- | ---------------- | ------------------ |
-| Ethernet1 | MLAG_PEER_leaf3_Ethernet1 | *1500 | *switched | *trunk | *2-4094 | *LEAF_PEER_L3<br> *MLAG | - | - | 1 | active |
+| Ethernet1 | MLAG_PEER_Leaf3_Ethernet1 | *1500 | *switched | *trunk | *2-4094 | *LEAF_PEER_L3<br> *MLAG | - | - | 1 | active |
 | Ethernet2 | P2P_LINK_TO_SPINE1_Ethernet5 | 1500 | routed | access | - | - | - | 172.31.255.13/31 | - | - |
 | Ethernet3 | P2P_LINK_TO_SPINE2_Ethernet5 | 1500 | routed | access | - | - | - | 172.31.255.15/31 | - | - |
 | Ethernet4 | host2_Eth3 | *1500 | *switched | *access | *110 | - | - | - | 4 | active |
@@ -286,7 +286,7 @@ interface Port-Channel4
 ```eos
 !
 interface Ethernet1
-   description MLAG_PEER_leaf3_Ethernet1
+   description MLAG_PEER_Leaf3_Ethernet1
    channel-group 1 mode active
 !
 interface Ethernet2
