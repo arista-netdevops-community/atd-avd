@@ -45,12 +45,12 @@ curl -fsSL https://get.avd.sh/atd/install.sh | sh
 cd arista-ansible/atd-avd
 
 # Run Playbook to Prepare CloudVision for AVD
-$ ansible-playbook /playbooks/atd-prepare-lab.yml
+$ ansible-playbook playbooks/atd-prepare-lab.yml
 
 # Execute Tasks in CVP manually
 
 # Run Playbook to Deploy AVD Setup
-$ ansible-playbook /playbooks/atd-fabric-deploy.yml
+$ ansible-playbook playbooks/atd-fabric-deploy.yml
 
 # Execute Tasks in CVP manually
 
