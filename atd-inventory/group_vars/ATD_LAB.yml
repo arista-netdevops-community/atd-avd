@@ -18,7 +18,7 @@ name_servers:
   - 8.8.8.8
 
 # NTP Servers IP or DNS name, first NTP server will be prefered, and sourced from Managment VRF
-ntp_servers:
+# ntp_servers:
 #  - 0.fr.pool.ntp.org
 #  - 1.fr.pool.ntp.org
 #  - 216.239.35.4
