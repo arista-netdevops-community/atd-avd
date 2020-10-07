@@ -127,3 +127,10 @@ bfd_multihop:
 #   containers:
 #     DC1_L3LEAFS:
 #       - ASE_GLOBAL-ALIASES
+
+ansible_connection: httpapi
+ansible_network_os: eos
+ansible_become: true
+ansible_become_method: enable
+ansible_httpapi_use_ssl: true
+ansible_httpapi_validate_certs: false
