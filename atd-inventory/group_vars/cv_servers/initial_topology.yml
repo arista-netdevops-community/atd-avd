@@ -1,0 +1,46 @@
+---
+CVP_DEVICES_INIT:
+  spine1:
+    name: spine1
+    parentContainerName: STAGING
+    configlets:
+      - BaseIPv4_Spine1
+    imageBundle: []
+  spine2:
+    name: spine2
+    parentContainerName: STAGING
+    configlets:
+      - BaseIPv4_Spine2
+    imageBundle: []
+  leaf1:
+    name: leaf1
+    parentContainerName: STAGING
+    configlets:
+      - BaseIPv4_Leaf1
+    imageBundle: []
+  leaf2:
+    name: leaf2
+    parentContainerName: STAGING
+    configlets:
+      - BaseIPv4_Leaf2
+    imageBundle: []
+  leaf3:
+    name: leaf3
+    parentContainerName: STAGING
+    configlets:
+      - BaseIPv4_Leaf3
+    imageBundle: []
+  leaf4:
+    name: leaf4
+    parentContainerName: STAGING
+    configlets:
+      - BaseIPv4_Leaf4
+    imageBundle: []
+
+CVP_CONTAINERS_INIT:
+  STAGING:
+    parent_container: Tenant
+  Hosts:
+    parent_container: Tenant
+  CVX:
+    parent_container: Tenant

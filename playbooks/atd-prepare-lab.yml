@@ -1,0 +1,15 @@
+---
+  - name: Provision ATD environment to prepare AVD Lab
+    hosts: cv_servers
+    connection: local
+    gather_facts: no
+    collections:
+       - arista.cvp
+       - arista.avd
+    vars:
+      run_mode: 'override'
+      execute_tasks: false
+    tasks:
+       - name: Run AVD Provisioner
+         import_role:
+           name: 'atd_provisioner'
