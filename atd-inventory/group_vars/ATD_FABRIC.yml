@@ -43,10 +43,10 @@ spine:
   # defines the range of acceptable remote ASNs from leaf switches
   leaf_as_range: 65101-65132
   nodes:
-    Spine1:
+    spine1:
       id: 1
       mgmt_ip: 192.168.0.10/24
-    Spine2:
+    spine2:
       id: 2
       mgmt_ip: 192.168.0.11/24
 
@@ -61,7 +61,7 @@ l3leaf:
     virtual_router_mac_address: 00:1c:73:00:dc:01
     platform: vEOS-LAB
     bgp_as: 65100
-    spines: [Spine1, Spine2]
+    spines: [spine1, spine2]
     uplink_to_spine_interfaces: [Ethernet2, Ethernet3]
     mlag_interfaces: [Ethernet1]
     spanning_tree_priority: 4096
@@ -70,22 +70,22 @@ l3leaf:
     pod1:
       bgp_as: 65101
       nodes:
-        Leaf1:
+        leaf1:
           id: 1
           mgmt_ip: 192.168.0.12/24
           spine_interfaces: [Ethernet2, Ethernet2]
-        Leaf2:
+        leaf2:
           id: 2
           mgmt_ip: 192.168.0.13/24
           spine_interfaces: [Ethernet3, Ethernet3]
     pod2:
       bgp_as: 65102
       nodes:
-        Leaf3:
+        leaf3:
           id: 3
           mgmt_ip: 192.168.0.14/24
           spine_interfaces: [Ethernet4, Ethernet4]
-        Leaf4:
+        leaf4:
           id: 4
           mgmt_ip: 192.168.0.15/24
           spine_interfaces: [Ethernet5, Ethernet5]
@@ -96,7 +96,7 @@ l3leaf:
 # which is not supported in vEOS-LAB.
 # Refer to design guide
 
-Spine_bgp_defaults:
+spine_bgp_defaults:
   #  - update wait-for-convergence
   #  - update wait-install
   - no bgp default ipv4-unicast

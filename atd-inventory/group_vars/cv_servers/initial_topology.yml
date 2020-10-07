@@ -1,37 +1,37 @@
 ---
 CVP_DEVICES_INIT:
-  Spine1:
-    name: Spine1
+  spine1:
+    name: spine1
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Spine1
     imageBundle: []
-  Spine2:
-    name: Spine2
+  spine2:
+    name: spine2
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Spine2
     imageBundle: []
-  Leaf1:
-    name: Leaf1
+  leaf1:
+    name: leaf1
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Leaf1
     imageBundle: []
-  Leaf2:
-    name: Leaf2
+  leaf2:
+    name: leaf2
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Leaf2
     imageBundle: []
-  Leaf3:
-    name: Leaf3
+  leaf3:
+    name: leaf3
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Leaf3
     imageBundle: []
-  Leaf4:
-    name: Leaf4
+  leaf4:
+    name: leaf4
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Leaf4
