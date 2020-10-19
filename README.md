@@ -35,7 +35,7 @@ The ATD Lab topology consists of 2 Spines, 4 Leafs and 2 Hosts, as shown below.
 
 ## Getting Started
 
-From the ATD ansible-GUI container
+Connect to your ATD Lab environment.  If you need an ATD Lab instance, please contact your local account team.  Once connected to the ATD Lab instance, go the Lab Frontend (Guacamole) and select the ansible-GUI container.  This container is built with all the necessary ansible collections and python modules to run AVD playbooks.
 
 ```shell
 # Run Script to setup environment
