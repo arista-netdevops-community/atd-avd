@@ -10,10 +10,10 @@ leaf_bgp_as: 65110
 leaf_id: 3
 switch_mgmt_ip: 192.168.0.14/24
 leaf_filter_tenants: ['Tenant_A']
-leaf_filter_tags: ['opzone', 'vmotion']
-leaf_allowed_vrfs: ['Tenant_A_OP_Zone']
-leaf_allowed_svis: [110]
-leaf_allowed_vlans: [110, 160]
+leaf_filter_tags: ['opzone', 'vmotion', 'dbzone']
+leaf_allowed_vrfs: ['Tenant_A_DB_Zone', 'Tenant_A_OP_Zone']
+leaf_allowed_svis: [199, 110]
+leaf_allowed_vlans: [199, 110, 160]
 leaf_mlag: True
 leaf_mlag_group: pod2
 leaf_mlag_role: primary
@@ -109,6 +109,14 @@ vlans:
       - MLAG
 
 ## Tenant_A ##
+  199:
+    tenant: Tenant_A
+    name: Tenant_A_DB_Zone_1
+  3010:
+    tenant: Tenant_A
+    name: MLAG_iBGP_Tenant_A_DB_Zone
+    trunk_groups:
+      - LEAF_PEER_L3
   110:
     tenant: Tenant_A
     name: Tenant_A_OP_Zone_1
@@ -126,6 +134,9 @@ vrfs:
   MGMT:
     ip_routing: False
 ## Tenant_A ##
+  Tenant_A_DB_Zone:
+    tenant: Tenant_A
+    ip_routing: true
   Tenant_A_OP_Zone:
     tenant: Tenant_A
     ip_routing: true
@@ -212,7 +223,6 @@ loopback_interfaces:
   Loopback1:
     description: VTEP_VXLAN_Tunnel_Source
     ip_address: 192.0.254.5/32
-## Tenant_A ##
   Loopback100:
     description: Tenant_A_OP_Zone_VTEP_DIAGNOSTICS
     vrf: Tenant_A_OP_Zone
@@ -237,6 +247,18 @@ vlan_interfaces:
     no_autostate: true
     mtu: 1500
 ## Tenant_A ##
+  Vlan199:
+    tenant: Tenant_A
+    tags: ['dbzone']
+    description: Tenant_A_DB_Zone_1
+    vrf: Tenant_A_DB_Zone
+    ip_address_virtual: 10.1.199.1/24
+  Vlan3010:
+    tenant: Tenant_A
+    type: underlay_peering
+    description: "MLAG_PEER_L3_iBGP: vrf Tenant_A_DB_Zone"
+    vrf: Tenant_A_DB_Zone
+    ip_address: 10.255.251.4/31
   Vlan110:
     tenant: Tenant_A
     tags: ['opzone']
@@ -261,12 +283,16 @@ vxlan_tunnel_interface:
     vxlan_vni_mappings:
       vlans:
 ## Tenant_A ##
+        199:
+          vni: 10199
         110:
           vni: 10110
         160:
           vni: 55160
       vrfs:
 ## Tenant_A ##
+        Tenant_A_DB_Zone:
+          vni: 11
         Tenant_A_OP_Zone:
           vni: 10
 
@@ -279,7 +305,6 @@ mac_address_table:
 ip_virtual_router_mac_address: 00:1c:73:00:dc:01
 
 virtual_source_nat_vrfs:
-## Tenant_A ##
   Tenant_A_OP_Zone:
     ip_address: 10.255.1.5
 
@@ -390,6 +415,14 @@ router_bgp:
         activate: true
   vlan_aware_bundles:
 ## Tenant_A ##
+    Tenant_A_DB_Zone:
+      rd: "192.0.255.5:11"
+      route_targets:
+        both:
+          - "11:11"
+      redistribute_routes:
+        - learned
+      vlan: 199
     Tenant_A_OP_Zone:
       rd: "192.0.255.5:10"
       route_targets:
@@ -410,6 +443,21 @@ router_bgp:
   vlans:
   vrfs:
 ## Tenant_A ##
+    Tenant_A_DB_Zone:
+      router_id: 192.0.255.5
+      rd: "192.0.255.5:11"
+      route_targets:
+        import:
+          evpn:
+            - "11:11"
+        export:
+          evpn:
+            - "11:11"
+      neighbors:
+        10.255.251.5:
+          peer_group: MLAG-IPv4-UNDERLAY-PEER
+      redistribute_routes:
+        - connected
     Tenant_A_OP_Zone:
       router_id: 192.0.255.5
       rd: "192.0.255.5:10"

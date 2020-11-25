@@ -85,7 +85,7 @@ l3leaf:
       bgp_as: 65110
       filter:
         tenants: [ Tenant_A ]
-        tags: [ opzone, vmotion ]
+        tags: [ opzone, vmotion, dbzone ]
       nodes:
         leaf3:
           id: 3

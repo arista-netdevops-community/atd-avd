@@ -19,6 +19,14 @@ tenants:
             tags: [atd]
             enabled: true
             ip_address_virtual: 10.1.99.1/24
+      Tenant_A_DB_Zone:
+        vrf_vni: 11
+        svis:
+          199:
+            name: Tenant_A_DB_Zone_1
+            tags: [dbzone]
+            enabled: true
+            ip_address_virtual: 10.1.199.1/24
     l2vlans:
       160:
         vni_override: 55160

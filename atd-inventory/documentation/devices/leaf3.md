@@ -177,7 +177,9 @@ username ansible privilege 15 role network-admin secret sha512 $6$Dzu11L7yp9j3nC
 | ------- | ---- | ------------ |
 | 110 | Tenant_A_OP_Zone_1 | none  |
 | 160 | Tenant_A_VMOTION | none  |
+| 199 | Tenant_A_DB_Zone_1 | none  |
 | 3009 | MLAG_iBGP_Tenant_A_OP_Zone | LEAF_PEER_L3  |
+| 3010 | MLAG_iBGP_Tenant_A_DB_Zone | LEAF_PEER_L3  |
 | 4093 | LEAF_PEER_L3 | LEAF_PEER_L3  |
 | 4094 | MLAG_PEER | MLAG  |
 
@@ -191,8 +193,15 @@ vlan 110
 vlan 160
    name Tenant_A_VMOTION
 !
+vlan 199
+   name Tenant_A_DB_Zone_1
+!
 vlan 3009
    name MLAG_iBGP_Tenant_A_OP_Zone
+   trunk group LEAF_PEER_L3
+!
+vlan 3010
+   name MLAG_iBGP_Tenant_A_DB_Zone
    trunk group LEAF_PEER_L3
 !
 vlan 4093
@@ -211,6 +220,7 @@ vlan 4094
 | VRF Name | IP Routing |
 | -------- | ---------- |
 | MGMT |  disabled |
+| Tenant_A_DB_Zone |  enabled |
 | Tenant_A_OP_Zone |  enabled |
 
 ### VRF Instances Device Configuration
@@ -218,6 +228,8 @@ vlan 4094
 ```eos
 !
 vrf instance MGMT
+!
+vrf instance Tenant_A_DB_Zone
 !
 vrf instance Tenant_A_OP_Zone
 ```
@@ -334,7 +346,9 @@ interface Loopback100
 | Interface | Description | VRF | IP Address | IP Address Virtual | IP Router Virtual Address (vARP) |
 | --------- | ----------- | --- | ---------- | ------------------ | -------------------------------- |
 | Vlan110 | Tenant_A_OP_Zone_1 | Tenant_A_OP_Zone | - | 10.1.10.1/24 | - |
+| Vlan199 | Tenant_A_DB_Zone_1 | Tenant_A_DB_Zone | - | 10.1.199.1/24 | - |
 | Vlan3009 | MLAG_PEER_L3_iBGP: vrf Tenant_A_OP_Zone | Tenant_A_OP_Zone | 10.255.251.4/31 | - | - |
+| Vlan3010 | MLAG_PEER_L3_iBGP: vrf Tenant_A_DB_Zone | Tenant_A_DB_Zone | 10.255.251.4/31 | - | - |
 | Vlan4093 | MLAG_PEER_L3_PEERING | Global Routing Table | 10.255.251.4/31 | - | - |
 | Vlan4094 | MLAG_PEER | Global Routing Table | 10.255.252.4/31 | - | - |
 
@@ -347,9 +361,19 @@ interface Vlan110
    vrf Tenant_A_OP_Zone
    ip address virtual 10.1.10.1/24
 !
+interface Vlan199
+   description Tenant_A_DB_Zone_1
+   vrf Tenant_A_DB_Zone
+   ip address virtual 10.1.199.1/24
+!
 interface Vlan3009
    description MLAG_PEER_L3_iBGP: vrf Tenant_A_OP_Zone
    vrf Tenant_A_OP_Zone
+   ip address 10.255.251.4/31
+!
+interface Vlan3010
+   description MLAG_PEER_L3_iBGP: vrf Tenant_A_DB_Zone
+   vrf Tenant_A_DB_Zone
    ip address 10.255.251.4/31
 !
 interface Vlan4093
@@ -375,11 +399,13 @@ interface Vlan4094
 | ---- | --- |
 | 110 | 10110 |
 | 160 | 55160 |
+| 199 | 10199 |
 
 **VRF to VNI Mappings:**
 
 | VLAN | VNI |
 | ---- | --- |
+| Tenant_A_DB_Zone | 11 |
 | Tenant_A_OP_Zone | 10 |
 
 ### VXLAN Interface Device Configuration
@@ -392,6 +418,8 @@ interface Vxlan1
    vxlan udp-port 4789
    vxlan vlan 110 vni 10110
    vxlan vlan 160 vni 55160
+   vxlan vlan 199 vni 10199
+   vxlan vrf Tenant_A_DB_Zone vni 11
    vxlan vrf Tenant_A_OP_Zone vni 10
 ```
 
@@ -456,6 +484,7 @@ No Event Handler Defined
 | VRF | Routing Enabled |
 | --- | --------------- |
 | MGMT | False |
+| Tenant_A_DB_Zone | True |
 | Tenant_A_OP_Zone | True |
 
 ### IP Routing Device Configuration
@@ -464,6 +493,7 @@ No Event Handler Defined
 !
 ip routing
 no ip routing vrf MGMT
+ip routing vrf Tenant_A_DB_Zone
 ip routing vrf Tenant_A_OP_Zone
 ```
 
@@ -509,6 +539,7 @@ IPv6 Prefix lists not defined
 | VRF | IPv6 Routing Enabled |
 | --- | -------------------- |
 | MGMT | False |
+| Tenant_A_DB_Zone | False |
 | Tenant_A_OP_Zone | False |
 
 ### IPv6 Routing Device Configuration
@@ -650,6 +681,7 @@ router bfd
 
 | VLAN Aware Bundle | Route-Distinguisher | Both Route-Target | Import Route Target | Export Route-Target | Redistribute | VLANs |
 | ----------------- | ------------------- | ----------------- | ------------------- | ------------------- | ------------ | ----- |
+| Tenant_A_DB_Zone | 192.0.255.5:11 |  11:11  |  |  | learned | 199 |
 | Tenant_A_OP_Zone | 192.0.255.5:10 |  10:10  |  |  | learned | 110 |
 | Tenant_A_VMOTION | 192.0.255.5:55160 |  55160:55160  |  |  | learned | 160 |
 
@@ -658,6 +690,7 @@ router bfd
 
 | VRF | Route-Distinguisher | Redistribute |
 | --- | ------------------- | ------------ |
+| Tenant_A_DB_Zone | 192.0.255.5:11 | connected  |
 | Tenant_A_OP_Zone | 192.0.255.5:10 | connected  |
 
 ### Router BGP Device Configuration
@@ -697,6 +730,12 @@ router bgp 65110
    neighbor 192.0.255.2 peer group EVPN-OVERLAY-PEERS
    redistribute connected route-map RM-CONN-2-BGP
    !
+   vlan-aware-bundle Tenant_A_DB_Zone
+      rd 192.0.255.5:11
+      route-target both 11:11
+      redistribute learned
+      vlan 199
+   !
    vlan-aware-bundle Tenant_A_OP_Zone
       rd 192.0.255.5:10
       route-target both 10:10
@@ -718,6 +757,14 @@ router bgp 65110
       no neighbor EVPN-OVERLAY-PEERS activate
       neighbor IPv4-UNDERLAY-PEERS activate
       neighbor MLAG-IPv4-UNDERLAY-PEER activate
+   !
+   vrf Tenant_A_DB_Zone
+      rd 192.0.255.5:11
+      route-target import evpn 11:11
+      route-target export evpn 11:11
+      router-id 192.0.255.5
+      neighbor 10.255.251.5 peer group MLAG-IPv4-UNDERLAY-PEER
+      redistribute connected
    !
    vrf Tenant_A_OP_Zone
       rd 192.0.255.5:10
