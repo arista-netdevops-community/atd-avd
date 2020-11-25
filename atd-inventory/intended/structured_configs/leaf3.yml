@@ -6,7 +6,7 @@
 ### Leaf Info ###
 l3leaf_node_group: pod2
 switch_platform: vEOS-LAB
-leaf_bgp_as: 65102
+leaf_bgp_as: 65110
 leaf_id: 3
 switch_mgmt_ip: 192.168.0.14/24
 leaf_filter_tenants: ['all']
@@ -327,7 +327,7 @@ route_maps:
           - "ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY"
 ### Routing - BGP ###
 router_bgp:
-  as: 65102
+  as: 65110
   router_id: 192.0.255.5
   bgp_defaults:
     - no bgp default ipv4-unicast
@@ -353,7 +353,7 @@ router_bgp:
       maximum_routes: 0
     MLAG-IPv4-UNDERLAY-PEER:
       type: ipv4
-      remote_as: 65102
+      remote_as: 65110
       next_hop_self: true
       password: "vnEaG8gMeQf3d3cN6PktXQ=="
       maximum_routes: 12000

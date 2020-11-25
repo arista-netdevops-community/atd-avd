@@ -589,7 +589,7 @@ router bfd
 
 | BGP AS | Router ID |
 | ------ | --------- |
-| 65102|  192.0.255.6 |
+| 65110|  192.0.255.6 |
 
 | BGP Tuning |
 | ---------- |
@@ -627,7 +627,7 @@ router bfd
 | Settings | Value |
 | -------- | ----- |
 | Address Family | ipv4 |
-| remote_as | 65102 |
+| remote_as | 65110 |
 | next-hop self | true |
 | send community | true |
 | maximum routes | 12000 |
@@ -664,7 +664,7 @@ router bfd
 
 ```eos
 !
-router bgp 65102
+router bgp 65110
    router-id 192.0.255.6
    no bgp default ipv4-unicast
    distance bgp 20 200 200
@@ -685,7 +685,7 @@ router bgp 65102
    neighbor IPv4-UNDERLAY-PEERS send-community
    neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000
    neighbor MLAG-IPv4-UNDERLAY-PEER peer group
-   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as 65102
+   neighbor MLAG-IPv4-UNDERLAY-PEER remote-as 65110
    neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self
    neighbor MLAG-IPv4-UNDERLAY-PEER password 7 vnEaG8gMeQf3d3cN6PktXQ==
    neighbor MLAG-IPv4-UNDERLAY-PEER send-community
