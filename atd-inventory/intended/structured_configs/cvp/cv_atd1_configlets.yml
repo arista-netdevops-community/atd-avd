@@ -18,8 +18,8 @@ CVP_CONFIGLETS:
     \   description host1_PortChanne1\n   switchport access vlan 110\n   mlag 4\n\
     !\ninterface Ethernet1\n   description MLAG_PEER_leaf2_Ethernet1\n   channel-group\
     \ 1 mode active\n!\ninterface Ethernet2\n   description P2P_LINK_TO_SPINE1_Ethernet2\n\
-    \   no switchport\n   ip address 172.31.255.1/31\n!\ninterface Ethernet3\n   description\
-    \ P2P_LINK_TO_SPINE2_Ethernet2\n   no switchport\n   ip address 172.31.255.3/31\n\
+    \   no switchport\n   ip address 172.30.255.1/31\n!\ninterface Ethernet3\n   description\
+    \ P2P_LINK_TO_SPINE2_Ethernet2\n   no switchport\n   ip address 172.30.255.3/31\n\
     !\ninterface Ethernet4\n   description host1_Eth1\n   channel-group 4 mode active\n\
     !\ninterface Ethernet5\n   description host1_Eth2\n   channel-group 4 mode active\n\
     !\ninterface Loopback0\n   description EVPN_Overlay_Peering\n   ip address 192.0.255.3/32\n\
@@ -39,7 +39,7 @@ CVP_CONFIGLETS:
     ip address virtual source-nat vrf Tenant_A_OP_Zone address 10.255.1.3\n!\nip routing\n\
     no ip routing vrf MGMT\nip routing vrf Tenant_A_OP_Zone\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
     \   seq 10 permit 192.0.255.0/24 eq 32\n   seq 20 permit 192.0.254.0/24 eq 32\n\
-    !\nip prefix-list PL-P2P-UNDERLAY\n   seq 10 permit 172.31.255.0/24 le 31\n  \
+    !\nip prefix-list PL-P2P-UNDERLAY\n   seq 10 permit 172.30.255.0/24 le 31\n  \
     \ seq 20 permit 10.255.251.0/24 le 31\n!\nmlag configuration\n   domain-id pod1\n\
     \   local-interface Vlan4094\n   peer-address 10.255.252.1\n   peer-address heartbeat\
     \ 192.168.0.13 vrf MGMT\n   peer-link Port-Channel1\n   dual-primary detection\
@@ -62,7 +62,7 @@ CVP_CONFIGLETS:
     \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER password 7 vnEaG8gMeQf3d3cN6PktXQ==\n\
     \   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
     \ maximum-routes 12000\n   neighbor 10.255.251.1 peer group MLAG-IPv4-UNDERLAY-PEER\n\
-    \   neighbor 172.31.255.0 peer group IPv4-UNDERLAY-PEERS\n   neighbor 172.31.255.2\
+    \   neighbor 172.30.255.0 peer group IPv4-UNDERLAY-PEERS\n   neighbor 172.30.255.2\
     \ peer group IPv4-UNDERLAY-PEERS\n   neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS\n\
     \   neighbor 192.0.255.2 peer group EVPN-OVERLAY-PEERS\n   redistribute connected\
     \ route-map RM-CONN-2-BGP\n   !\n   vlan-aware-bundle Tenant_A_OP_Zone\n     \
@@ -97,8 +97,8 @@ CVP_CONFIGLETS:
     \   description host1_PortChanne1\n   switchport access vlan 110\n   mlag 4\n\
     !\ninterface Ethernet1\n   description MLAG_PEER_leaf1_Ethernet1\n   channel-group\
     \ 1 mode active\n!\ninterface Ethernet2\n   description P2P_LINK_TO_SPINE1_Ethernet3\n\
-    \   no switchport\n   ip address 172.31.255.5/31\n!\ninterface Ethernet3\n   description\
-    \ P2P_LINK_TO_SPINE2_Ethernet3\n   no switchport\n   ip address 172.31.255.7/31\n\
+    \   no switchport\n   ip address 172.30.255.5/31\n!\ninterface Ethernet3\n   description\
+    \ P2P_LINK_TO_SPINE2_Ethernet3\n   no switchport\n   ip address 172.30.255.7/31\n\
     !\ninterface Ethernet4\n   description host1_Eth3\n   channel-group 4 mode active\n\
     !\ninterface Ethernet5\n   description host1_Eth4\n   channel-group 4 mode active\n\
     !\ninterface Loopback0\n   description EVPN_Overlay_Peering\n   ip address 192.0.255.4/32\n\
@@ -118,7 +118,7 @@ CVP_CONFIGLETS:
     ip address virtual source-nat vrf Tenant_A_OP_Zone address 10.255.1.4\n!\nip routing\n\
     no ip routing vrf MGMT\nip routing vrf Tenant_A_OP_Zone\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
     \   seq 10 permit 192.0.255.0/24 eq 32\n   seq 20 permit 192.0.254.0/24 eq 32\n\
-    !\nip prefix-list PL-P2P-UNDERLAY\n   seq 10 permit 172.31.255.0/24 le 31\n  \
+    !\nip prefix-list PL-P2P-UNDERLAY\n   seq 10 permit 172.30.255.0/24 le 31\n  \
     \ seq 20 permit 10.255.251.0/24 le 31\n!\nmlag configuration\n   domain-id pod1\n\
     \   local-interface Vlan4094\n   peer-address 10.255.252.0\n   peer-address heartbeat\
     \ 192.168.0.12 vrf MGMT\n   peer-link Port-Channel1\n   dual-primary detection\
@@ -141,7 +141,7 @@ CVP_CONFIGLETS:
     \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER password 7 vnEaG8gMeQf3d3cN6PktXQ==\n\
     \   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
     \ maximum-routes 12000\n   neighbor 10.255.251.0 peer group MLAG-IPv4-UNDERLAY-PEER\n\
-    \   neighbor 172.31.255.4 peer group IPv4-UNDERLAY-PEERS\n   neighbor 172.31.255.6\
+    \   neighbor 172.30.255.4 peer group IPv4-UNDERLAY-PEERS\n   neighbor 172.30.255.6\
     \ peer group IPv4-UNDERLAY-PEERS\n   neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS\n\
     \   neighbor 192.0.255.2 peer group EVPN-OVERLAY-PEERS\n   redistribute connected\
     \ route-map RM-CONN-2-BGP\n   !\n   vlan-aware-bundle Tenant_A_OP_Zone\n     \
@@ -176,8 +176,8 @@ CVP_CONFIGLETS:
     \   description host2_PortChanne1\n   switchport access vlan 110\n   mlag 4\n\
     !\ninterface Ethernet1\n   description MLAG_PEER_leaf4_Ethernet1\n   channel-group\
     \ 1 mode active\n!\ninterface Ethernet2\n   description P2P_LINK_TO_SPINE1_Ethernet4\n\
-    \   no switchport\n   ip address 172.31.255.9/31\n!\ninterface Ethernet3\n   description\
-    \ P2P_LINK_TO_SPINE2_Ethernet4\n   no switchport\n   ip address 172.31.255.11/31\n\
+    \   no switchport\n   ip address 172.30.255.9/31\n!\ninterface Ethernet3\n   description\
+    \ P2P_LINK_TO_SPINE2_Ethernet4\n   no switchport\n   ip address 172.30.255.11/31\n\
     !\ninterface Ethernet4\n   description host2_Eth1\n   channel-group 4 mode active\n\
     !\ninterface Ethernet5\n   description host2_Eth2\n   channel-group 4 mode active\n\
     !\ninterface Loopback0\n   description EVPN_Overlay_Peering\n   ip address 192.0.255.5/32\n\
@@ -197,7 +197,7 @@ CVP_CONFIGLETS:
     ip address virtual source-nat vrf Tenant_A_OP_Zone address 10.255.1.5\n!\nip routing\n\
     no ip routing vrf MGMT\nip routing vrf Tenant_A_OP_Zone\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
     \   seq 10 permit 192.0.255.0/24 eq 32\n   seq 20 permit 192.0.254.0/24 eq 32\n\
-    !\nip prefix-list PL-P2P-UNDERLAY\n   seq 10 permit 172.31.255.0/24 le 31\n  \
+    !\nip prefix-list PL-P2P-UNDERLAY\n   seq 10 permit 172.30.255.0/24 le 31\n  \
     \ seq 20 permit 10.255.251.0/24 le 31\n!\nmlag configuration\n   domain-id pod2\n\
     \   local-interface Vlan4094\n   peer-address 10.255.252.5\n   peer-address heartbeat\
     \ 192.168.0.15 vrf MGMT\n   peer-link Port-Channel1\n   dual-primary detection\
@@ -220,7 +220,7 @@ CVP_CONFIGLETS:
     \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER password 7 vnEaG8gMeQf3d3cN6PktXQ==\n\
     \   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
     \ maximum-routes 12000\n   neighbor 10.255.251.5 peer group MLAG-IPv4-UNDERLAY-PEER\n\
-    \   neighbor 172.31.255.8 peer group IPv4-UNDERLAY-PEERS\n   neighbor 172.31.255.10\
+    \   neighbor 172.30.255.8 peer group IPv4-UNDERLAY-PEERS\n   neighbor 172.30.255.10\
     \ peer group IPv4-UNDERLAY-PEERS\n   neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS\n\
     \   neighbor 192.0.255.2 peer group EVPN-OVERLAY-PEERS\n   redistribute connected\
     \ route-map RM-CONN-2-BGP\n   !\n   vlan-aware-bundle Tenant_A_OP_Zone\n     \
@@ -255,8 +255,8 @@ CVP_CONFIGLETS:
     \   description host2_PortChanne1\n   switchport access vlan 110\n   mlag 4\n\
     !\ninterface Ethernet1\n   description MLAG_PEER_leaf3_Ethernet1\n   channel-group\
     \ 1 mode active\n!\ninterface Ethernet2\n   description P2P_LINK_TO_SPINE1_Ethernet5\n\
-    \   no switchport\n   ip address 172.31.255.13/31\n!\ninterface Ethernet3\n  \
-    \ description P2P_LINK_TO_SPINE2_Ethernet5\n   no switchport\n   ip address 172.31.255.15/31\n\
+    \   no switchport\n   ip address 172.30.255.13/31\n!\ninterface Ethernet3\n  \
+    \ description P2P_LINK_TO_SPINE2_Ethernet5\n   no switchport\n   ip address 172.30.255.15/31\n\
     !\ninterface Ethernet4\n   description host2_Eth3\n   channel-group 4 mode active\n\
     !\ninterface Ethernet5\n   description host2_Eth4\n   channel-group 4 mode active\n\
     !\ninterface Loopback0\n   description EVPN_Overlay_Peering\n   ip address 192.0.255.6/32\n\
@@ -276,7 +276,7 @@ CVP_CONFIGLETS:
     ip address virtual source-nat vrf Tenant_A_OP_Zone address 10.255.1.6\n!\nip routing\n\
     no ip routing vrf MGMT\nip routing vrf Tenant_A_OP_Zone\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
     \   seq 10 permit 192.0.255.0/24 eq 32\n   seq 20 permit 192.0.254.0/24 eq 32\n\
-    !\nip prefix-list PL-P2P-UNDERLAY\n   seq 10 permit 172.31.255.0/24 le 31\n  \
+    !\nip prefix-list PL-P2P-UNDERLAY\n   seq 10 permit 172.30.255.0/24 le 31\n  \
     \ seq 20 permit 10.255.251.0/24 le 31\n!\nmlag configuration\n   domain-id pod2\n\
     \   local-interface Vlan4094\n   peer-address 10.255.252.4\n   peer-address heartbeat\
     \ 192.168.0.14 vrf MGMT\n   peer-link Port-Channel1\n   dual-primary detection\
@@ -299,7 +299,7 @@ CVP_CONFIGLETS:
     \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER password 7 vnEaG8gMeQf3d3cN6PktXQ==\n\
     \   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
     \ maximum-routes 12000\n   neighbor 10.255.251.4 peer group MLAG-IPv4-UNDERLAY-PEER\n\
-    \   neighbor 172.31.255.12 peer group IPv4-UNDERLAY-PEERS\n   neighbor 172.31.255.14\
+    \   neighbor 172.30.255.12 peer group IPv4-UNDERLAY-PEERS\n   neighbor 172.30.255.14\
     \ peer group IPv4-UNDERLAY-PEERS\n   neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS\n\
     \   neighbor 192.0.255.2 peer group EVPN-OVERLAY-PEERS\n   redistribute connected\
     \ route-map RM-CONN-2-BGP\n   !\n   vlan-aware-bundle Tenant_A_OP_Zone\n     \
@@ -324,11 +324,11 @@ CVP_CONFIGLETS:
     ip name-server vrf MGMT 8.8.8.7\n!\nspanning-tree mode none\n!\nno aaa root\n\
     !\nusername ansible privilege 15 role network-admin secret sha512 $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/\n\
     !\nvrf instance MGMT\n!\ninterface Ethernet2\n   description P2P_LINK_TO_LEAF1_Ethernet2\n\
-    \   no switchport\n   ip address 172.31.255.0/31\n!\ninterface Ethernet3\n   description\
-    \ P2P_LINK_TO_LEAF2_Ethernet2\n   no switchport\n   ip address 172.31.255.4/31\n\
+    \   no switchport\n   ip address 172.30.255.0/31\n!\ninterface Ethernet3\n   description\
+    \ P2P_LINK_TO_LEAF2_Ethernet2\n   no switchport\n   ip address 172.30.255.4/31\n\
     !\ninterface Ethernet4\n   description P2P_LINK_TO_LEAF3_Ethernet2\n   no switchport\n\
-    \   ip address 172.31.255.8/31\n!\ninterface Ethernet5\n   description P2P_LINK_TO_LEAF4_Ethernet2\n\
-    \   no switchport\n   ip address 172.31.255.12/31\n!\ninterface Loopback0\n  \
+    \   ip address 172.30.255.8/31\n!\ninterface Ethernet5\n   description P2P_LINK_TO_LEAF4_Ethernet2\n\
+    \   no switchport\n   ip address 172.30.255.12/31\n!\ninterface Loopback0\n  \
     \ description EVPN_Overlay_Peering\n   ip address 192.0.255.1/32\n!\ninterface\
     \ Management1\n   description oob_management\n   vrf MGMT\n   ip address 192.168.0.10/24\n\
     !\nip routing\nno ip routing vrf MGMT\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
@@ -345,11 +345,11 @@ CVP_CONFIGLETS:
     \   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor EVPN-OVERLAY-PEERS\
     \ maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS\
     \ password 7 AQQvKeimxJu+uGQ/yYvv9w==\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes\
-    \ 12000\n   neighbor 172.31.255.1 peer group IPv4-UNDERLAY-PEERS\n   neighbor\
-    \ 172.31.255.1 remote-as 65101\n   neighbor 172.31.255.5 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.31.255.5 remote-as 65101\n   neighbor 172.31.255.9 peer group\
-    \ IPv4-UNDERLAY-PEERS\n   neighbor 172.31.255.9 remote-as 65102\n   neighbor 172.31.255.13\
-    \ peer group IPv4-UNDERLAY-PEERS\n   neighbor 172.31.255.13 remote-as 65102\n\
+    \ 12000\n   neighbor 172.30.255.1 peer group IPv4-UNDERLAY-PEERS\n   neighbor\
+    \ 172.30.255.1 remote-as 65101\n   neighbor 172.30.255.5 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 172.30.255.5 remote-as 65101\n   neighbor 172.30.255.9 peer group\
+    \ IPv4-UNDERLAY-PEERS\n   neighbor 172.30.255.9 remote-as 65102\n   neighbor 172.30.255.13\
+    \ peer group IPv4-UNDERLAY-PEERS\n   neighbor 172.30.255.13 remote-as 65102\n\
     \   neighbor 192.0.255.3 peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.3\
     \ remote-as 65101\n   neighbor 192.0.255.4 peer group EVPN-OVERLAY-PEERS\n   neighbor\
     \ 192.0.255.4 remote-as 65101\n   neighbor 192.0.255.5 peer group EVPN-OVERLAY-PEERS\n\
@@ -369,11 +369,11 @@ CVP_CONFIGLETS:
     ip name-server vrf MGMT 8.8.8.7\n!\nspanning-tree mode none\n!\nno aaa root\n\
     !\nusername ansible privilege 15 role network-admin secret sha512 $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/\n\
     !\nvrf instance MGMT\n!\ninterface Ethernet2\n   description P2P_LINK_TO_LEAF1_Ethernet3\n\
-    \   no switchport\n   ip address 172.31.255.2/31\n!\ninterface Ethernet3\n   description\
-    \ P2P_LINK_TO_LEAF2_Ethernet3\n   no switchport\n   ip address 172.31.255.6/31\n\
+    \   no switchport\n   ip address 172.30.255.2/31\n!\ninterface Ethernet3\n   description\
+    \ P2P_LINK_TO_LEAF2_Ethernet3\n   no switchport\n   ip address 172.30.255.6/31\n\
     !\ninterface Ethernet4\n   description P2P_LINK_TO_LEAF3_Ethernet3\n   no switchport\n\
-    \   ip address 172.31.255.10/31\n!\ninterface Ethernet5\n   description P2P_LINK_TO_LEAF4_Ethernet3\n\
-    \   no switchport\n   ip address 172.31.255.14/31\n!\ninterface Loopback0\n  \
+    \   ip address 172.30.255.10/31\n!\ninterface Ethernet5\n   description P2P_LINK_TO_LEAF4_Ethernet3\n\
+    \   no switchport\n   ip address 172.30.255.14/31\n!\ninterface Loopback0\n  \
     \ description EVPN_Overlay_Peering\n   ip address 192.0.255.2/32\n!\ninterface\
     \ Management1\n   description oob_management\n   vrf MGMT\n   ip address 192.168.0.11/24\n\
     !\nip routing\nno ip routing vrf MGMT\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n\
@@ -390,11 +390,11 @@ CVP_CONFIGLETS:
     \   neighbor EVPN-OVERLAY-PEERS send-community\n   neighbor EVPN-OVERLAY-PEERS\
     \ maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS peer group\n   neighbor IPv4-UNDERLAY-PEERS\
     \ password 7 AQQvKeimxJu+uGQ/yYvv9w==\n   neighbor IPv4-UNDERLAY-PEERS maximum-routes\
-    \ 12000\n   neighbor 172.31.255.3 peer group IPv4-UNDERLAY-PEERS\n   neighbor\
-    \ 172.31.255.3 remote-as 65101\n   neighbor 172.31.255.7 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.31.255.7 remote-as 65101\n   neighbor 172.31.255.11 peer group\
-    \ IPv4-UNDERLAY-PEERS\n   neighbor 172.31.255.11 remote-as 65102\n   neighbor\
-    \ 172.31.255.15 peer group IPv4-UNDERLAY-PEERS\n   neighbor 172.31.255.15 remote-as\
+    \ 12000\n   neighbor 172.30.255.3 peer group IPv4-UNDERLAY-PEERS\n   neighbor\
+    \ 172.30.255.3 remote-as 65101\n   neighbor 172.30.255.7 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 172.30.255.7 remote-as 65101\n   neighbor 172.30.255.11 peer group\
+    \ IPv4-UNDERLAY-PEERS\n   neighbor 172.30.255.11 remote-as 65102\n   neighbor\
+    \ 172.30.255.15 peer group IPv4-UNDERLAY-PEERS\n   neighbor 172.30.255.15 remote-as\
     \ 65102\n   neighbor 192.0.255.3 peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.3\
     \ remote-as 65101\n   neighbor 192.0.255.4 peer group EVPN-OVERLAY-PEERS\n   neighbor\
     \ 192.0.255.4 remote-as 65101\n   neighbor 192.0.255.5 peer group EVPN-OVERLAY-PEERS\n\

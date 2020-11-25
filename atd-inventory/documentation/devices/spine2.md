@@ -191,10 +191,10 @@ No Port-Channels defined
 
 | Interface | Description | MTU | Type | Mode | Allowed VLANs (Trunk) | Trunk Group | VRF | IP Address | Channel-Group ID | Channel-Group Type |
 | --------- | ----------- | --- | ---- | ---- | --------------------- | ----------- | --- | ---------- | ---------------- | ------------------ |
-| Ethernet2 | P2P_LINK_TO_LEAF1_Ethernet3 | 1500 | routed | access | - | - | - | 172.31.255.2/31 | - | - |
-| Ethernet3 | P2P_LINK_TO_LEAF2_Ethernet3 | 1500 | routed | access | - | - | - | 172.31.255.6/31 | - | - |
-| Ethernet4 | P2P_LINK_TO_LEAF3_Ethernet3 | 1500 | routed | access | - | - | - | 172.31.255.10/31 | - | - |
-| Ethernet5 | P2P_LINK_TO_LEAF4_Ethernet3 | 1500 | routed | access | - | - | - | 172.31.255.14/31 | - | - |
+| Ethernet2 | P2P_LINK_TO_LEAF1_Ethernet3 | 1500 | routed | access | - | - | - | 172.30.255.2/31 | - | - |
+| Ethernet3 | P2P_LINK_TO_LEAF2_Ethernet3 | 1500 | routed | access | - | - | - | 172.30.255.6/31 | - | - |
+| Ethernet4 | P2P_LINK_TO_LEAF3_Ethernet3 | 1500 | routed | access | - | - | - | 172.30.255.10/31 | - | - |
+| Ethernet5 | P2P_LINK_TO_LEAF4_Ethernet3 | 1500 | routed | access | - | - | - | 172.30.255.14/31 | - | - |
 
 *Inherited from Port-Channel Interface
 
@@ -205,22 +205,22 @@ No Port-Channels defined
 interface Ethernet2
    description P2P_LINK_TO_LEAF1_Ethernet3
    no switchport
-   ip address 172.31.255.2/31
+   ip address 172.30.255.2/31
 !
 interface Ethernet3
    description P2P_LINK_TO_LEAF2_Ethernet3
    no switchport
-   ip address 172.31.255.6/31
+   ip address 172.30.255.6/31
 !
 interface Ethernet4
    description P2P_LINK_TO_LEAF3_Ethernet3
    no switchport
-   ip address 172.31.255.10/31
+   ip address 172.30.255.10/31
 !
 interface Ethernet5
    description P2P_LINK_TO_LEAF4_Ethernet3
    no switchport
-   ip address 172.31.255.14/31
+   ip address 172.30.255.14/31
 ```
 
 ## Loopback Interfaces
@@ -446,10 +446,10 @@ router bfd
 
 | Neighbor | Remote AS |
 | -------- | ---------
-| 172.31.255.3 | 65101 |
-| 172.31.255.7 | 65101 |
-| 172.31.255.11 | 65102 |
-| 172.31.255.15 | 65102 |
+| 172.30.255.3 | 65101 |
+| 172.30.255.7 | 65101 |
+| 172.30.255.11 | 65102 |
+| 172.30.255.15 | 65102 |
 | 192.0.255.3 | 65101 |
 | 192.0.255.4 | 65101 |
 | 192.0.255.5 | 65102 |
@@ -486,14 +486,14 @@ router bgp 65001
    neighbor IPv4-UNDERLAY-PEERS peer group
    neighbor IPv4-UNDERLAY-PEERS password 7 AQQvKeimxJu+uGQ/yYvv9w==
    neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000
-   neighbor 172.31.255.3 peer group IPv4-UNDERLAY-PEERS
-   neighbor 172.31.255.3 remote-as 65101
-   neighbor 172.31.255.7 peer group IPv4-UNDERLAY-PEERS
-   neighbor 172.31.255.7 remote-as 65101
-   neighbor 172.31.255.11 peer group IPv4-UNDERLAY-PEERS
-   neighbor 172.31.255.11 remote-as 65102
-   neighbor 172.31.255.15 peer group IPv4-UNDERLAY-PEERS
-   neighbor 172.31.255.15 remote-as 65102
+   neighbor 172.30.255.3 peer group IPv4-UNDERLAY-PEERS
+   neighbor 172.30.255.3 remote-as 65101
+   neighbor 172.30.255.7 peer group IPv4-UNDERLAY-PEERS
+   neighbor 172.30.255.7 remote-as 65101
+   neighbor 172.30.255.11 peer group IPv4-UNDERLAY-PEERS
+   neighbor 172.30.255.11 remote-as 65102
+   neighbor 172.30.255.15 peer group IPv4-UNDERLAY-PEERS
+   neighbor 172.30.255.15 remote-as 65102
    neighbor 192.0.255.3 peer group EVPN-OVERLAY-PEERS
    neighbor 192.0.255.3 remote-as 65101
    neighbor 192.0.255.4 peer group EVPN-OVERLAY-PEERS

@@ -161,7 +161,7 @@ ethernet_interfaces:
     description: P2P_LINK_TO_SPINE1_Ethernet5
     mtu: 1500
     type: routed
-    ip_address: 172.31.255.13/31
+    ip_address: 172.30.255.13/31
   Ethernet3:
     peer: spine2
     peer_interface: Ethernet5
@@ -169,7 +169,7 @@ ethernet_interfaces:
     description: P2P_LINK_TO_SPINE2_Ethernet5
     mtu: 1500
     type: routed
-    ip_address: 172.31.255.15/31
+    ip_address: 172.30.255.15/31
 ## mlag interfaces ##
   Ethernet1:
     peer: leaf3
@@ -300,7 +300,7 @@ prefix_lists:
   PL-P2P-UNDERLAY:
     sequence_numbers:
       10:
-        action: "permit 172.31.255.0/24 le 31"
+        action: "permit 172.30.255.0/24 le 31"
       20:
         action: "permit 10.255.251.0/24 le 31"
 
@@ -359,9 +359,9 @@ router_bgp:
       maximum_routes: 12000
       send_community: true
   neighbors:
-    172.31.255.12:
+    172.30.255.12:
       peer_group: IPv4-UNDERLAY-PEERS
-    172.31.255.14:
+    172.30.255.14:
       peer_group: IPv4-UNDERLAY-PEERS
     192.0.255.1:
       peer_group: EVPN-OVERLAY-PEERS

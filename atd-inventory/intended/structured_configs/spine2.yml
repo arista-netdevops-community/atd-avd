@@ -95,7 +95,7 @@ ethernet_interfaces:
     description: P2P_LINK_TO_LEAF1_Ethernet3
     mtu: 1500
     type: routed
-    ip_address: 172.31.255.2/31
+    ip_address: 172.30.255.2/31
   Ethernet3:
     peer: leaf2
     peer_interface: Ethernet3
@@ -103,7 +103,7 @@ ethernet_interfaces:
     description: P2P_LINK_TO_LEAF2_Ethernet3
     mtu: 1500
     type: routed
-    ip_address: 172.31.255.6/31
+    ip_address: 172.30.255.6/31
   Ethernet4:
     peer: leaf3
     peer_interface: Ethernet3
@@ -111,7 +111,7 @@ ethernet_interfaces:
     description: P2P_LINK_TO_LEAF3_Ethernet3
     mtu: 1500
     type: routed
-    ip_address: 172.31.255.10/31
+    ip_address: 172.30.255.10/31
   Ethernet5:
     peer: leaf4
     peer_interface: Ethernet3
@@ -119,7 +119,7 @@ ethernet_interfaces:
     description: P2P_LINK_TO_LEAF4_Ethernet3
     mtu: 1500
     type: routed
-    ip_address: 172.31.255.14/31
+    ip_address: 172.30.255.14/31
 
 
 ### Loopback Interfaces ###
@@ -199,25 +199,25 @@ router_bgp:
       send_community: true
       maximum_routes: 0
   neighbors:
-    172.31.255.3:
+    172.30.255.3:
       peer_group: IPv4-UNDERLAY-PEERS
       remote_as: 65101
     192.0.255.3:
       peer_group: EVPN-OVERLAY-PEERS
       remote_as: 65101
-    172.31.255.7:
+    172.30.255.7:
       peer_group: IPv4-UNDERLAY-PEERS
       remote_as: 65101
     192.0.255.4:
       peer_group: EVPN-OVERLAY-PEERS
       remote_as: 65101
-    172.31.255.11:
+    172.30.255.11:
       peer_group: IPv4-UNDERLAY-PEERS
       remote_as: 65102
     192.0.255.5:
       peer_group: EVPN-OVERLAY-PEERS
       remote_as: 65102
-    172.31.255.15:
+    172.30.255.15:
       peer_group: IPv4-UNDERLAY-PEERS
       remote_as: 65102
     192.0.255.6:

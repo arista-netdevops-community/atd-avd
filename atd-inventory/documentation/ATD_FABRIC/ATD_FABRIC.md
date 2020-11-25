@@ -43,20 +43,20 @@
 
 | P2P Summary | Available Addresses | Assigned addresses | Assigned Address % |
 | ----------- | ------------------- | ------------------ | ------------------ |
-| 172.31.255.0/24 | 256 | 16 | 6.25 % |
+| 172.30.255.0/24 | 256 | 16 | 6.25 % |
 
 ### Point-To-Point Links Node Allocation
 
 | Leaf Node | Leaf Interface | Leaf IP Address | Spine Node | Spine Interface | Spine IP Address |
 | --------- | -------------- | --------------- | ---------- | --------------- | ---------------- |
-| leaf1 | Ethernet2 | 172.31.255.1/31 | spine1 | Ethernet2 | 172.31.255.0/31 |
-| leaf1 | Ethernet3 | 172.31.255.3/31 | spine2 | Ethernet2 | 172.31.255.2/31 |
-| leaf2 | Ethernet2 | 172.31.255.5/31 | spine1 | Ethernet3 | 172.31.255.4/31 |
-| leaf2 | Ethernet3 | 172.31.255.7/31 | spine2 | Ethernet3 | 172.31.255.6/31 |
-| leaf3 | Ethernet2 | 172.31.255.9/31 | spine1 | Ethernet4 | 172.31.255.8/31 |
-| leaf3 | Ethernet3 | 172.31.255.11/31 | spine2 | Ethernet4 | 172.31.255.10/31 |
-| leaf4 | Ethernet2 | 172.31.255.13/31 | spine1 | Ethernet5 | 172.31.255.12/31 |
-| leaf4 | Ethernet3 | 172.31.255.15/31 | spine2 | Ethernet5 | 172.31.255.14/31 |
+| leaf1 | Ethernet2 | 172.30.255.1/31 | spine1 | Ethernet2 | 172.30.255.0/31 |
+| leaf1 | Ethernet3 | 172.30.255.3/31 | spine2 | Ethernet2 | 172.30.255.2/31 |
+| leaf2 | Ethernet2 | 172.30.255.5/31 | spine1 | Ethernet3 | 172.30.255.4/31 |
+| leaf2 | Ethernet3 | 172.30.255.7/31 | spine2 | Ethernet3 | 172.30.255.6/31 |
+| leaf3 | Ethernet2 | 172.30.255.9/31 | spine1 | Ethernet4 | 172.30.255.8/31 |
+| leaf3 | Ethernet3 | 172.30.255.11/31 | spine2 | Ethernet4 | 172.30.255.10/31 |
+| leaf4 | Ethernet2 | 172.30.255.13/31 | spine1 | Ethernet5 | 172.30.255.12/31 |
+| leaf4 | Ethernet3 | 172.30.255.15/31 | spine2 | Ethernet5 | 172.30.255.14/31 |
 
 ### Overlay Loopback Interfaces (BGP EVPN Peering)
 

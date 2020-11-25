@@ -255,8 +255,8 @@ interface Port-Channel4
 | Interface | Description | MTU | Type | Mode | Allowed VLANs (Trunk) | Trunk Group | VRF | IP Address | Channel-Group ID | Channel-Group Type |
 | --------- | ----------- | --- | ---- | ---- | --------------------- | ----------- | --- | ---------- | ---------------- | ------------------ |
 | Ethernet1 | MLAG_PEER_leaf1_Ethernet1 | *1500 | *switched | *trunk | *2-4094 | *LEAF_PEER_L3<br> *MLAG | - | - | 1 | active |
-| Ethernet2 | P2P_LINK_TO_SPINE1_Ethernet3 | 1500 | routed | access | - | - | - | 172.31.255.5/31 | - | - |
-| Ethernet3 | P2P_LINK_TO_SPINE2_Ethernet3 | 1500 | routed | access | - | - | - | 172.31.255.7/31 | - | - |
+| Ethernet2 | P2P_LINK_TO_SPINE1_Ethernet3 | 1500 | routed | access | - | - | - | 172.30.255.5/31 | - | - |
+| Ethernet3 | P2P_LINK_TO_SPINE2_Ethernet3 | 1500 | routed | access | - | - | - | 172.30.255.7/31 | - | - |
 | Ethernet4 | host1_Eth3 | *1500 | *switched | *access | *110 | - | - | - | 4 | active |
 | Ethernet5 | host1_Eth4 | *1500 | *switched | *access | *110 | - | - | - | 4 | active |
 
@@ -273,12 +273,12 @@ interface Ethernet1
 interface Ethernet2
    description P2P_LINK_TO_SPINE1_Ethernet3
    no switchport
-   ip address 172.31.255.5/31
+   ip address 172.30.255.5/31
 !
 interface Ethernet3
    description P2P_LINK_TO_SPINE2_Ethernet3
    no switchport
-   ip address 172.31.255.7/31
+   ip address 172.30.255.7/31
 !
 interface Ethernet4
    description host1_Eth3
@@ -482,7 +482,7 @@ ip routing vrf Tenant_A_OP_Zone
 
 | Sequence | Action |
 | -------- | ------ |
-| 10 | permit 172.31.255.0/24 le 31 |
+| 10 | permit 172.30.255.0/24 le 31 |
 | 20 | permit 10.255.251.0/24 le 31 |
 
 ### Prefix Lists Device Configuration
@@ -494,7 +494,7 @@ ip prefix-list PL-LOOPBACKS-EVPN-OVERLAY
    seq 20 permit 192.0.254.0/24 eq 32
 !
 ip prefix-list PL-P2P-UNDERLAY
-   seq 10 permit 172.31.255.0/24 le 31
+   seq 10 permit 172.30.255.0/24 le 31
    seq 20 permit 10.255.251.0/24 le 31
 ```
 
@@ -637,8 +637,8 @@ router bfd
 | Neighbor | Remote AS |
 | -------- | ---------
 | 10.255.251.0 | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER |
-| 172.31.255.4 | Inherited from peer group IPv4-UNDERLAY-PEERS |
-| 172.31.255.6 | Inherited from peer group IPv4-UNDERLAY-PEERS |
+| 172.30.255.4 | Inherited from peer group IPv4-UNDERLAY-PEERS |
+| 172.30.255.6 | Inherited from peer group IPv4-UNDERLAY-PEERS |
 | 192.0.255.1 | Inherited from peer group EVPN-OVERLAY-PEERS |
 | 192.0.255.2 | Inherited from peer group EVPN-OVERLAY-PEERS |
 
@@ -691,8 +691,8 @@ router bgp 65101
    neighbor MLAG-IPv4-UNDERLAY-PEER send-community
    neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000
    neighbor 10.255.251.0 peer group MLAG-IPv4-UNDERLAY-PEER
-   neighbor 172.31.255.4 peer group IPv4-UNDERLAY-PEERS
-   neighbor 172.31.255.6 peer group IPv4-UNDERLAY-PEERS
+   neighbor 172.30.255.4 peer group IPv4-UNDERLAY-PEERS
+   neighbor 172.30.255.6 peer group IPv4-UNDERLAY-PEERS
    neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS
    neighbor 192.0.255.2 peer group EVPN-OVERLAY-PEERS
    redistribute connected route-map RM-CONN-2-BGP
