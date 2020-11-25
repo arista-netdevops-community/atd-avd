@@ -1,4 +1,4 @@
-# Spine2
+# spine2
 
 ## Management Interfaces
 
@@ -102,26 +102,7 @@ DNS domain not defined
 
 ## NTP
 
-### NTP Summary
-
-Local Interface: Management1
-
-VRF: MGMT
-
-
-| Node | Primary |
-| ---- | ------- |
-| 0.fr.pool.ntp.org | true |
-| 1.fr.pool.ntp.org | - |
-
-### NTP Device Configuration
-
-```eos
-!
-ntp local-interface vrf MGMT Management1
-ntp server vrf MGMT 0.fr.pool.ntp.org prefer
-ntp server vrf MGMT 1.fr.pool.ntp.org
-```
+No NTP servers defined
 
 ## Router L2 VPN
 
@@ -434,8 +415,6 @@ router bfd
 
 | BGP Tuning |
 | ---------- |
-| update wait-for-convergence |
-| update wait-install |
 | no bgp default ipv4-unicast |
 | distance bgp 20 200 200 |
 | graceful-restart restart-time 300 |
@@ -491,8 +470,6 @@ router bfd
 !
 router bgp 65001
    router-id 192.0.255.2
-   update wait-for-convergence
-   update wait-install
    no bgp default ipv4-unicast
    distance bgp 20 200 200
    graceful-restart restart-time 300
