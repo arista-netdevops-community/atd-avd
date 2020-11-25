@@ -175,6 +175,7 @@ username ansible privilege 15 role network-admin secret sha512 $6$Dzu11L7yp9j3nC
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
+| 99 | Tenant_A_OP_Zone_1 | none  |
 | 110 | Tenant_A_OP_Zone_1 | none  |
 | 160 | Tenant_A_VMOTION | none  |
 | 3009 | MLAG_iBGP_Tenant_A_OP_Zone | LEAF_PEER_L3  |
@@ -184,6 +185,9 @@ username ansible privilege 15 role network-admin secret sha512 $6$Dzu11L7yp9j3nC
 ### VLANs Device Configuration
 
 ```eos
+!
+vlan 99
+   name Tenant_A_OP_Zone_1
 !
 vlan 110
    name Tenant_A_OP_Zone_1
@@ -333,6 +337,7 @@ interface Loopback100
 
 | Interface | Description | VRF | IP Address | IP Address Virtual | IP Router Virtual Address (vARP) |
 | --------- | ----------- | --- | ---------- | ------------------ | -------------------------------- |
+| Vlan99 | Tenant_A_OP_Zone_1 | Tenant_A_OP_Zone | - | 10.1.99.1/24 | - |
 | Vlan110 | Tenant_A_OP_Zone_1 | Tenant_A_OP_Zone | - | 10.1.10.1/24 | - |
 | Vlan3009 | MLAG_PEER_L3_iBGP: vrf Tenant_A_OP_Zone | Tenant_A_OP_Zone | 10.255.251.0/31 | - | - |
 | Vlan4093 | MLAG_PEER_L3_PEERING | Global Routing Table | 10.255.251.0/31 | - | - |
@@ -341,6 +346,11 @@ interface Loopback100
 ### VLAN Interfaces Device Configuration
 
 ```eos
+!
+interface Vlan99
+   description Tenant_A_OP_Zone_1
+   vrf Tenant_A_OP_Zone
+   ip address virtual 10.1.99.1/24
 !
 interface Vlan110
    description Tenant_A_OP_Zone_1
@@ -373,6 +383,7 @@ interface Vlan4094
 
 | VLAN | VNI |
 | ---- | --- |
+| 99 | 10099 |
 | 110 | 10110 |
 | 160 | 55160 |
 
@@ -390,6 +401,7 @@ interface Vxlan1
    vxlan source-interface Loopback1
    vxlan virtual-router encapsulation mac-address mlag-system-id
    vxlan udp-port 4789
+   vxlan vlan 99 vni 10099
    vxlan vlan 110 vni 10110
    vxlan vlan 160 vni 55160
    vxlan vrf Tenant_A_OP_Zone vni 10
@@ -650,7 +662,7 @@ router bfd
 
 | VLAN Aware Bundle | Route-Distinguisher | Both Route-Target | Import Route Target | Export Route-Target | Redistribute | VLANs |
 | ----------------- | ------------------- | ----------------- | ------------------- | ------------------- | ------------ | ----- |
-| Tenant_A_OP_Zone | 192.0.255.3:10 |  10:10  |  |  | learned | 110 |
+| Tenant_A_OP_Zone | 192.0.255.3:10 |  10:10  |  |  | learned | 99,110 |
 | Tenant_A_VMOTION | 192.0.255.3:55160 |  55160:55160  |  |  | learned | 160 |
 
 
@@ -701,7 +713,7 @@ router bgp 65101
       rd 192.0.255.3:10
       route-target both 10:10
       redistribute learned
-      vlan 110
+      vlan 99,110
    !
    vlan-aware-bundle Tenant_A_VMOTION
       rd 192.0.255.3:55160

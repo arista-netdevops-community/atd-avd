@@ -9,8 +9,8 @@ switch_platform: vEOS-LAB
 leaf_bgp_as: 65110
 leaf_id: 3
 switch_mgmt_ip: 192.168.0.14/24
-leaf_filter_tenants: ['all']
-leaf_filter_tags: ['all']
+leaf_filter_tenants: ['Tenant_A']
+leaf_filter_tags: ['opzone', 'vmotion']
 leaf_allowed_vrfs: ['Tenant_A_OP_Zone']
 leaf_allowed_svis: [110]
 leaf_allowed_vlans: [110, 160]

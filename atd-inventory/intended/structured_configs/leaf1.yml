@@ -9,11 +9,11 @@ switch_platform: vEOS-LAB
 leaf_bgp_as: 65101
 leaf_id: 1
 switch_mgmt_ip: 192.168.0.12/24
-leaf_filter_tenants: ['all']
-leaf_filter_tags: ['all']
+leaf_filter_tenants: ['Tenant_A']
+leaf_filter_tags: ['opzone', 'atd', 'vmotion']
 leaf_allowed_vrfs: ['Tenant_A_OP_Zone']
-leaf_allowed_svis: [110]
-leaf_allowed_vlans: [110, 160]
+leaf_allowed_svis: [99, 110]
+leaf_allowed_vlans: [99, 110, 160]
 leaf_mlag: True
 leaf_mlag_group: pod1
 leaf_mlag_role: primary
@@ -109,6 +109,9 @@ vlans:
       - MLAG
 
 ## Tenant_A ##
+  99:
+    tenant: Tenant_A
+    name: Tenant_A_OP_Zone_1
   110:
     tenant: Tenant_A
     name: Tenant_A_OP_Zone_1
@@ -237,6 +240,12 @@ vlan_interfaces:
     no_autostate: true
     mtu: 1500
 ## Tenant_A ##
+  Vlan99:
+    tenant: Tenant_A
+    tags: ['atd']
+    description: Tenant_A_OP_Zone_1
+    vrf: Tenant_A_OP_Zone
+    ip_address_virtual: 10.1.99.1/24
   Vlan110:
     tenant: Tenant_A
     tags: ['opzone']
@@ -261,6 +270,8 @@ vxlan_tunnel_interface:
     vxlan_vni_mappings:
       vlans:
 ## Tenant_A ##
+        99:
+          vni: 10099
         110:
           vni: 10110
         160:
@@ -397,7 +408,7 @@ router_bgp:
           - "10:10"
       redistribute_routes:
         - learned
-      vlan: 110
+      vlan: 99,110
     Tenant_A_VMOTION:
       tenant: Tenant_A
       rd: "192.0.255.3:55160"

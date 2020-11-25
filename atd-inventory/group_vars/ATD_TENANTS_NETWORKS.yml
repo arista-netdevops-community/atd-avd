@@ -14,6 +14,11 @@ tenants:
             tags: [opzone]
             enabled: true
             ip_address_virtual: 10.1.10.1/24
+          99:
+            name: Tenant_A_OP_Zone_1
+            tags: [atd]
+            enabled: true
+            ip_address_virtual: 10.1.99.1/24
     l2vlans:
       160:
         vni_override: 55160

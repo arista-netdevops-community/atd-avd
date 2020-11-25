@@ -69,6 +69,9 @@ l3leaf:
   node_groups:
     pod1:
       bgp_as: 65101
+      filter:
+        tenants: [ Tenant_A ]
+        tags: [ opzone, atd, vmotion ]
       nodes:
         leaf1:
           id: 1
@@ -80,6 +83,9 @@ l3leaf:
           spine_interfaces: [Ethernet3, Ethernet3]
     pod2:
       bgp_as: 65110
+      filter:
+        tenants: [ Tenant_A ]
+        tags: [ opzone, vmotion ]
       nodes:
         leaf3:
           id: 3
