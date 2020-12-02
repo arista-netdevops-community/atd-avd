@@ -4,6 +4,9 @@
 
 fabric_name: ATD_FABRIC
 
+# Management interface for cEOS
+mgmt_interface: Management0
+
 # Point to Point Network Summary range, assigned as /31 for each
 # uplink interfaces
 # Assign range larger then total [Spines * total potential leafs * 2]

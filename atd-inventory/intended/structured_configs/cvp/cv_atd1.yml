@@ -1,0 +1,53 @@
+---
+CVP_DEVICES:
+  spine1:
+    name: spine1
+    parentContainerName: ATD_SPINES
+    configlets:
+      - AVD_spine1
+    imageBundle: []
+  spine2:
+    name: spine2
+    parentContainerName: ATD_SPINES
+    configlets:
+      - AVD_spine2
+    imageBundle: []
+  leaf1:
+    name: leaf1
+    parentContainerName: pod1
+    configlets:
+      - AVD_leaf1
+    imageBundle: []
+  leaf2:
+    name: leaf2
+    parentContainerName: pod1
+    configlets:
+      - AVD_leaf2
+    imageBundle: []
+  leaf3:
+    name: leaf3
+    parentContainerName: pod2
+    configlets:
+      - AVD_leaf3
+    imageBundle: []
+  leaf4:
+    name: leaf4
+    parentContainerName: pod2
+    configlets:
+      - AVD_leaf4
+    imageBundle: []
+CVP_CONTAINERS:
+  ATD_FABRIC:
+    parent_container: Tenant
+  ATD_LEAFS:
+    parent_container: ATD_FABRIC
+  pod1:
+    parent_container: ATD_LEAFS
+  pod2:
+    parent_container: ATD_LEAFS
+  ATD_SERVERS:
+    parent_container: ATD_FABRIC
+  ATD_SPINES:
+    parent_container: ATD_FABRIC
+  ATD_TENANTS_NETWORKS:
+    parent_container: ATD_FABRIC
