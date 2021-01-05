@@ -110,7 +110,19 @@ Domain-list not defined
 
 ## Name Servers
 
-No name servers defined
+### Name Servers Summary
+
+| Name Server | Source VRF |
+| ----------- | ---------- |
+| 192.168.2.1 | MGMT |
+| 8.8.8.8 | MGMT |
+
+### Name Servers Device Configuration
+
+```eos
+ip name-server vrf MGMT 192.168.2.1
+ip name-server vrf MGMT 8.8.8.8
+```
 
 ## Domain Lookup
 

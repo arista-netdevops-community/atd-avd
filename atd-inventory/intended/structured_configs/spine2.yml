@@ -13,7 +13,12 @@ event_monitor: null
 event_handlers: null
 load_interval: null
 queue_monitor_length: null
-name_server: null
+name_server:
+  source:
+    vrf: MGMT
+  nodes:
+  - 192.168.2.1
+  - 8.8.8.8
 ntp_server: null
 redundancy: null
 spanning_tree:
