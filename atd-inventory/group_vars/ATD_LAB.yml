@@ -25,4 +25,4 @@
 
 
 # Validation report
-validate_state_markdown_flavor: github
+#validate_state_markdown_flavor: github
