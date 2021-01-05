@@ -15,14 +15,16 @@
 
 ## Fabric Switches and Management IP
 
-| Node | Management IP | Platform |
-| ---- | ------------- | -------- |
-| spine1 | 192.168.0.10/24 | vEOS-LAB |
-| spine2 | 192.168.0.11/24 | vEOS-LAB |
-| leaf1 | 192.168.0.12/24 | vEOS-LAB |
-| leaf2 | 192.168.0.13/24 | vEOS-LAB |
-| leaf3 | 192.168.0.14/24 | vEOS-LAB |
-| leaf4 | 192.168.0.15/24 | vEOS-LAB |
+| Node | Management IP | Platform | Provisioned in Cloudvision |
+| ---- | ------------- | -------- | -------------------------- |
+| spine1 | 192.168.0.10/24 | vEOS-LAB | Provisioned |
+| spine2 | 192.168.0.11/24 | vEOS-LAB | Provisioned |
+| leaf1 | 192.168.0.12/24 | vEOS-LAB | Provisioned |
+| leaf2 | 192.168.0.13/24 | vEOS-LAB | Provisioned |
+| leaf3 | 192.168.0.14/24 | vEOS-LAB | Provisioned |
+| leaf4 | 192.168.0.15/24 | vEOS-LAB | Provisioned |
+
+> Provision status is based on Ansible inventory declaration and do not represent real status from Cloudvision.
 
 ## Fabric Topology
 

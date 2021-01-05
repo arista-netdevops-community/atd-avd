@@ -1,110 +1,65 @@
-## Ansible Generated ##
-
-### leaf2 ###
-
-### Leaf Info ###
 l3leaf_node_group: pod1
 switch_platform: vEOS-LAB
 leaf_bgp_as: 65101
 leaf_id: 2
 switch_mgmt_ip: 192.168.0.13/24
-leaf_filter_tenants: ['all']
-leaf_filter_tags: ['all']
-leaf_allowed_vrfs: ['Tenant_A_OP_Zone']
-leaf_allowed_svis: [110]
-leaf_allowed_vlans: [110, 160]
-leaf_mlag: True
+leaf_evpn_services_l2_only: false
+leaf_filter_tenants:
+- all
+leaf_filter_tags:
+- all
+leaf_allowed_vrfs:
+- Tenant_A_OP_Zone
+leaf_allowed_svis:
+- 110
+leaf_allowed_vlans:
+- 110
+- 160
+leaf_mlag: true
 leaf_mlag_group: pod1
 leaf_mlag_role: secondary
 leaf_mlag_peer: leaf1
 leaf_mlag_ip: 1
 leaf_mlag_peer_ip: 0
 leaf_mlag_peer_id: 1
-
 service_routing_protocols_model: multi-agent
 ip_routing: true
-
-### Hardware Counters
-hardware_counters:
-
-### Daemon TerminAttr
-daemon_terminattr:
-  ingestgrpcurl:
-    ips:
-      - 192.168.0.5
-    port: 9910
-  ingestauth_key: atd-lab
-  ingestvrf: MGMT
-  smashexcludes: "ale,flexCounter,hardware,kni,pulse,strata"
-  ingestexclude: "/Sysdb/cell/1/agent,/Sysdb/cell/2/agent"
-
+hardware_counters: null
+daemon_terminattr: null
 vlan_internal_order:
   allocation: ascending
   range:
     beginning: 1006
     ending: 1199
-
-### Event Monitor ###
-event_monitor:
-
-### Event Handler ###
-event_handlers:
-
-### Load Interval ###
-load_interval:
-
-### Queue Monitor Lenght ###
-queue_monitor_length:
-
-### Name Servers ###
-name_server:
-  source:
-    vrf: MGMT
-  nodes:
-    - 192.168.2.1
-    - 8.8.8.8
-
-### NTP Servers ###
-ntp_server:
-
-### Redundancy ###
-redundancy:
-
-### Spanning-tree ###
+event_monitor: null
+event_handlers: null
+load_interval: null
+queue_monitor_length: null
+name_server: null
+ntp_server: null
+redundancy: null
 spanning_tree:
   mode: mstp
   priority: 4096
-  no_spanning_tree_vlan: 4094
-
-
-### AAA authorization ###
-aaa_authorization:
-
-### local users ###
+  no_spanning_tree_vlan: 4093-4094
+aaa_authorization: null
 local_users:
   ansible:
     privilege: 15
     role: network-admin
     sha512_password: $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/
-
-### Clock Timezone ###
-clock:
-
-### VLANs ###
+clock: null
 vlans:
-## mlag vlans ##
   4093:
     tenant: system
     name: LEAF_PEER_L3
     trunk_groups:
-      - LEAF_PEER_L3
+    - LEAF_PEER_L3
   4094:
     tenant: system
     name: MLAG_PEER
     trunk_groups:
-      - MLAG
-
-## Tenant_A ##
+    - MLAG
   110:
     tenant: Tenant_A
     name: Tenant_A_OP_Zone_1
@@ -112,43 +67,33 @@ vlans:
     tenant: Tenant_A
     name: MLAG_iBGP_Tenant_A_OP_Zone
     trunk_groups:
-      - LEAF_PEER_L3
+    - LEAF_PEER_L3
   160:
     tenant: Tenant_A
     name: Tenant_A_VMOTION
-
-### VRFs ###
 vrfs:
   MGMT:
-    ip_routing: False
-## Tenant_A ##
+    ip_routing: false
   Tenant_A_OP_Zone:
     tenant: Tenant_A
     ip_routing: true
-
-### bfd multihop ###
 bfd_multihop:
   interval: 1200
   min_rx: 1200
   multiplier: 3
-
-### Port-Channel Interfaces ###
 port_channel_interfaces:
-## mlag peer-link ##
   Port-Channel1:
     description: MLAG_PEER_leaf1_Po1
-    vlans: "2-4094"
+    vlans: 2-4094
     mode: trunk
     trunk_groups:
-      - LEAF_PEER_L3
-      - MLAG
+    - LEAF_PEER_L3
+    - MLAG
   Port-Channel4:
     description: host1_PortChanne1
     vlans: 110
     mode: access
     mlag: 4
-
-### Ethernet Interfaces ###
 ethernet_interfaces:
   Ethernet2:
     peer: spine1
@@ -166,7 +111,6 @@ ethernet_interfaces:
     mtu: 1500
     type: routed
     ip_address: 172.31.255.7/31
-## mlag interfaces ##
   Ethernet1:
     peer: leaf1
     peer_interface: Ethernet1
@@ -184,7 +128,7 @@ ethernet_interfaces:
     vlans: 110
     channel_group:
       id: 4
-      mode: "active"
+      mode: active
     profile: TENANT_A
   Ethernet5:
     peer: host1
@@ -195,118 +139,85 @@ ethernet_interfaces:
     vlans: 110
     channel_group:
       id: 4
-      mode: "active"
+      mode: active
     profile: TENANT_A
-
-
-### Loopback Interfaces ###
 loopback_interfaces:
   Loopback0:
     description: EVPN_Overlay_Peering
     ip_address: 192.0.255.4/32
-
   Loopback1:
     description: VTEP_VXLAN_Tunnel_Source
     ip_address: 192.0.254.3/32
-## Tenant_A ##
   Loopback100:
     description: Tenant_A_OP_Zone_VTEP_DIAGNOSTICS
     vrf: Tenant_A_OP_Zone
     ip_address: 10.255.1.4/32
-
-### Management Interfaces ###
 management_interfaces:
   Management0:
     description: oob_management
     vrf: MGMT
     ip_address: 192.168.0.13/24
-    gateway: 10.255.0.1
-
-### VLAN Interfaces ###
+    gateway: 192.168.0.1
 vlan_interfaces:
   Vlan4093:
     description: MLAG_PEER_L3_PEERING
     ip_address: 10.255.251.1/31
+    mtu: 1500
   Vlan4094:
     description: MLAG_PEER
     ip_address: 10.255.252.1/31
     no_autostate: true
     mtu: 1500
-## Tenant_A ##
   Vlan110:
     tenant: Tenant_A
-    tags: ['opzone']
+    tags:
+    - opzone
     description: Tenant_A_OP_Zone_1
-    enabled: True
+    shutdown: false
     vrf: Tenant_A_OP_Zone
     ip_address_virtual: 10.1.10.1/24
   Vlan3009:
     tenant: Tenant_A
     type: underlay_peering
-    description: "MLAG_PEER_L3_iBGP: vrf Tenant_A_OP_Zone"
+    description: 'MLAG_PEER_L3_iBGP: vrf Tenant_A_OP_Zone'
     vrf: Tenant_A_OP_Zone
     ip_address: 10.255.251.1/31
-
-### VxLAN interface ###
 vxlan_tunnel_interface:
   Vxlan1:
     description: leaf2_VTEP
     source_interface: Loopback1
     virtual_router:
-      encapsulation_mac_address: "mlag-system-id"
+      encapsulation_mac_address: mlag-system-id
     vxlan_udp_port: 4789
     vxlan_vni_mappings:
       vlans:
-## Tenant_A ##
         110:
           vni: 10110
         160:
           vni: 55160
       vrfs:
-## Tenant_A ##
         Tenant_A_OP_Zone:
           vni: 10
-
-### TCAM Profiles ###
-tcam_profile:
-
-### MAC address table ###
-mac_address_table:
-
+tcam_profile: null
+mac_address_table: null
 ip_virtual_router_mac_address: 00:1c:73:00:dc:01
-
 virtual_source_nat_vrfs:
-## Tenant_A ##
   Tenant_A_OP_Zone:
     ip_address: 10.255.1.4
-
 ip_igmp_snooping:
-  globally_enabled: True
-  vlans:
-## Tenant_A ##
-
-### static routes ###
+  globally_enabled: true
+  vlans: null
 static_routes:
-  - vrf: MGMT
-    destination_address_prefix: 0.0.0.0/0
-    gateway: 10.255.0.1
-
-### prefix-lists ###
+- vrf: MGMT
+  destination_address_prefix: 0.0.0.0/0
+  gateway: 192.168.0.1
 prefix_lists:
   PL-LOOPBACKS-EVPN-OVERLAY:
     sequence_numbers:
       10:
-        action: "permit 192.0.255.0/24 eq 32"
+        action: permit 192.0.255.0/24 eq 32
       20:
-        action: "permit 192.0.254.0/24 eq 32"
-  PL-P2P-UNDERLAY:
-    sequence_numbers:
-      10:
-        action: "permit 172.31.255.0/24 le 31"
-      20:
-        action: "permit 10.255.251.0/24 le 31"
-
-### MLAG Configuration ###
+        action: permit 192.0.254.0/24 eq 32
 mlag_configuration:
   domain_id: pod1
   local_interface: Vlan4094
@@ -318,38 +229,34 @@ mlag_configuration:
   peer_link: Port-Channel1
   reload_delay_mlag: 300
   reload_delay_non_mlag: 330
-
-### route-maps ###
 route_maps:
   RM-CONN-2-BGP:
     sequence_numbers:
       10:
         type: permit
         match:
-          - "ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY"
-
-### Routing - BGP ###
+        - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
 router_bgp:
   as: 65101
   router_id: 192.0.255.4
   bgp_defaults:
-    - no bgp default ipv4-unicast
-    - distance bgp 20 200 200
-    - graceful-restart restart-time 300
-    - graceful-restart
-    - maximum-paths 2 ecmp 2
+  - no bgp default ipv4-unicast
+  - distance bgp 20 200 200
+  - graceful-restart restart-time 300
+  - graceful-restart
+  - maximum-paths 2 ecmp 2
   peer_groups:
     IPv4-UNDERLAY-PEERS:
       type: ipv4
       remote_as: 65001
-      password: "AQQvKeimxJu+uGQ/yYvv9w=="
+      password: AQQvKeimxJu+uGQ/yYvv9w==
       maximum_routes: 12000
       send_community: true
     MLAG-IPv4-UNDERLAY-PEER:
       type: ipv4
       remote_as: 65101
       next_hop_self: true
-      password: "vnEaG8gMeQf3d3cN6PktXQ=="
+      password: vnEaG8gMeQf3d3cN6PktXQ==
       maximum_routes: 12000
       send_community: true
     EVPN-OVERLAY-PEERS:
@@ -358,7 +265,7 @@ router_bgp:
       update_source: Loopback0
       bfd: true
       ebgp_multihop: 3
-      password: "q+VNViP5i4rVjW1cxFv2wA=="
+      password: q+VNViP5i4rVjW1cxFv2wA==
       send_community: true
       maximum_routes: 0
   neighbors:
@@ -392,57 +299,45 @@ router_bgp:
       MLAG-IPv4-UNDERLAY-PEER:
         activate: true
   vlan_aware_bundles:
-## Tenant_A ##
     Tenant_A_OP_Zone:
-      rd: "192.0.255.4:10"
+      rd: 192.0.255.4:10
       route_targets:
         both:
-          - "10:10"
+        - '10:10'
       redistribute_routes:
-        - learned
+      - learned
       vlan: 110
     Tenant_A_VMOTION:
       tenant: Tenant_A
-      rd: "192.0.255.4:55160"
+      rd: 192.0.255.4:55160
       route_targets:
         both:
-          - "55160:55160"
+        - 55160:55160
       redistribute_routes:
-        - learned
+      - learned
       vlan: 160
-  vlans:
+  vlans: null
   vrfs:
-## Tenant_A ##
     Tenant_A_OP_Zone:
       router_id: 192.0.255.4
-      rd: "192.0.255.4:10"
+      rd: 192.0.255.4:10
       route_targets:
         import:
           evpn:
-            - "10:10"
+          - '10:10'
         export:
           evpn:
-            - "10:10"
+          - '10:10'
       neighbors:
         10.255.251.0:
           peer_group: MLAG-IPv4-UNDERLAY-PEER
       redistribute_routes:
-        - connected
-
-### Extended Community Lists ###
-ip_extcommunity_lists:
-
-### Routing - OSPF ###
-router_ospf:
-
-### Routing - ISIS ###
-router_isis:
-
-### Queue Monitor Streaming ###
-queue_monitor_streaming:
-
-### Management API http ###
+      - connected
+ip_extcommunity_lists: null
+router_ospf: null
+router_isis: null
+queue_monitor_streaming: null
 management_api_http:
-  enable_https: True
+  enable_https: true
   enable_vrfs:
-    MGMT:
+    MGMT: null

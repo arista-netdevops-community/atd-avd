@@ -39,6 +39,8 @@ CVP_DEVICES:
 CVP_CONTAINERS:
   ATD_FABRIC:
     parent_container: Tenant
+    configlets:
+      - ASE_GLOBAL-ALIASES
   ATD_LEAFS:
     parent_container: ATD_FABRIC
   pod1:

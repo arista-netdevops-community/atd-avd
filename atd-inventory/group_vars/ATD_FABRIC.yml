@@ -126,10 +126,10 @@ bfd_multihop:
 # List of additional CVP configlets to bind to devices and containers
 # Configlets MUST be configured on CVP before running AVD playbooks.
 
- cv_configlets:
-   containers:
-     ATD_FABRIC:
-       - ASE_GLOBAL-ALIASES
+cv_configlets:
+  containers:
+    ATD_FABRIC:
+      - ASE_GLOBAL-ALIASES
 
 ansible_connection: httpapi
 ansible_network_os: eos
