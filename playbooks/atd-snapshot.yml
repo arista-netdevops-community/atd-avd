@@ -1,0 +1,18 @@
+- hosts: ATD_FABRIC
+  gather_facts: false
+  vars:
+    output_format:
+      - text
+      - markdown
+      - json
+      - yaml
+    commands_list:
+      - show lldp neighbors
+      - show ip interface brief
+      - show interfaces description
+      - show version
+      - show running-config
+  tasks:
+    - name: Collect show commands and generate reports
+      import_role:
+        name: arista.avd.eos_snapshot

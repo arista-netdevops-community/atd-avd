@@ -1,0 +1,8 @@
+- hosts: ATD_FABRIC
+  gather_facts: false
+
+  tasks:
+
+    - name: deploy configuration to device
+      import_role:
+         name: arista.avd.eos_validate_state
