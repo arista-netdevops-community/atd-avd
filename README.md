@@ -16,7 +16,9 @@ To access an Arista Test Drive topology, please contact your Arista representati
 
 The ATD Lab topology consists of 2 Spines, 4 Leafs and 2 Hosts, as shown below.
 
-<img src="docs/imgs/atd-topo.png" alt="ATD Lab Topology" width="600"/>
+<p align="center">
+  <img src="docs/imgs/atd-topo.png" alt="ATD Lab Topology" width="600"/>
+</p>
 
 ## ATD Topology Device List
 
