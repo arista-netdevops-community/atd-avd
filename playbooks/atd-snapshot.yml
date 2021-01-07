@@ -1,17 +1,10 @@
-- hosts: ATD_FABRIC
+- name: "Collect EOS commands from devices"
+  hosts: ATD_FABRIC
+  connection: local
   gather_facts: false
-  vars:
-    output_format:
-      - text
-      - markdown
-      - json
-      - yaml
-    commands_list:
-      - show lldp neighbors
-      - show ip interface brief
-      - show interfaces description
-      - show version
-      - show running-config
+  collections:
+    - arista.avd
+    - arista.cvp
   tasks:
     - name: Collect show commands and generate reports
       import_role:
