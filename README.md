@@ -1,8 +1,6 @@
 ![Arista CVP Automation](https://img.shields.io/badge/Arista-CVP%20Automation-blue) ![Arista EOS Automation](https://img.shields.io/badge/Arista-EOS%20Automation-blue)
 
-# atd-avd - WORK IN PROGRESS
-
-# Arista Test Drive (ATD) - Arista Validated Design (AVD)
+# AVD Arista Validated Design for Arista Test Drive
 
 ## About
 
@@ -12,18 +10,20 @@ This repository is configured to run [`arista.cvp`](https://github.com/aristanet
   <img src='docs/imgs/cv_ansible_logo.png' alt='Arista CloudVision and Ansible'/>
 </p>
 
-Arista Test Drive + Ansible AVD Examples
+To access an Arista Test Drive topology, please contact your Arista representative.
 
 ## Lab Topology
 
 The ATD Lab topology consists of 2 Spines, 4 Leafs and 2 Hosts, as shown below.
 
-<img src="docs/imgs/atd-topo.png" alt="ATD Lab Topology" width="600"/>
+<p align="center">
+  <img src="docs/imgs/atd-topo.png" alt="ATD Lab Topology" width="600"/>
+</p>
 
 ## ATD Topology Device List
 
 | Device | IP Address   |
-| :----- | :----------- |
+| ------ | ------------ |
 | spine1 |192.168.0.10 |
 | spine2 |192.168.0.11 |
 | leaf1  |192.168.0.12 |
@@ -54,13 +54,18 @@ $ ansible-playbook playbooks/atd-fabric-deploy.yml
 
 # Execute Tasks in CVP manually
 
+# Run audit playbook to validate Fabric states
+$ ansible-playbook playbooks/atd-validate-states.yml
+
+# Execute EOS_SNAPSHOT role to collect show commands
+$ ansible-playbook playbooks/atd-snapshot.yml
 ```
 
 ## Resources
 
 - [Arista Ansible AVD Collection](https://github.com/aristanetworks/ansible-avd)
 - [Arista Cloudvision Collection](https://github.com/aristanetworks/ansible-cvp)
-- [AVD & CVP Collections demo](https://github.com/arista-netdevops-community/ansible-avd-cloudvision-demo)
+- [Arista AVD public documentation](https://www.avd.sh)
 
 ## License
 
