@@ -61,6 +61,10 @@ $ ansible-playbook playbooks/atd-validate-states.yml
 $ ansible-playbook playbooks/atd-snapshot.yml
 ```
 
+## Step by Step walkthrough
+
+A complete [step-by-step guide](./DEMO.md) is available
+
 ## Resources
 
 - [Arista Ansible AVD Collection](https://github.com/aristanetworks/ansible-avd)
