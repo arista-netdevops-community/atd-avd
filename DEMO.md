@@ -13,7 +13,12 @@ Once your VScode interface is ready, we will install the ATD-AVD Repo to your la
 $ curl -fsSL https://get.avd.sh/atd/install.sh | sh
 ```
 
-Then in your VScode, navigate to `labfiles/arista-ansible/atd-avd` to access to complete lab. All the paths in the next sections will be based from here.
+Then in your VScode, navigate to `labfiles/arista-ansible/atd-avd` to complete lab. All the paths in the next sections will be based from here.
+
+```bash
+$ cd labfiles/arista-ansible/atd-avd
+```
+
 
 In addition, open CVP by clicking the __CVP__ link.  Login with username 'arista' and the auto-generated password on the Lab Topology screen.
 ## 2. Configure your inventory
