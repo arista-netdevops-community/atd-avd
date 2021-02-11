@@ -2,11 +2,11 @@
 
 ## 1. Connect to GUI VM
 
-In your ATD interface, click on __Programmability IDE__ and use password listed in your interface (password is auto-generated for each instance)
+In your ATD interface, click on __Programmability IDE__ and use the password listed on your Lab Topology (note: password is auto-generated for each instance)
 
 ![](./docs/imgs/atd-interface.png)
 
-Once your VScode interface is ready, open a console and enter command below:
+Once your VScode interface is ready, open a New Terminal console and enter command below:
 
 ```bash
 # Run Script to setup environment
@@ -15,9 +15,10 @@ $ curl -fsSL https://get.avd.sh/atd/install.sh | sh
 
 Then in your VScode, navigate to `labfiles/arista-ansible/atd-avd` to access to complete lab. All the paths in the next sections will be based from here.
 
+In addition, open CVP by clicking the __CVP__ link.  Login with username 'arista' and the auto-generated password on the Lab Topology screen.
 ## 2. Configure your inventory
 
-Because password is auto-generated, you have to update password from this inventory to use correct credentials.
+Because password is auto-generated, you must update `ansible_password` in this inventory file to use correct credentials.  Also, ensure the `ansible_host` is updated to static IP below.
 
 ```yaml
 # edit atd-inventory/inventory.yml
@@ -45,19 +46,23 @@ To emulate ZTP environment, we will move all devices from their current containe
 $ ansible-playbook playbooks/atd-prepare-lab.yml
 ```
 
-This playbook prepare tasks on Cloudvision and let you option to validate changes before applying change control. After you executed all pending tasks, your CV should look like the following
+This playbook creates tasks on CloudVision and gives you the option to validate changes before applying change control.
+
+In CVP, create a Change Control and Execute all the pending tasks the playbook generated.  After tasks are complete, your CVP Network Provisioning screen should look like the following.
 
 ![ATD Provisioning](docs/imgs/atd-topo-provisioning.png)
 
 ## 4. Apply AVD configuration
 
-While playbook supports build/provision/execute in a row, we will go on a step by step approach.
+While the playbook supports build/provision/execute in a row, we will proceed on a step by step basis.
 
 #### Build devices configuration
 
 ```bash
 $ ansible-playbook playbooks/atd-fabric-deploy.yml --tags build
 ```
+
+This playbook when used with `build` tag creates configuration files and documentation.
 
 Output can be reviewed in your VScode instance:
 
@@ -70,7 +75,7 @@ Output can be reviewed in your VScode instance:
 $ ansible-playbook playbooks/atd-fabric-deploy.yml --tags provision
 ```
 
-This playbook creates:
+This playbook when used with the `provision` tag creates:
 
 * A new containers topology to support AVD devices based on inventory file
 * Move devices to their respective container
@@ -78,11 +83,13 @@ This playbook creates:
 
 Change control remains on user's side as it is a safer approach for production even if we can configure AVD to automatically apply changes for lab purposes.
 
-![Cloudvision Topology for AVD](./docs/imgs/atd-topo-avd.png)
+Create the Change Control and Execute all pending tasks.   This will take 5-6 minutes as the management IP address is moved on all nodes from the default to MGMT VRF, and CVP needs to reflect this change.
 
-## 5. Update NTP on cloudvision
+![CloudVision Topology for AVD](./docs/imgs/atd-topo-avd.png)
 
-At some point, you may want to continue to get some configlets managed outside of ansible and directly on Cloudvision. A good example here is NTP configuration which is configured on `ATD-INFRA` configlet applied to __TENANT__ container.
+## 5. Update NTP on CloudVision
+
+At some point, you may want to continue to get some configlets managed outside of ansible and directly on CloudVision. A good example here is NTP configuration which is configured on `ATD-INFRA` configlet applied to __TENANT__ container.
 
 Go to __Provisioning > Configlets__ and edit __`ATD-INFRA`__ to replace NTP configuration with following content:
 
@@ -99,7 +106,7 @@ In parallel, you can continue to update configuration on AVD side to add/delete/
 
 ## 6. Add a new tenant to the fabric
 
-Edit file __`[atd-inventory/group_vars/ATD_TENANTS_NETWORKS.yml](atd-inventory/group_vars/ATD_TENANTS_NETWORKS.yml)`__ and uncomment `Tenant_B` before running again playbook
+Edit file __[atd-inventory/group_vars/ATD_TENANTS_NETWORKS.yml](atd-inventory/group_vars/ATD_TENANTS_NETWORKS.yml)__ and uncomment `Tenant_B` before running again playbook
 
 * Edit group_vars
 
@@ -133,3 +140,5 @@ tenants:
 ```
 $ ansible-playbook playbooks/atd-fabric-deploy.yml --tags "build, provision"
 ```
+
+Once more, create Change Control and Execute all tasks.
