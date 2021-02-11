@@ -13,7 +13,7 @@ Once your VScode interface is ready, open a console and enter command below:
 $ curl -fsSL https://get.avd.sh/atd/install.sh | sh
 ```
 
-Then in your VScode, navigate to `arista-ansible/atd-avd` to access to complete lab. All the paths in the next sections will be based from here.
+Then in your VScode, navigate to `labfiles/arista-ansible/atd-avd` to access to complete lab. All the paths in the next sections will be based from here.
 
 ## 2. Configure your inventory
 
