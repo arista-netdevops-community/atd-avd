@@ -61,7 +61,7 @@ In CVP, create a Change Control and Execute all the pending tasks the playbook g
 
 While the playbook supports build/provision/execute in a row, we will proceed on a step by step basis.
 
-#### Build Device Configurations & Documentation Files
+### Build Device Configurations & Documentation Files
 
 ```bash
 $ ansible-playbook playbooks/atd-fabric-deploy.yml --tags build
