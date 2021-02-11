@@ -146,4 +146,4 @@ tenants:
 $ ansible-playbook playbooks/atd-fabric-deploy.yml --tags "build, provision"
 ```
 
-Once more, create Change Control and Execute all tasks.
+Once more, in CVP, create Change Control and Execute all tasks.
