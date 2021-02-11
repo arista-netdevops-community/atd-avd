@@ -2,11 +2,11 @@
 
 ## 1. Connect to GUI VM
 
-In your ATD interface, click on __Programmability IDE__ and use the password listed on your Lab Topology (note: password is auto-generated for each instance)
+In your ATD interface, click on __Programmability IDE__ and use the password listed on your Lab Topology (note: password is auto-generated for each Lab instance)
 
 ![](./docs/imgs/atd-interface.png)
 
-Once your VScode interface is ready, open a New Terminal console and enter command below:
+Once your VScode interface is ready, we will install the ATD-AVD Repo to your lab instance.  Open a New Terminal console and enter command below.
 
 ```bash
 # Run Script to setup environment
