@@ -44,6 +44,9 @@ curl -fsSL https://get.avd.sh/atd/install.sh | sh
 # Move to directory
 cd arista-ansible/atd-avd
 
+# Update Inventory with Lab Credentials
+edit credentials in vscode: atd-avd/atd-inventory/inventory.yml
+
 # Run Playbook to Prepare CloudVision for AVD
 $ ansible-playbook playbooks/atd-prepare-lab.yml
 
