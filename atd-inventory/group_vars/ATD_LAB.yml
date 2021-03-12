@@ -17,6 +17,9 @@ name_servers:
   - 192.168.2.1
   - 8.8.8.8
 
+# dns domain
+dns_domain: atd.lab
+
 # NTP Servers IP or DNS name, first NTP server will be prefered, and sourced from Managment VRF
 # ntp_servers:
 #  - 192.168.0.1
