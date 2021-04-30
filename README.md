@@ -42,7 +42,7 @@ Connect to your ATD Lab environment.  If you need an ATD Lab instance, please co
 curl -fsSL https://get.avd.sh/atd/install.sh | sh
 
 # Move to directory
-cd arista-ansible/atd-avd
+cd labfiles/arista-ansible/atd-avd
 
 # Update Inventory with Lab Credentials
 edit credentials in vscode: atd-avd/atd-inventory/inventory.yml

@@ -142,7 +142,7 @@ tenants:
 
 * Run playbook
 
-```
+```bash
 $ ansible-playbook playbooks/atd-fabric-deploy.yml --tags "build, provision"
 ```
 
