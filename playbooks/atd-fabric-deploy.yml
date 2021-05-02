@@ -16,7 +16,7 @@
         name: arista.avd.build_output_folders
 
     - name: generate intended variables
-      tags: [build, generate]
+      # Available tags are: build / debug
       import_role:
         name: arista.avd.eos_l3ls_evpn
 
