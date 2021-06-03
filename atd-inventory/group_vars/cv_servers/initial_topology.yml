@@ -1,46 +1,40 @@
 ---
 CVP_DEVICES_INIT:
-  spine1:
-    name: spine1
+  - fqdn: spine1.atd.lab
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Spine1
-    imageBundle: []
-  spine2:
-    name: spine2
+  - fqdn: spine2.atd.lab
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Spine2
-    imageBundle: []
-  leaf1:
-    name: leaf1
+  - fqdn: leaf1.atd.lab
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Leaf1
-    imageBundle: []
-  leaf2:
-    name: leaf2
+  - fqdn: leaf2.atd.lab
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Leaf2
-    imageBundle: []
-  leaf3:
-    name: leaf3
+  - fqdn: leaf3.atd.lab
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Leaf3
-    imageBundle: []
-  leaf4:
-    name: leaf4
+  - fqdn: leaf4.atd.lab
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Leaf4
-    imageBundle: []
 
 CVP_CONTAINERS_INIT:
   STAGING:
-    parent_container: Tenant
+    parentContainerName: Tenant
   Hosts:
-    parent_container: Tenant
+    parentContainerName: Tenant
   CVX:
-    parent_container: Tenant
+    parentContainerName: Tenant
+
+CVP_CONTAINERS_DELETE:
+  Leaf:
+    parentContainerName: Tenant
+  Spine:
+    parentContainerName: Tenant
