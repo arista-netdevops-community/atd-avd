@@ -1,14 +1,8 @@
 ---
 - name: Manage Arista EOS EVPN/VXLAN Configuration
   hosts: ATD_FABRIC
-  connection: local
-  gather_facts: false
   collections:
     - arista.avd
-    - arista.cvp
-  vars:
-    fabric_dir_name: "{{fabric_name}}"
-    execute_tasks: false
   tasks:
     - name: 'reset local folders for output'
       tags: [build, generate]
@@ -16,28 +10,16 @@
         name: arista.avd.build_output_folders
 
     - name: generate intended variables
-      # Available tags are: build / debug
+      tags: [build, generate]
       import_role:
-        name: arista.avd.eos_l3ls_evpn
+        name: arista.avd.eos_designs
 
     - name: generate device intended config and documentation
       tags: [build, generate]
       import_role:
-        name: eos_cli_config_gen
+        name: arista.avd.eos_cli_config_gen
 
-- name: Configuration deployment with CVP
-  hosts: cv_servers
-  connection: local
-  gather_facts: false
-  collections:
-    - arista.avd
-    - arista.cvp
-  tasks:
-    - name: provision CVP with AVD configuration
+    - name: deploy configuration via eAPI
+      tags: [deploy]
       import_role:
-        name: arista.avd.eos_config_deploy_cvp
-      vars:
-        container_root: 'ATD_FABRIC'
-        configlets_prefix: 'AVD'
-        # device_filter: 'DC1'
-        state: present
+        name: arista.avd.eos_config_deploy_eapi
