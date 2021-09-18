@@ -1,5 +1,5 @@
 router_bgp:
-  as: 65001
+  as: '65001'
   router_id: 192.0.255.2
   bgp_defaults:
   - no bgp default ipv4-unicast
@@ -34,53 +34,53 @@ router_bgp:
   neighbors:
     172.31.255.3:
       peer_group: IPv4-UNDERLAY-PEERS
-      remote_as: 65101
-      description: leaf1_Ethernet2
+      remote_as: '65101'
+      description: leaf1_Ethernet3
     172.31.255.7:
       peer_group: IPv4-UNDERLAY-PEERS
-      remote_as: 65101
+      remote_as: '65101'
       description: leaf2_Ethernet3
     172.31.255.11:
       peer_group: IPv4-UNDERLAY-PEERS
-      remote_as: 65102
-      description: leaf3_Ethernet4
+      remote_as: '65102'
+      description: leaf3_Ethernet3
     172.31.255.15:
       peer_group: IPv4-UNDERLAY-PEERS
-      remote_as: 65102
-      description: leaf4_Ethernet5
+      remote_as: '65102'
+      description: leaf4_Ethernet3
     192.0.255.3:
       peer_group: EVPN-OVERLAY-PEERS
       description: leaf1
-      remote_as: 65101
+      remote_as: '65101'
     192.0.255.4:
       peer_group: EVPN-OVERLAY-PEERS
       description: leaf2
-      remote_as: 65101
+      remote_as: '65101'
     192.0.255.5:
       peer_group: EVPN-OVERLAY-PEERS
       description: leaf3
-      remote_as: 65102
+      remote_as: '65102'
     192.0.255.6:
       peer_group: EVPN-OVERLAY-PEERS
       description: leaf4
-      remote_as: 65102
+      remote_as: '65102'
   address_family_evpn:
     peer_groups:
       EVPN-OVERLAY-PEERS:
         activate: true
 static_routes:
-- vrf: MGMT
+- vrf: default
   destination_address_prefix: 0.0.0.0/0
   gateway: 10.255.0.1
 service_routing_protocols_model: multi-agent
 ip_routing: true
 daemon_terminattr:
-  ingestgrpcurl:
-    ips:
-    - 192.168.0.5
-    port: 9910
-  ingestauth_key: atd-lab
-  ingestvrf: MGMT
+  cvaddrs:
+  - 192.168.0.5:9910
+  cvauth:
+    method: key
+    key: atd-lab
+  cvvrf: default
   smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
   ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
   disable_aaa: false
@@ -91,7 +91,7 @@ vlan_internal_order:
     ending: 1199
 name_server:
   source:
-    vrf: MGMT
+    vrf: default
   nodes:
   - 192.168.2.1
   - 8.8.8.8
@@ -103,25 +103,20 @@ local_users:
     role: network-admin
     sha512_password: $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/
 vrfs:
-  MGMT:
+  default:
     ip_routing: false
 management_interfaces:
-  Management1:
+  Management0:
     description: oob_management
     shutdown: false
-    vrf: MGMT
+    vrf: default
     ip_address: 192.168.0.11/24
     gateway: 10.255.0.1
     type: oob
 management_api_http:
   enable_vrfs:
-    MGMT: {}
+    default: {}
   enable_https: true
-loopback_interfaces:
-  Loopback0:
-    description: EVPN_Overlay_Peering
-    shutdown: false
-    ip_address: 192.0.255.2/32
 ethernet_interfaces:
   Ethernet2:
     peer: leaf1
@@ -159,6 +154,11 @@ ethernet_interfaces:
     type: routed
     shutdown: false
     ip_address: 172.31.255.14/31
+loopback_interfaces:
+  Loopback0:
+    description: EVPN_Overlay_Peering
+    shutdown: false
+    ip_address: 192.0.255.2/32
 prefix_lists:
   PL-LOOPBACKS-EVPN-OVERLAY:
     sequence_numbers:

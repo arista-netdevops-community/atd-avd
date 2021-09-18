@@ -32,6 +32,7 @@
   - [VLAN Interfaces](#vlan-interfaces)
   - [VXLAN Interface](#vxlan-interface)
 - [Routing](#routing)
+  - [Service Routing Protocols Model](#service-routing-protocols-model)
   - [Virtual Router MAC Address](#virtual-router-mac-address)
   - [IP Routing](#ip-routing)
   - [IPv6 Routing](#ipv6-routing)
@@ -64,22 +65,21 @@
 
 | Management Interface | description | Type | VRF | IP Address | Gateway |
 | -------------------- | ----------- | ---- | --- | ---------- | ------- |
-| Management1 | oob_management | oob | MGMT | 192.168.0.14/24 | 10.255.0.1 |
+| Management0 | oob_management | oob | default | 192.168.0.14/24 | 10.255.0.1 |
 
 #### IPv6
 
 | Management Interface | description | Type | VRF | IPv6 Address | IPv6 Gateway |
 | -------------------- | ----------- | ---- | --- | ------------ | ------------ |
-| Management1 | oob_management | oob | MGMT | -  | - |
+| Management0 | oob_management | oob | default | -  | - |
 
 ### Management Interfaces Device Configuration
 
 ```eos
 !
-interface Management1
+interface Management0
    description oob_management
    no shutdown
-   vrf MGMT
    ip address 192.168.0.14/24
 ```
 
@@ -101,14 +101,14 @@ dns domain atd.lab
 
 | Name Server | Source VRF |
 | ----------- | ---------- |
-| 192.168.2.1 | MGMT |
-| 8.8.8.8 | MGMT |
+| 192.168.2.1 | default |
+| 8.8.8.8 | default |
 
 ### Name Servers Device Configuration
 
 ```eos
-ip name-server vrf MGMT 8.8.8.8
-ip name-server vrf MGMT 192.168.2.1
+ip name-server vrf default 8.8.8.8
+ip name-server vrf default 192.168.2.1
 ```
 
 ## Management API HTTP
@@ -123,7 +123,7 @@ ip name-server vrf MGMT 192.168.2.1
 
 | VRF Name | IPv4 ACL | IPv6 ACL |
 | -------- | -------- | -------- |
-| MGMT | - | - |
+| default | - | - |
 
 
 ### Management API HTTP Configuration
@@ -134,7 +134,7 @@ management api http-commands
    protocol https
    no shutdown
    !
-   vrf MGMT
+   vrf default
       no shutdown
 ```
 
@@ -161,13 +161,13 @@ username ansible_local privilege 15 role network-admin secret sha512 $6$Dzu11L7y
 
 | VRF | RADIUS Servers |
 | --- | ---------------|
-|  MGMT | 192.168.0.1 |
+|  default | 192.168.0.1 |
 
 ### RADIUS Servers Device Configuration
 
 ```eos
 !
-radius-server host 192.168.0.1 vrf MGMT key 7 0207165218120E
+radius-server host 192.168.0.1 key 7 0207165218120E
 ```
 
 ## AAA Server Groups
@@ -176,14 +176,14 @@ radius-server host 192.168.0.1 vrf MGMT key 7 0207165218120E
 
 | Server Group Name | Type  | VRF | IP address |
 | ------------------| ----- | --- | ---------- |
-| atds | radius |  MGMT | 192.168.0.1 |
+| atds | radius |  default | 192.168.0.1 |
 
 ### AAA Server Groups Device Configuration
 
 ```eos
 !
 aaa group server radius atds
-   server 192.168.0.1 vrf MGMT
+   server 192.168.0.1
 ```
 
 # Monitoring
@@ -192,16 +192,16 @@ aaa group server radius atds
 
 ### TerminAttr Daemon Summary
 
-| CV Compression | Ingest gRPC URL | Ingest Authentication Key | Smash Excludes | Ingest Exclude | Ingest VRF |  NTP VRF | AAA Disabled |
-| -------------- | --------------- | ------------------------- | -------------- | -------------- | ---------- | -------- | ------ |
-| gzip | 192.168.0.5:9910 | atd-lab | ale,flexCounter,hardware,kni,pulse,strata | /Sysdb/cell/1/agent,/Sysdb/cell/2/agent | MGMT | MGMT | False |
+| CV Compression | CloudVision Servers | VRF | Authentication | Smash Excludes | Ingest Exclude | Bypass AAA |
+| -------------- | ------------------- | --- | -------------- | -------------- | -------------- | ---------- |
+| gzip | 192.168.0.5:9910 | default | key,atd-lab | ale,flexCounter,hardware,kni,pulse,strata | /Sysdb/cell/1/agent,/Sysdb/cell/2/agent | False |
 
 ### TerminAttr Daemon Device Configuration
 
 ```eos
 !
 daemon TerminAttr
-   exec /usr/bin/TerminAttr -ingestgrpcurl=192.168.0.5:9910 -cvcompression=gzip -ingestauth=key,atd-lab -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -ingestvrf=MGMT -taillogs
+   exec /usr/bin/TerminAttr -cvaddr=192.168.0.5:9910 -cvauth=key,atd-lab -cvvrf=default -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs
    no shutdown
 ```
 
@@ -238,7 +238,7 @@ STP mode: **mstp**
 
 | Instance(s) | Priority |
 | -------- | -------- |
-| 0 | 4096 |
+| 0 | 16384 |
 
 ### Global Spanning-Tree Settings
 
@@ -250,7 +250,7 @@ Spanning Tree disabled for VLANs: **4093-4094**
 !
 spanning-tree mode mstp
 no spanning-tree vlan-id 4093-4094
-spanning-tree mst 0 priority 4096
+spanning-tree mst 0 priority 16384
 ```
 
 # Internal VLAN Allocation Policy
@@ -274,11 +274,11 @@ vlan internal order ascending range 1006 1199
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
-| 110 | Tenant_A_OP_Zone_1 | none  |
-| 160 | Tenant_A_VMOTION | none  |
-| 3009 | MLAG_iBGP_Tenant_A_OP_Zone | LEAF_PEER_L3  |
-| 4093 | LEAF_PEER_L3 | LEAF_PEER_L3  |
-| 4094 | MLAG_PEER | MLAG  |
+| 110 | Tenant_A_OP_Zone_1 | - |
+| 160 | Tenant_A_VMOTION | - |
+| 3009 | MLAG_iBGP_Tenant_A_OP_Zone | LEAF_PEER_L3 |
+| 4093 | LEAF_PEER_L3 | LEAF_PEER_L3 |
+| 4094 | MLAG_PEER | MLAG |
 
 ## VLANs Device Configuration
 
@@ -494,12 +494,14 @@ interface Vlan4094
 
 #### UDP port: 4789
 
-#### VLAN to VNI Mappings
+#### EVPN MLAG Shared Router MAC : mlag-system-id
 
-| VLAN | VNI |
-| ---- | --- |
-| 110 | 10110 |
-| 160 | 55160 |
+#### VLAN to VNI and Flood List Mappings
+
+| VLAN | VNI | Flood List |
+| ---- | --- | ---------- |
+| 110 | 10110 | - |
+| 160 | 55160 | - |
 
 #### VRF to VNI Mappings
 
@@ -512,6 +514,7 @@ interface Vlan4094
 ```eos
 !
 interface Vxlan1
+   description leaf3_VTEP
    vxlan source-interface Loopback1
    vxlan virtual-router encapsulation mac-address mlag-system-id
    vxlan udp-port 4789
@@ -521,6 +524,14 @@ interface Vxlan1
 ```
 
 # Routing
+## Service Routing Protocols Model
+
+Multi agent routing protocol model enabled
+
+```eos
+!
+service routing protocols model multi-agent
+```
 
 ## Virtual Router MAC Address
 
@@ -541,7 +552,7 @@ ip virtual-router mac-address 00:1c:73:00:dc:01
 
 | VRF | Routing Enabled |
 | --- | --------------- |
-| default | true|| MGMT | false |
+| default | true|| default | false |
 | Tenant_A_OP_Zone | true |
 
 ### IP Routing Device Configuration
@@ -549,7 +560,6 @@ ip virtual-router mac-address 00:1c:73:00:dc:01
 ```eos
 !
 ip routing
-no ip routing vrf MGMT
 ip routing vrf Tenant_A_OP_Zone
 ```
 ## IPv6 Routing
@@ -558,7 +568,7 @@ ip routing vrf Tenant_A_OP_Zone
 
 | VRF | Routing Enabled |
 | --- | --------------- |
-| default | false || MGMT | false |
+| default | false || default | false |
 | Tenant_A_OP_Zone | false |
 
 
@@ -568,13 +578,13 @@ ip routing vrf Tenant_A_OP_Zone
 
 | VRF | Destination Prefix | Next Hop IP             | Exit interface      | Administrative Distance       | Tag               | Route Name                    | Metric         |
 | --- | ------------------ | ----------------------- | ------------------- | ----------------------------- | ----------------- | ----------------------------- | -------------- |
-| MGMT  | 0.0.0.0/0 |  10.255.0.1  |  -  |  1  |  -  |  -  |  - |
+| default  | 0.0.0.0/0 |  10.255.0.1  |  -  |  1  |  -  |  -  |  - |
 
 ### Static Routes Device Configuration
 
 ```eos
 !
-ip route vrf MGMT 0.0.0.0/0 10.255.0.1
+ip route 0.0.0.0/0 10.255.0.1
 ```
 
 ## Router BGP
@@ -611,7 +621,6 @@ ip route vrf MGMT 0.0.0.0/0 10.255.0.1
 | Settings | Value |
 | -------- | ----- |
 | Address Family | ipv4 |
-| Remote AS | 65001 |
 | Send community | all |
 | Maximum routes | 12000 |
 
@@ -630,8 +639,8 @@ ip route vrf MGMT 0.0.0.0/0 10.255.0.1
 | Neighbor | Remote AS | VRF |
 | -------- | --------- | --- |
 | 10.255.251.5 | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | default |
-| 172.31.255.8 | Inherited from peer group IPv4-UNDERLAY-PEERS | default |
-| 172.31.255.10 | Inherited from peer group IPv4-UNDERLAY-PEERS | default |
+| 172.31.255.8 | 65001 | default |
+| 172.31.255.10 | 65001 | default |
 | 192.0.255.1 | 65001 | default |
 | 192.0.255.2 | 65001 | default |
 | 10.255.251.5 | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Tenant_A_OP_Zone |
@@ -672,7 +681,6 @@ router bgp 65102
    neighbor EVPN-OVERLAY-PEERS send-community
    neighbor EVPN-OVERLAY-PEERS maximum-routes 0
    neighbor IPv4-UNDERLAY-PEERS peer group
-   neighbor IPv4-UNDERLAY-PEERS remote-as 65001
    neighbor IPv4-UNDERLAY-PEERS password 7 AQQvKeimxJu+uGQ/yYvv9w==
    neighbor IPv4-UNDERLAY-PEERS send-community
    neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000
@@ -686,8 +694,10 @@ router bgp 65102
    neighbor 10.255.251.5 peer group MLAG-IPv4-UNDERLAY-PEER
    neighbor 10.255.251.5 description leaf4
    neighbor 172.31.255.8 peer group IPv4-UNDERLAY-PEERS
+   neighbor 172.31.255.8 remote-as 65001
    neighbor 172.31.255.8 description spine1_Ethernet4
    neighbor 172.31.255.10 peer group IPv4-UNDERLAY-PEERS
+   neighbor 172.31.255.10 remote-as 65001
    neighbor 172.31.255.10 description spine2_Ethernet4
    neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS
    neighbor 192.0.255.1 remote-as 65001
@@ -816,14 +826,12 @@ route-map RM-MLAG-PEER-IN permit 10
 
 | VRF Name | IP Routing |
 | -------- | ---------- |
-| MGMT | disabled |
+| default | disabled |
 | Tenant_A_OP_Zone | enabled |
 
 ## VRF Instances Device Configuration
 
 ```eos
-!
-vrf instance MGMT
 !
 vrf instance Tenant_A_OP_Zone
 ```

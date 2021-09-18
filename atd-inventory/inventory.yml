@@ -15,12 +15,16 @@ all:
         ATD_FABRIC:
           children:
             ATD_SPINES:
+              vars:
+                type: spine
               hosts:
                 spine1:
                   ansible_host: 192.168.0.10
                 spine2:
                   ansible_host: 192.168.0.11
             ATD_LEAFS:
+              vars:
+                type: l3leaf
               children:
                 pod1:
                   hosts:
