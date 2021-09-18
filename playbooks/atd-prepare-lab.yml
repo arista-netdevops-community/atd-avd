@@ -7,8 +7,7 @@
        - arista.cvp
        - arista.avd
     vars:
-      run_mode: 'override'
-      execute_tasks: false
+      execute_tasks: true
     tasks:
        - name: Run AVD Provisioner
          import_role:
