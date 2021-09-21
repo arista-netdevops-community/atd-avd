@@ -1,26 +1,26 @@
 ---
 CVP_DEVICES_INIT:
-  - fqdn: spine1.atd.lab
+  - fqdn: spine1
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Spine1
-  - fqdn: spine2.atd.lab
+  - fqdn: spine2
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Spine2
-  - fqdn: leaf1.atd.lab
+  - fqdn: leaf1
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Leaf1
-  - fqdn: leaf2.atd.lab
+  - fqdn: leaf2
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Leaf2
-  - fqdn: leaf3.atd.lab
+  - fqdn: leaf3
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Leaf3
-  - fqdn: leaf4.atd.lab
+  - fqdn: leaf4
     parentContainerName: STAGING
     configlets:
       - BaseIPv4_Leaf4
