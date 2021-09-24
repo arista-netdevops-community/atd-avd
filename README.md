@@ -39,7 +39,7 @@ Connect to your ATD Lab environment.  If you need an ATD Lab instance, please co
 
 
 ```shell
-# Setup your git global config
+# Setup your git global config (optional)
 git config --global user.email "you@example.com"
 git config --global user.name "Your Name"
 
