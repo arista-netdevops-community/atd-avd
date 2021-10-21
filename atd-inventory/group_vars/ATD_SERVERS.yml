@@ -1,31 +1,35 @@
 ---
 port_profiles:
-  TENANT_A:
+  TENANT_A_vlan110:
     mode: access
     vlans: "110"
-
+  TENANT_A_vlan120:
+    mode: access
+    vlans: "120"
 servers:
   host1:
     rack: pod1
     adapters:
       - type: nic
-        server_ports: [Eth1, Eth2, Eth3, Eth4]
-        switch_ports: [Ethernet4, Ethernet5, Ethernet4, Ethernet5]
-        switches: [leaf1,leaf1, leaf2, leaf2]
-        profile: TENANT_A
+        server_ports: [Eth1, Eth2]
+        switch_ports: [Ethernet4, Ethernet4]
+        switches: [leaf1, leaf2]
+        profile: TENANT_A_vlan110
         port_channel:
           state: present
           description: PortChanne1
           mode: active
+          short_esi: 0303:0202:0101
   host2:
     rack: pod2
     adapters:
       - type: nic
-        server_ports: [Eth1, Eth2, Eth3, Eth4]
-        switch_ports: [Ethernet4, Ethernet5, Ethernet4, Ethernet5]
-        switches: [leaf3, leaf3, leaf4, leaf4]
-        profile: TENANT_A
+        server_ports: [Eth1, Eth2]
+        switch_ports: [Ethernet5, Ethernet5]
+        switches: [leaf3, leaf4]
+        profile: TENANT_A_vlan120
         port_channel:
           state: present
           description: PortChanne1
           mode: active
+          short_esi: 0303:0202:0202

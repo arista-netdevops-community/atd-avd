@@ -1,37 +1,41 @@
 ---
 local_users:
-  ansible_local:
-    privilege: 15
-    role: network-admin
-    sha512_password: "$6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/"
+ansible_local:
+privilege: 15
+role: network-admin
+sha512_password: "$6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/"
 
 # Cloud Vision server information
-cvp_instance_ip: 192.168.0.5
-cvp_ingestauth_key: 'atd-lab'
+# cvp_instance_ip: 192.168.0.5
+# cvp_ingestauth_key: 'atd-lab'
 
 # OOB Management network default gateway.
 mgmt_gateway: 10.255.0.1
 
+mgmt_interface: Management0
+
+mgmt_interface_vrf: default
+
 # dns servers.
-name_servers:
-  - 192.168.2.1
-  - 8.8.8.8
+# name_servers:
+# - 192.168.2.1
+# - 8.8.8.8
 
 # dns domain
 dns_domain: atd.lab
 
 # NTP Servers IP or DNS name, first NTP server will be prefered, and sourced from Managment VRF
 # ntp_servers:
-#  - 192.168.0.1
+# - 192.168.0.1
 
-radius_servers:
-  - host: 192.168.0.1
-    vrf: MGMT
-    key: 0207165218120E
+# radius_servers:
+# - host: 192.168.0.1
+# vrf: MGMT
+# key: 0207165218120E
 
-aaa_server_groups:
-  - name: atds
-    type: radius
-    servers:
-      - server: 192.168.0.1
-        vrf: MGMT
+# aaa_server_groups:
+# - name: atds
+# type: radius
+# servers:
+# - server: 192.168.0.1
+# vrf: MGMT

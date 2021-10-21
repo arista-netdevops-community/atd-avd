@@ -5,14 +5,9 @@
 - [Management](#management)
   - [Management Interfaces](#management-interfaces)
   - [DNS Domain](#dns-domain)
-  - [Name Servers](#name-servers)
   - [Management API HTTP](#management-api-http)
 - [Authentication](#authentication)
-  - [Local Users](#local-users)
-  - [RADIUS Servers](#radius-servers)
-  - [AAA Server Groups](#aaa-server-groups)
 - [Monitoring](#monitoring)
-  - [TerminAttr Daemon](#terminattr-daemon)
 - [Spanning Tree](#spanning-tree)
   - [Spanning Tree Summary](#spanning-tree-summary)
   - [Spanning Tree Device Configuration](#spanning-tree-device-configuration)
@@ -23,6 +18,7 @@
   - [Ethernet Interfaces](#ethernet-interfaces)
   - [Loopback Interfaces](#loopback-interfaces)
 - [Routing](#routing)
+  - [Service Routing Protocols Model](#service-routing-protocols-model)
   - [IP Routing](#ip-routing)
   - [IPv6 Routing](#ipv6-routing)
   - [Static Routes](#static-routes)
@@ -50,22 +46,21 @@
 
 | Management Interface | description | Type | VRF | IP Address | Gateway |
 | -------------------- | ----------- | ---- | --- | ---------- | ------- |
-| Management1 | oob_management | oob | MGMT | 192.168.0.10/24 | 10.255.0.1 |
+| Management0 | oob_management | oob | default | 192.168.0.10/24 | 10.255.0.1 |
 
 #### IPv6
 
 | Management Interface | description | Type | VRF | IPv6 Address | IPv6 Gateway |
 | -------------------- | ----------- | ---- | --- | ------------ | ------------ |
-| Management1 | oob_management | oob | MGMT | -  | - |
+| Management0 | oob_management | oob | default | -  | - |
 
 ### Management Interfaces Device Configuration
 
 ```eos
 !
-interface Management1
+interface Management0
    description oob_management
    no shutdown
-   vrf MGMT
    ip address 192.168.0.10/24
 ```
 
@@ -81,22 +76,6 @@ dns domain atd.lab
 !
 ```
 
-## Name Servers
-
-### Name Servers Summary
-
-| Name Server | Source VRF |
-| ----------- | ---------- |
-| 192.168.2.1 | MGMT |
-| 8.8.8.8 | MGMT |
-
-### Name Servers Device Configuration
-
-```eos
-ip name-server vrf MGMT 8.8.8.8
-ip name-server vrf MGMT 192.168.2.1
-```
-
 ## Management API HTTP
 
 ### Management API HTTP Summary
@@ -109,7 +88,7 @@ ip name-server vrf MGMT 192.168.2.1
 
 | VRF Name | IPv4 ACL | IPv6 ACL |
 | -------- | -------- | -------- |
-| MGMT | - | - |
+| default | - | - |
 
 
 ### Management API HTTP Configuration
@@ -120,76 +99,13 @@ management api http-commands
    protocol https
    no shutdown
    !
-   vrf MGMT
+   vrf default
       no shutdown
 ```
 
 # Authentication
 
-## Local Users
-
-### Local Users Summary
-
-| User | Privilege | Role |
-| ---- | --------- | ---- |
-| ansible_local | 15 | network-admin |
-
-### Local Users Device Configuration
-
-```eos
-!
-username ansible_local privilege 15 role network-admin secret sha512 $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/
-```
-
-## RADIUS Servers
-
-### RADIUS Servers
-
-| VRF | RADIUS Servers |
-| --- | ---------------|
-|  MGMT | 192.168.0.1 |
-
-### RADIUS Servers Device Configuration
-
-```eos
-!
-radius-server host 192.168.0.1 vrf MGMT key 7 0207165218120E
-```
-
-## AAA Server Groups
-
-### AAA Server Groups Summary
-
-| Server Group Name | Type  | VRF | IP address |
-| ------------------| ----- | --- | ---------- |
-| atds | radius |  MGMT | 192.168.0.1 |
-
-### AAA Server Groups Device Configuration
-
-```eos
-!
-aaa group server radius atds
-   server 192.168.0.1 vrf MGMT
-```
-
 # Monitoring
-
-## TerminAttr Daemon
-
-### TerminAttr Daemon Summary
-
-| CV Compression | Ingest gRPC URL | Ingest Authentication Key | Smash Excludes | Ingest Exclude | Ingest VRF |  NTP VRF | AAA Disabled |
-| -------------- | --------------- | ------------------------- | -------------- | -------------- | ---------- | -------- | ------ |
-| gzip | 192.168.0.5:9910 | atd-lab | ale,flexCounter,hardware,kni,pulse,strata | /Sysdb/cell/1/agent,/Sysdb/cell/2/agent | MGMT | MGMT | False |
-
-### TerminAttr Daemon Device Configuration
-
-```eos
-!
-daemon TerminAttr
-   exec /usr/bin/TerminAttr -ingestgrpcurl=192.168.0.5:9910 -cvcompression=gzip -ingestauth=key,atd-lab -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -ingestvrf=MGMT -taillogs
-   no shutdown
-```
 
 # Spanning Tree
 
@@ -305,6 +221,14 @@ interface Loopback0
 ```
 
 # Routing
+## Service Routing Protocols Model
+
+Multi agent routing protocol model enabled
+
+```eos
+!
+service routing protocols model multi-agent
+```
 
 ## IP Routing
 
@@ -312,14 +236,13 @@ interface Loopback0
 
 | VRF | Routing Enabled |
 | --- | --------------- |
-| default | true|| MGMT | false |
+| default | true|| default | false |
 
 ### IP Routing Device Configuration
 
 ```eos
 !
 ip routing
-no ip routing vrf MGMT
 ```
 ## IPv6 Routing
 
@@ -327,7 +250,7 @@ no ip routing vrf MGMT
 
 | VRF | Routing Enabled |
 | --- | --------------- |
-| default | false || MGMT | false |
+| default | false || default | false |
 
 
 ## Static Routes
@@ -336,13 +259,13 @@ no ip routing vrf MGMT
 
 | VRF | Destination Prefix | Next Hop IP             | Exit interface      | Administrative Distance       | Tag               | Route Name                    | Metric         |
 | --- | ------------------ | ----------------------- | ------------------- | ----------------------------- | ----------------- | ----------------------------- | -------------- |
-| MGMT  | 0.0.0.0/0 |  10.255.0.1  |  -  |  1  |  -  |  -  |  - |
+| default  | 0.0.0.0/0 |  10.255.0.1  |  -  |  1  |  -  |  -  |  - |
 
 ### Static Routes Device Configuration
 
 ```eos
 !
-ip route vrf MGMT 0.0.0.0/0 10.255.0.1
+ip route 0.0.0.0/0 10.255.0.1
 ```
 
 ## Router BGP
@@ -388,13 +311,13 @@ ip route vrf MGMT 0.0.0.0/0 10.255.0.1
 | Neighbor | Remote AS | VRF |
 | -------- | --------- | --- |
 | 172.31.255.1 | 65101 | default |
-| 172.31.255.5 | 65101 | default |
-| 172.31.255.9 | 65102 | default |
-| 172.31.255.13 | 65102 | default |
+| 172.31.255.5 | 65102 | default |
+| 172.31.255.9 | 65103 | default |
+| 172.31.255.13 | 65104 | default |
 | 192.0.255.3 | 65101 | default |
-| 192.0.255.4 | 65101 | default |
-| 192.0.255.5 | 65102 | default |
-| 192.0.255.6 | 65102 | default |
+| 192.0.255.4 | 65102 | default |
+| 192.0.255.5 | 65103 | default |
+| 192.0.255.6 | 65104 | default |
 
 ### Router BGP EVPN Address Family
 
@@ -429,25 +352,25 @@ router bgp 65001
    neighbor 172.31.255.1 remote-as 65101
    neighbor 172.31.255.1 description leaf1_Ethernet2
    neighbor 172.31.255.5 peer group IPv4-UNDERLAY-PEERS
-   neighbor 172.31.255.5 remote-as 65101
-   neighbor 172.31.255.5 description leaf2_Ethernet3
+   neighbor 172.31.255.5 remote-as 65102
+   neighbor 172.31.255.5 description leaf2_Ethernet2
    neighbor 172.31.255.9 peer group IPv4-UNDERLAY-PEERS
-   neighbor 172.31.255.9 remote-as 65102
-   neighbor 172.31.255.9 description leaf3_Ethernet4
+   neighbor 172.31.255.9 remote-as 65103
+   neighbor 172.31.255.9 description leaf3_Ethernet2
    neighbor 172.31.255.13 peer group IPv4-UNDERLAY-PEERS
-   neighbor 172.31.255.13 remote-as 65102
-   neighbor 172.31.255.13 description leaf4_Ethernet5
+   neighbor 172.31.255.13 remote-as 65104
+   neighbor 172.31.255.13 description leaf4_Ethernet2
    neighbor 192.0.255.3 peer group EVPN-OVERLAY-PEERS
    neighbor 192.0.255.3 remote-as 65101
    neighbor 192.0.255.3 description leaf1
    neighbor 192.0.255.4 peer group EVPN-OVERLAY-PEERS
-   neighbor 192.0.255.4 remote-as 65101
+   neighbor 192.0.255.4 remote-as 65102
    neighbor 192.0.255.4 description leaf2
    neighbor 192.0.255.5 peer group EVPN-OVERLAY-PEERS
-   neighbor 192.0.255.5 remote-as 65102
+   neighbor 192.0.255.5 remote-as 65103
    neighbor 192.0.255.5 description leaf3
    neighbor 192.0.255.6 peer group EVPN-OVERLAY-PEERS
-   neighbor 192.0.255.6 remote-as 65102
+   neighbor 192.0.255.6 remote-as 65104
    neighbor 192.0.255.6 description leaf4
    redistribute connected route-map RM-CONN-2-BGP
    !
@@ -525,13 +448,11 @@ route-map RM-CONN-2-BGP permit 10
 
 | VRF Name | IP Routing |
 | -------- | ---------- |
-| MGMT | disabled |
+| default | disabled |
 
 ## VRF Instances Device Configuration
 
 ```eos
-!
-vrf instance MGMT
 ```
 
 # Quality Of Service

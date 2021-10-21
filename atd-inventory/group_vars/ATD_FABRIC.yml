@@ -63,30 +63,32 @@ l3leaf:
     bgp_as: 65100
     spines: [spine1, spine2]
     uplink_to_spine_interfaces: [Ethernet2, Ethernet3]
-    mlag_interfaces: [Ethernet1]
+    mlag: false
     spanning_tree_priority: 4096
     spanning_tree_mode: mstp
   node_groups:
     pod1:
-      bgp_as: 65101
       nodes:
         leaf1:
           id: 1
+          bgp_as: 65101
           mgmt_ip: 192.168.0.12/24
           spine_interfaces: [Ethernet2, Ethernet2]
         leaf2:
           id: 2
+          bgp_as: 65102
           mgmt_ip: 192.168.0.13/24
           spine_interfaces: [Ethernet3, Ethernet3]
     pod2:
-      bgp_as: 65102
       nodes:
         leaf3:
           id: 3
+          bgp_as: 65103
           mgmt_ip: 192.168.0.14/24
           spine_interfaces: [Ethernet4, Ethernet4]
         leaf4:
           id: 4
+          bgp_as: 65104
           mgmt_ip: 192.168.0.15/24
           spine_interfaces: [Ethernet5, Ethernet5]
 

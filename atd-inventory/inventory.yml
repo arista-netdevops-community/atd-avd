@@ -6,11 +6,11 @@ all:
         cv_atd1:
           ansible_host: 192.168.0.5
           ansible_user: arista
-          ansible_password: # update password with "Lab Credentials"
+          ansible_password: arista05x8
     ATD_LAB:
       vars:
         ansible_user: arista
-        ansible_ssh_pass: # update password with "Lab Credentials"
+        ansible_ssh_pass: arista05x8
       children:
         ATD_FABRIC:
           children:

@@ -35,19 +35,19 @@ router_bgp:
     172.31.255.3:
       peer_group: IPv4-UNDERLAY-PEERS
       remote_as: 65101
-      description: leaf1_Ethernet2
+      description: leaf1_Ethernet3
     172.31.255.7:
       peer_group: IPv4-UNDERLAY-PEERS
-      remote_as: 65101
+      remote_as: 65102
       description: leaf2_Ethernet3
     172.31.255.11:
       peer_group: IPv4-UNDERLAY-PEERS
-      remote_as: 65102
-      description: leaf3_Ethernet4
+      remote_as: 65103
+      description: leaf3_Ethernet3
     172.31.255.15:
       peer_group: IPv4-UNDERLAY-PEERS
-      remote_as: 65102
-      description: leaf4_Ethernet5
+      remote_as: 65104
+      description: leaf4_Ethernet3
     192.0.255.3:
       peer_group: EVPN-OVERLAY-PEERS
       description: leaf1
@@ -55,67 +55,46 @@ router_bgp:
     192.0.255.4:
       peer_group: EVPN-OVERLAY-PEERS
       description: leaf2
-      remote_as: 65101
+      remote_as: 65102
     192.0.255.5:
       peer_group: EVPN-OVERLAY-PEERS
       description: leaf3
-      remote_as: 65102
+      remote_as: 65103
     192.0.255.6:
       peer_group: EVPN-OVERLAY-PEERS
       description: leaf4
-      remote_as: 65102
+      remote_as: 65104
   address_family_evpn:
     peer_groups:
       EVPN-OVERLAY-PEERS:
         activate: true
 static_routes:
-- vrf: MGMT
+- vrf: default
   destination_address_prefix: 0.0.0.0/0
   gateway: 10.255.0.1
 service_routing_protocols_model: multi-agent
 ip_routing: true
-daemon_terminattr:
-  ingestgrpcurl:
-    ips:
-    - 192.168.0.5
-    port: 9910
-  ingestauth_key: atd-lab
-  ingestvrf: MGMT
-  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
-  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
-  disable_aaa: false
 vlan_internal_order:
   allocation: ascending
   range:
     beginning: 1006
     ending: 1199
-name_server:
-  source:
-    vrf: MGMT
-  nodes:
-  - 192.168.2.1
-  - 8.8.8.8
 spanning_tree:
   mode: none
-local_users:
-  ansible_local:
-    privilege: 15
-    role: network-admin
-    sha512_password: $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/
 vrfs:
-  MGMT:
+  default:
     ip_routing: false
 management_interfaces:
-  Management1:
+  Management0:
     description: oob_management
     shutdown: false
-    vrf: MGMT
+    vrf: default
     ip_address: 192.168.0.11/24
     gateway: 10.255.0.1
     type: oob
 management_api_http:
   enable_vrfs:
-    MGMT: {}
+    default: {}
   enable_https: true
 loopback_interfaces:
   Loopback0:
