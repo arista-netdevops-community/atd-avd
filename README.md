@@ -33,6 +33,8 @@ The ATD Lab topology consists of 2 Spines, 4 Leafs and 2 Hosts, as shown below.
 | host1  |192.168.0.16 |
 | host2  |192.168.0.17 |
 
+> Current repository is built with cEOS management interface (`Management0`). If you run a vEOS topology, please update `mgmt_interface` field to `Management1` in [inventory](./atd-inventory/group_vars/ATD_LAB.yml)
+
 ## Getting Started
 
 Connect to your ATD Lab environment.  If you need an ATD Lab instance, please contact your local account team.  Once connected to the ATD Lab instance, select the Programmability IDE.  This container is built with all the necessary requirements and python modules to run AVD playbooks.
