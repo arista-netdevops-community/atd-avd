@@ -7,6 +7,7 @@ all:
           ansible_host: 192.168.0.5
           ansible_user: arista
           ansible_password: # update password with "Lab Credentials"
+          cv_collection: v3
     ATD_LAB:
       vars:
         ansible_user: arista
