@@ -98,9 +98,20 @@ At some point, you may want to continue to get some configlets managed outside o
 
 Go to __Provisioning > Configlets__ and edit __`ATD-INFRA`__ to replace NTP configuration with following content:
 
+### vEOS Settings
+
 ```eos
 !
 ntp local-interface vrf MGMT Management1
+ntp server vrf MGMT 192.168.0.1 prefer
+!
+```
+
+### cEOS Settings
+
+```eos
+!
+ntp local-interface vrf MGMT Management0
 ntp server vrf MGMT 192.168.0.1 prefer
 !
 ```
