@@ -1,4 +1,4 @@
-![Arista CVP Automation](https://img.shields.io/badge/Arista-CVP%20Automation-blue) ![Arista EOS Automation](https://img.shields.io/badge/Arista-EOS%20Automation-blue)
+![AristaCloudVision Automation](https://img.shields.io/badge/Arista-CVP%20Automation-blue) ![Arista EOS Automation](https://img.shields.io/badge/Arista-EOS%20Automation-blue)
 
 # AVD Arista Validated Design for Arista Test Drive
 
@@ -39,37 +39,57 @@ The ATD Lab topology consists of 2 Spines, 4 Leafs and 2 Hosts, as shown below.
 
 Connect to your ATD Lab environment.  If you need an ATD Lab instance, please contact your local account team.  Once connected to the ATD Lab instance, select the Programmability IDE.  This container is built with all the necessary requirements and python modules to run AVD playbooks.
 
+1. Open terminal window in vscode View -> Terminal from menu, and run the following commands:
 
-```shell
-# Setup your git global config (optional)
-git config --global user.email "you@example.com"
-git config --global user.name "Your Name"
+    ```shell
+    # Setup your git global config (optional)
+    $ git config --global user.email "you@example.com"
+    git config --global user.name "Your Name"
 
-# Run Script to setup environment
-curl -fsSL https://get.avd.sh/atd/install.sh | sh
+    # Run Script to setup environment
+    $ curl -fsSL https://get.avd.sh/atd/install.sh | sh
+    ```
 
-# Move to directory
-cd labfiles/arista-ansible/atd-avd
+2. Update Inventory with Lab Credentials
+- Open file in vscode: atd-avd/atd-inventory/inventory.yml
+- Edit credentials with the ones provide on test drive landing page.
 
-# Update Inventory with Lab Credentials
-edit credentials in vscode: atd-avd/atd-inventory/inventory.yml
 
-# Run Playbook to Prepare CloudVision for AVD
-$ ansible-playbook playbooks/atd-prepare-lab.yml
+3. Run Playbook to Prepare CloudVision for AVD
 
-# Execute Tasks in CVP manually
+- Execute the following commands:
 
-# Run Playbook to Deploy AVD Setup
-$ ansible-playbook playbooks/atd-fabric-deploy.yml
+    ```shell
+    # Move to directory
+    $ cd labfiles/arista-ansible/atd-avd
 
-# Execute Tasks in CVP manually
+    # Run Playbook to Prepare CloudVision for AVD
+    $ ansible-playbook playbooks/atd-prepare-lab.yml
+    ```
 
-# Run audit playbook to validate Fabric states
-$ ansible-playbook playbooks/atd-validate-states.yml
+ - Verify that tasks in CloudVision have executed automatically.
 
-# Execute EOS_SNAPSHOT role to collect show commands
-$ ansible-playbook playbooks/atd-snapshot.yml
-```
+4. Run playbook to deploy AVD setup.
+
+- Execute the following commands:
+
+    ```shell
+    # Run Playbook to Deploy AVD Setup
+    $ ansible-playbook playbooks/atd-fabric-deploy.yml
+    ```
+-  Execute Tasks in CloudVision manually
+
+5. Run validation and snapshot playbooks.
+
+- Excecute the following commands:
+
+    ```shell
+    # Run audit playbook to validate Fabric states
+    $ ansible-playbook playbooks/atd-validate-states.yml
+
+    # Execute EOS_SNAPSHOT role to collect show commands
+    $ ansible-playbook playbooks/atd-snapshot.yml
+    ```
 
 ## Step by Step walkthrough
 
