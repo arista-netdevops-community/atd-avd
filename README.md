@@ -39,7 +39,9 @@ The ATD Lab topology consists of 2 Spines, 4 Leafs and 2 Hosts, as shown below.
 
 Connect to your ATD Lab environment.  If you need an ATD Lab instance, please contact your local account team.  Once connected to the ATD Lab instance, select the Programmability IDE.  This container is built with all the necessary requirements and python modules to run AVD playbooks.
 
-1. Open terminal window in vscode View -> Terminal from menu, and run the following commands:
+1. Setup Git user and email and setup the ATD lab environement.
+
+    - Open terminal window in vscode View -> Terminal from menu, and run the following commands:
 
     ```shell
     # Setup your git global config (optional)
@@ -51,13 +53,15 @@ Connect to your ATD Lab environment.  If you need an ATD Lab instance, please co
     ```
 
 2. Update Inventory with Lab Credentials
-- Open file in vscode: atd-avd/atd-inventory/inventory.yml
-- Edit credentials with the ones provide on test drive landing page.
+
+    - Open file in vscode: atd-avd/atd-inventory/inventory.yml
+
+    - Edit credentials with the ones provide on test drive landing page.
 
 
 3. Run Playbook to Prepare CloudVision for AVD
 
-- Execute the following commands:
+    - Execute the following commands:
 
     ```shell
     # Move to directory
@@ -69,19 +73,19 @@ Connect to your ATD Lab environment.  If you need an ATD Lab instance, please co
 
  - Verify that tasks in CloudVision have executed automatically.
 
-4. Run playbook to deploy AVD setup.
+4. Run playbook to deploy AVD setup
 
-- Execute the following commands:
+    - Execute the following commands:
 
     ```shell
     # Run Playbook to Deploy AVD Setup
     $ ansible-playbook playbooks/atd-fabric-deploy.yml
     ```
--  Execute Tasks in CloudVision manually
+    -  Execute Tasks in CloudVision manually.
 
 5. Run validation and snapshot playbooks.
 
-- Excecute the following commands:
+    - Excecute the following commands:
 
     ```shell
     # Run audit playbook to validate Fabric states
@@ -91,6 +95,7 @@ Connect to your ATD Lab environment.  If you need an ATD Lab instance, please co
     $ ansible-playbook playbooks/atd-snapshot.yml
     ```
 
+    - Review generated output.
 ## Step by Step walkthrough
 
 A complete [step-by-step guide](./DEMO.md) is available
