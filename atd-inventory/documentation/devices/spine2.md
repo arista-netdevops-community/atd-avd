@@ -1,6 +1,5 @@
 # spine2
 # Table of Contents
-<!-- toc -->
 
 - [Management](#management)
   - [Management Interfaces](#management-interfaces)
@@ -40,7 +39,6 @@
   - [VRF Instances Device Configuration](#vrf-instances-device-configuration)
 - [Quality Of Service](#quality-of-service)
 
-<!-- toc -->
 # Management
 
 ## Management Interfaces
@@ -102,15 +100,14 @@ ip name-server vrf default 192.168.2.1
 ### Management API HTTP Summary
 
 | HTTP | HTTPS |
-| ---------- | ---------- |
-| default | true |
+| ---- | ----- |
+| False | True |
 
 ### Management API VRF Access
 
 | VRF Name | IPv4 ACL | IPv6 ACL |
 | -------- | -------- | -------- |
 | default | - | - |
-
 
 ### Management API HTTP Configuration
 
@@ -239,10 +236,10 @@ vlan internal order ascending range 1006 1199
 
 | Interface | Description | Type | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
 | --------- | ----------- | -----| ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
-| Ethernet2 | P2P_LINK_TO_LEAF1_Ethernet3 | routed | - | 172.31.255.2/31 | default | 1500 | false | - | - |
-| Ethernet3 | P2P_LINK_TO_LEAF2_Ethernet3 | routed | - | 172.31.255.6/31 | default | 1500 | false | - | - |
-| Ethernet4 | P2P_LINK_TO_LEAF3_Ethernet3 | routed | - | 172.31.255.10/31 | default | 1500 | false | - | - |
-| Ethernet5 | P2P_LINK_TO_LEAF4_Ethernet3 | routed | - | 172.31.255.14/31 | default | 1500 | false | - | - |
+| Ethernet2 | P2P_LINK_TO_LEAF1_Ethernet3 | routed | - | 172.30.255.2/31 | default | 1500 | false | - | - |
+| Ethernet3 | P2P_LINK_TO_LEAF2_Ethernet3 | routed | - | 172.30.255.6/31 | default | 1500 | false | - | - |
+| Ethernet4 | P2P_LINK_TO_LEAF3_Ethernet3 | routed | - | 172.30.255.10/31 | default | 1500 | false | - | - |
+| Ethernet5 | P2P_LINK_TO_LEAF4_Ethernet3 | routed | - | 172.30.255.14/31 | default | 1500 | false | - | - |
 
 ### Ethernet Interfaces Device Configuration
 
@@ -253,28 +250,28 @@ interface Ethernet2
    no shutdown
    mtu 1500
    no switchport
-   ip address 172.31.255.2/31
+   ip address 172.30.255.2/31
 !
 interface Ethernet3
    description P2P_LINK_TO_LEAF2_Ethernet3
    no shutdown
    mtu 1500
    no switchport
-   ip address 172.31.255.6/31
+   ip address 172.30.255.6/31
 !
 interface Ethernet4
    description P2P_LINK_TO_LEAF3_Ethernet3
    no shutdown
    mtu 1500
    no switchport
-   ip address 172.31.255.10/31
+   ip address 172.30.255.10/31
 !
 interface Ethernet5
    description P2P_LINK_TO_LEAF4_Ethernet3
    no shutdown
    mtu 1500
    no switchport
-   ip address 172.31.255.14/31
+   ip address 172.30.255.14/31
 ```
 
 ## Loopback Interfaces
@@ -392,22 +389,24 @@ ip route 0.0.0.0/0 10.255.0.1
 
 ### BGP Neighbors
 
-| Neighbor | Remote AS | VRF |
-| -------- | --------- | --- |
-| 172.31.255.3 | 65101 | default |
-| 172.31.255.7 | 65101 | default |
-| 172.31.255.11 | 65102 | default |
-| 172.31.255.15 | 65102 | default |
-| 192.0.255.3 | 65101 | default |
-| 192.0.255.4 | 65101 | default |
-| 192.0.255.5 | 65102 | default |
-| 192.0.255.6 | 65102 | default |
+| Neighbor | Remote AS | VRF | Send-community | Maximum-routes | Allowas-in |
+| -------- | --------- | --- | -------------- | -------------- | ---------- |
+| 172.30.255.3 | 65101 | default | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - |
+| 172.30.255.7 | 65101 | default | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - |
+| 172.30.255.11 | 65102 | default | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - |
+| 172.30.255.15 | 65102 | default | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - |
+| 192.0.255.3 | 65101 | default | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - |
+| 192.0.255.4 | 65101 | default | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - |
+| 192.0.255.5 | 65102 | default | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - |
+| 192.0.255.6 | 65102 | default | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - |
 
 ### Router BGP EVPN Address Family
 
-#### Router BGP EVPN MAC-VRFs
+#### EVPN Peer Groups
 
-#### Router BGP EVPN VRFs
+| Peer Group | Activate |
+| ---------- | -------- |
+| EVPN-OVERLAY-PEERS | True |
 
 ### Router BGP Device Configuration
 
@@ -432,18 +431,18 @@ router bgp 65001
    neighbor IPv4-UNDERLAY-PEERS password 7 AQQvKeimxJu+uGQ/yYvv9w==
    neighbor IPv4-UNDERLAY-PEERS send-community
    neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000
-   neighbor 172.31.255.3 peer group IPv4-UNDERLAY-PEERS
-   neighbor 172.31.255.3 remote-as 65101
-   neighbor 172.31.255.3 description leaf1_Ethernet3
-   neighbor 172.31.255.7 peer group IPv4-UNDERLAY-PEERS
-   neighbor 172.31.255.7 remote-as 65101
-   neighbor 172.31.255.7 description leaf2_Ethernet3
-   neighbor 172.31.255.11 peer group IPv4-UNDERLAY-PEERS
-   neighbor 172.31.255.11 remote-as 65102
-   neighbor 172.31.255.11 description leaf3_Ethernet3
-   neighbor 172.31.255.15 peer group IPv4-UNDERLAY-PEERS
-   neighbor 172.31.255.15 remote-as 65102
-   neighbor 172.31.255.15 description leaf4_Ethernet3
+   neighbor 172.30.255.3 peer group IPv4-UNDERLAY-PEERS
+   neighbor 172.30.255.3 remote-as 65101
+   neighbor 172.30.255.3 description leaf1_Ethernet3
+   neighbor 172.30.255.7 peer group IPv4-UNDERLAY-PEERS
+   neighbor 172.30.255.7 remote-as 65101
+   neighbor 172.30.255.7 description leaf2_Ethernet3
+   neighbor 172.30.255.11 peer group IPv4-UNDERLAY-PEERS
+   neighbor 172.30.255.11 remote-as 65102
+   neighbor 172.30.255.11 description leaf3_Ethernet3
+   neighbor 172.30.255.15 peer group IPv4-UNDERLAY-PEERS
+   neighbor 172.30.255.15 remote-as 65102
+   neighbor 172.30.255.15 description leaf4_Ethernet3
    neighbor 192.0.255.3 peer group EVPN-OVERLAY-PEERS
    neighbor 192.0.255.3 remote-as 65101
    neighbor 192.0.255.3 description leaf1
@@ -476,7 +475,7 @@ router bgp 65001
 | -------- | ---------- | ---------- |
 | 1200 | 1200 | 3 |
 
-### Router BFD Multihop Device Configuration
+### Router BFD Device Configuration
 
 ```eos
 !

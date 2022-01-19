@@ -1,6 +1,5 @@
 # leaf3
 # Table of Contents
-<!-- toc -->
 
 - [Management](#management)
   - [Management Interfaces](#management-interfaces)
@@ -54,7 +53,6 @@
   - [Virtual Source NAT Configuration](#virtual-source-nat-configuration)
 - [Quality Of Service](#quality-of-service)
 
-<!-- toc -->
 # Management
 
 ## Management Interfaces
@@ -116,15 +114,14 @@ ip name-server vrf default 192.168.2.1
 ### Management API HTTP Summary
 
 | HTTP | HTTPS |
-| ---------- | ---------- |
-| default | true |
+| ---- | ----- |
+| False | True |
 
 ### Management API VRF Access
 
 | VRF Name | IPv4 ACL | IPv6 ACL |
 | -------- | -------- | -------- |
 | default | - | - |
-
 
 ### Management API HTTP Configuration
 
@@ -323,8 +320,8 @@ vlan 4094
 
 | Interface | Description | Type | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
 | --------- | ----------- | -----| ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
-| Ethernet2 | P2P_LINK_TO_SPINE1_Ethernet4 | routed | - | 172.31.255.9/31 | default | 1500 | false | - | - |
-| Ethernet3 | P2P_LINK_TO_SPINE2_Ethernet4 | routed | - | 172.31.255.11/31 | default | 1500 | false | - | - |
+| Ethernet2 | P2P_LINK_TO_SPINE1_Ethernet4 | routed | - | 172.30.255.9/31 | default | 1500 | false | - | - |
+| Ethernet3 | P2P_LINK_TO_SPINE2_Ethernet4 | routed | - | 172.30.255.11/31 | default | 1500 | false | - | - |
 
 ### Ethernet Interfaces Device Configuration
 
@@ -340,14 +337,14 @@ interface Ethernet2
    no shutdown
    mtu 1500
    no switchport
-   ip address 172.31.255.9/31
+   ip address 172.30.255.9/31
 !
 interface Ethernet3
    description P2P_LINK_TO_SPINE2_Ethernet4
    no shutdown
    mtu 1500
    no switchport
-   ip address 172.31.255.11/31
+   ip address 172.30.255.11/31
 !
 interface Ethernet4
    description host2_Eth1
@@ -496,18 +493,18 @@ interface Vlan4094
 
 #### EVPN MLAG Shared Router MAC : mlag-system-id
 
-#### VLAN to VNI and Flood List Mappings
+#### VLAN to VNI, Flood List and Multicast Group Mappings
 
-| VLAN | VNI | Flood List |
-| ---- | --- | ---------- |
-| 110 | 10110 | - |
-| 160 | 55160 | - |
+| VLAN | VNI | Flood List | Multicast Group |
+| ---- | --- | ---------- | --------------- |
+| 110 | 10110 | - | - |
+| 160 | 55160 | - | - |
 
-#### VRF to VNI Mappings
+#### VRF to VNI and Multicast Group Mappings
 
-| VLAN | VNI |
-| ---- | --- |
-| Tenant_A_OP_Zone | 10 |
+| VRF | VNI | Multicast Group |
+| ---- | --- | --------------- |
+| Tenant_A_OP_Zone | 10 | - |
 
 ### VXLAN Interface Device Configuration
 
@@ -636,27 +633,31 @@ ip route 0.0.0.0/0 10.255.0.1
 
 ### BGP Neighbors
 
-| Neighbor | Remote AS | VRF |
-| -------- | --------- | --- |
-| 10.255.251.5 | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | default |
-| 172.31.255.8 | 65001 | default |
-| 172.31.255.10 | 65001 | default |
-| 192.0.255.1 | 65001 | default |
-| 192.0.255.2 | 65001 | default |
-| 10.255.251.5 | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Tenant_A_OP_Zone |
+| Neighbor | Remote AS | VRF | Send-community | Maximum-routes | Allowas-in |
+| -------- | --------- | --- | -------------- | -------------- | ---------- |
+| 10.255.251.5 | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | default | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | - |
+| 172.30.255.8 | 65001 | default | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - |
+| 172.30.255.10 | 65001 | default | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - |
+| 192.0.255.1 | 65001 | default | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - |
+| 192.0.255.2 | 65001 | default | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - |
+| 10.255.251.5 | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Tenant_A_OP_Zone | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | - |
 
 ### Router BGP EVPN Address Family
 
-#### Router BGP EVPN MAC-VRFs
+#### EVPN Peer Groups
 
-##### VLAN aware bundles
+| Peer Group | Activate |
+| ---------- | -------- |
+| EVPN-OVERLAY-PEERS | True |
+
+### Router BGP VLAN Aware Bundles
 
 | VLAN Aware Bundle | Route-Distinguisher | Both Route-Target | Import Route Target | Export Route-Target | Redistribute | VLANs |
 | ----------------- | ------------------- | ----------------- | ------------------- | ------------------- | ------------ | ----- |
 | Tenant_A_OP_Zone | 192.0.255.5:10 | 10:10 | - | - | learned | 110 |
 | Tenant_A_VMOTION | 192.0.255.5:55160 | 55160:55160 | - | - | learned | 160 |
 
-#### Router BGP EVPN VRFs
+### Router BGP VRFs
 
 | VRF | Route-Distinguisher | Redistribute |
 | --- | ------------------- | ------------ |
@@ -693,12 +694,12 @@ router bgp 65102
    neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in
    neighbor 10.255.251.5 peer group MLAG-IPv4-UNDERLAY-PEER
    neighbor 10.255.251.5 description leaf4
-   neighbor 172.31.255.8 peer group IPv4-UNDERLAY-PEERS
-   neighbor 172.31.255.8 remote-as 65001
-   neighbor 172.31.255.8 description spine1_Ethernet4
-   neighbor 172.31.255.10 peer group IPv4-UNDERLAY-PEERS
-   neighbor 172.31.255.10 remote-as 65001
-   neighbor 172.31.255.10 description spine2_Ethernet4
+   neighbor 172.30.255.8 peer group IPv4-UNDERLAY-PEERS
+   neighbor 172.30.255.8 remote-as 65001
+   neighbor 172.30.255.8 description spine1_Ethernet4
+   neighbor 172.30.255.10 peer group IPv4-UNDERLAY-PEERS
+   neighbor 172.30.255.10 remote-as 65001
+   neighbor 172.30.255.10 description spine2_Ethernet4
    neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS
    neighbor 192.0.255.1 remote-as 65001
    neighbor 192.0.255.1 description spine1
@@ -746,7 +747,7 @@ router bgp 65102
 | -------- | ---------- | ---------- |
 | 1200 | 1200 | 3 |
 
-### Router BFD Multihop Device Configuration
+### Router BFD Device Configuration
 
 ```eos
 !
