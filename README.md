@@ -1,4 +1,4 @@
-![Arista CVP Automation](https://img.shields.io/badge/Arista-CVP%20Automation-blue) ![Arista EOS Automation](https://img.shields.io/badge/Arista-EOS%20Automation-blue)
+![Arista CloudVision Automation](https://img.shields.io/badge/Arista-CVP%20Automation-blue) ![Arista EOS Automation](https://img.shields.io/badge/Arista-EOS%20Automation-blue)
 
 # AVD Arista Validated Design for Arista Test Drive
 
@@ -37,39 +37,69 @@ The ATD Lab topology consists of 2 Spines, 4 Leafs and 2 Hosts, as shown below.
 
 ## Getting Started
 
-Connect to your ATD Lab environment.  If you need an ATD Lab instance, please contact your local account team.  Once connected to the ATD Lab instance, select the Programmability IDE.  This container is built with all the necessary requirements and python modules to run AVD playbooks.
+Connect to your ATD Lab environment.
+- If you need an ATD Lab instance, please contact your local account team.
+- Once connected to the ATD Lab instance, select the Programmability IDE.
+- This container is built with all the necessary requirements and Python modules to run AVD playbooks.
+
+1. Setup Git user and email and the ATD lab environment.
+
+    - Open a terminal window in VS Code View -> Terminal from the menu, and run the following commands:
+
+    ```shell
+    # Setup your git global config (optional)
+    $ git config --global user.email "you@example.com"
+    git config --global user.name "Your Name"
+
+    # Run Script to setup environment
+    $ curl -fsSL https://get.avd.sh/atd/install.sh | sh
+    ```
+
+2. Update Inventory with Lab Credentials
+
+    - Open file in VS Code: atd-avd/atd-inventory/inventory.yml
+
+    - Set credentials in the `inventory.yml` to the credentials provided on the Arista Test Drive landing page.
 
 
-```shell
-# Setup your git global config (optional)
-git config --global user.email "you@example.com"
-git config --global user.name "Your Name"
+3. Run the Playbook to Prepare CloudVision for AVD
 
-# Run Script to setup environment
-curl -fsSL https://get.avd.sh/atd/install.sh | sh
+    - Execute the following commands:
 
-# Move to directory
-cd labfiles/arista-ansible/atd-avd
+    ```shell
+    # Change to ATD-AVD directory
+    $ cd labfiles/arista-ansible/atd-avd
 
-# Update Inventory with Lab Credentials
-edit credentials in vscode: atd-avd/atd-inventory/inventory.yml
+    # Run Playbook to Prepare CloudVision for AVD
+    $ ansible-playbook playbooks/atd-prepare-lab.yml
+    ```
 
-# Run Playbook to Prepare CloudVision for AVD
-$ ansible-playbook playbooks/atd-prepare-lab.yml
+ - Verify that tasks in CloudVision have been executed automatically.
 
-# Execute Tasks in CVP manually
+4. Run playbook to deploy AVD setup
 
-# Run Playbook to Deploy AVD Setup
-$ ansible-playbook playbooks/atd-fabric-deploy.yml
+    - Execute the following commands:
 
-# Execute Tasks in CVP manually
+    ```shell
+    # Run Playbook to Deploy AVD Setup
+    $ ansible-playbook playbooks/atd-fabric-deploy.yml
+    ```
 
-# Run audit playbook to validate Fabric states
-$ ansible-playbook playbooks/atd-validate-states.yml
+    -  Execute pending tasks in CloudVision Portal manually.
 
-# Execute EOS_SNAPSHOT role to collect show commands
-$ ansible-playbook playbooks/atd-snapshot.yml
-```
+5. Run validation and snapshot playbooks.
+
+    - Execute the following commands:
+
+    ```shell
+    # Run audit playbook to validate Fabric states
+    $ ansible-playbook playbooks/atd-validate-states.yml
+
+    # Execute EOS_SNAPSHOT role to collect show commands
+    $ ansible-playbook playbooks/atd-snapshot.yml
+    ```
+
+    - Review generated output.
 
 ## Step by Step walkthrough
 
@@ -83,4 +113,4 @@ A complete [step-by-step guide](./DEMO.md) is available
 
 ## License
 
-Project is published under [Apache License]().
+This Project is published under [Apache License]().

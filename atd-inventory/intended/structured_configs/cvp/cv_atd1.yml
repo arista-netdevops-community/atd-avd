@@ -1,53 +1,41 @@
 ---
 CVP_DEVICES:
-  leaf1:
-    name: leaf1
+  - fqdn: leaf1
     parentContainerName: pod1
     configlets:
       - AVD_leaf1
-    imageBundle: []
-  leaf2:
-    name: leaf2
+  - fqdn: leaf2
     parentContainerName: pod1
     configlets:
       - AVD_leaf2
-    imageBundle: []
-  leaf3:
-    name: leaf3
+  - fqdn: leaf3
     parentContainerName: pod2
     configlets:
       - AVD_leaf3
-    imageBundle: []
-  leaf4:
-    name: leaf4
+  - fqdn: leaf4
     parentContainerName: pod2
     configlets:
       - AVD_leaf4
-    imageBundle: []
-  spine1:
-    name: spine1
+  - fqdn: spine1
     parentContainerName: ATD_SPINES
     configlets:
       - AVD_spine1
-    imageBundle: []
-  spine2:
-    name: spine2
+  - fqdn: spine2
     parentContainerName: ATD_SPINES
     configlets:
       - AVD_spine2
-    imageBundle: []
 CVP_CONTAINERS:
   ATD_FABRIC:
-    parent_container: Tenant
+    parentContainerName: Tenant
   ATD_LEAFS:
-    parent_container: ATD_FABRIC
+    parentContainerName: ATD_FABRIC
   ATD_SERVERS:
-    parent_container: ATD_FABRIC
+    parentContainerName: ATD_FABRIC
   ATD_SPINES:
-    parent_container: ATD_FABRIC
+    parentContainerName: ATD_FABRIC
   ATD_TENANTS_NETWORKS:
-    parent_container: ATD_FABRIC
+    parentContainerName: ATD_FABRIC
   pod1:
-    parent_container: ATD_LEAFS
+    parentContainerName: ATD_LEAFS
   pod2:
-    parent_container: ATD_LEAFS
+    parentContainerName: ATD_LEAFS

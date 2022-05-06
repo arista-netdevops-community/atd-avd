@@ -7,6 +7,8 @@ fabric_name: ATD_FABRIC
 # Enable vlan aware bundles
 vxlan_vlan_aware_bundles: true
 
+# underlay_rfc5549: true
+
 # bgp peer groups passwords
 bgp_peer_groups:
   IPv4_UNDERLAY_PEERS:
@@ -48,7 +50,7 @@ l3leaf:
     vtep_loopback_ipv4_pool: 192.0.254.0/24
     uplink_interfaces: [Ethernet2, Ethernet3]
     uplink_switches: [spine1, spine2]
-    uplink_ipv4_pool: 172.31.255.0/24
+    uplink_ipv4_pool: 172.30.255.0/24
     mlag_interfaces: [Ethernet1]
     mlag_peer_ipv4_pool: 10.255.252.0/24
     mlag_peer_l3_ipv4_pool: 10.255.251.0/24

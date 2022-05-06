@@ -32,19 +32,19 @@ router_bgp:
     connected:
       route_map: RM-CONN-2-BGP
   neighbors:
-    172.31.255.1:
+    172.30.255.1:
       peer_group: IPv4-UNDERLAY-PEERS
       remote_as: '65101'
       description: leaf1_Ethernet2
-    172.31.255.5:
+    172.30.255.5:
       peer_group: IPv4-UNDERLAY-PEERS
       remote_as: '65101'
       description: leaf2_Ethernet2
-    172.31.255.9:
+    172.30.255.9:
       peer_group: IPv4-UNDERLAY-PEERS
       remote_as: '65102'
       description: leaf3_Ethernet2
-    172.31.255.13:
+    172.30.255.13:
       peer_group: IPv4-UNDERLAY-PEERS
       remote_as: '65102'
       description: leaf4_Ethernet2
@@ -126,7 +126,7 @@ ethernet_interfaces:
     mtu: 1500
     type: routed
     shutdown: false
-    ip_address: 172.31.255.0/31
+    ip_address: 172.30.255.0/31
   Ethernet3:
     peer: leaf2
     peer_interface: Ethernet2
@@ -135,7 +135,7 @@ ethernet_interfaces:
     mtu: 1500
     type: routed
     shutdown: false
-    ip_address: 172.31.255.4/31
+    ip_address: 172.30.255.4/31
   Ethernet4:
     peer: leaf3
     peer_interface: Ethernet2
@@ -144,7 +144,7 @@ ethernet_interfaces:
     mtu: 1500
     type: routed
     shutdown: false
-    ip_address: 172.31.255.8/31
+    ip_address: 172.30.255.8/31
   Ethernet5:
     peer: leaf4
     peer_interface: Ethernet2
@@ -153,7 +153,7 @@ ethernet_interfaces:
     mtu: 1500
     type: routed
     shutdown: false
-    ip_address: 172.31.255.12/31
+    ip_address: 172.30.255.12/31
 loopback_interfaces:
   Loopback0:
     description: EVPN_Overlay_Peering

@@ -21,9 +21,9 @@ CVP_CONFIGLETS:
     \   switchport access vlan 110\n   mlag 4\n!\ninterface Ethernet1\n   description\
     \ MLAG_PEER_leaf2_Ethernet1\n   no shutdown\n   channel-group 1 mode active\n\
     !\ninterface Ethernet2\n   description P2P_LINK_TO_SPINE1_Ethernet2\n   no shutdown\n\
-    \   mtu 1500\n   no switchport\n   ip address 172.31.255.1/31\n!\ninterface Ethernet3\n\
+    \   mtu 1500\n   no switchport\n   ip address 172.30.255.1/31\n!\ninterface Ethernet3\n\
     \   description P2P_LINK_TO_SPINE2_Ethernet2\n   no shutdown\n   mtu 1500\n  \
-    \ no switchport\n   ip address 172.31.255.3/31\n!\ninterface Ethernet4\n   description\
+    \ no switchport\n   ip address 172.30.255.3/31\n!\ninterface Ethernet4\n   description\
     \ host1_Eth1\n   no shutdown\n   channel-group 4 mode active\n!\ninterface Ethernet5\n\
     \   description host1_Eth2\n   no shutdown\n   channel-group 4 mode active\n!\n\
     interface Loopback0\n   description EVPN_Overlay_Peering\n   no shutdown\n   ip\
@@ -67,10 +67,10 @@ CVP_CONFIGLETS:
     \   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
     \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN\
     \ in\n   neighbor 10.255.251.1 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor\
-    \ 10.255.251.1 description leaf2\n   neighbor 172.31.255.0 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.31.255.0 remote-as 65001\n   neighbor 172.31.255.0 description\
-    \ spine1_Ethernet2\n   neighbor 172.31.255.2 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.31.255.2 remote-as 65001\n   neighbor 172.31.255.2 description\
+    \ 10.255.251.1 description leaf2\n   neighbor 172.30.255.0 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 172.30.255.0 remote-as 65001\n   neighbor 172.30.255.0 description\
+    \ spine1_Ethernet2\n   neighbor 172.30.255.2 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 172.30.255.2 remote-as 65001\n   neighbor 172.30.255.2 description\
     \ spine2_Ethernet2\n   neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS\n  \
     \ neighbor 192.0.255.1 remote-as 65001\n   neighbor 192.0.255.1 description spine1\n\
     \   neighbor 192.0.255.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.2\
@@ -109,9 +109,9 @@ CVP_CONFIGLETS:
     \   switchport access vlan 110\n   mlag 4\n!\ninterface Ethernet1\n   description\
     \ MLAG_PEER_leaf1_Ethernet1\n   no shutdown\n   channel-group 1 mode active\n\
     !\ninterface Ethernet2\n   description P2P_LINK_TO_SPINE1_Ethernet3\n   no shutdown\n\
-    \   mtu 1500\n   no switchport\n   ip address 172.31.255.5/31\n!\ninterface Ethernet3\n\
+    \   mtu 1500\n   no switchport\n   ip address 172.30.255.5/31\n!\ninterface Ethernet3\n\
     \   description P2P_LINK_TO_SPINE2_Ethernet3\n   no shutdown\n   mtu 1500\n  \
-    \ no switchport\n   ip address 172.31.255.7/31\n!\ninterface Ethernet4\n   description\
+    \ no switchport\n   ip address 172.30.255.7/31\n!\ninterface Ethernet4\n   description\
     \ host1_Eth3\n   no shutdown\n   channel-group 4 mode active\n!\ninterface Ethernet5\n\
     \   description host1_Eth4\n   no shutdown\n   channel-group 4 mode active\n!\n\
     interface Loopback0\n   description EVPN_Overlay_Peering\n   no shutdown\n   ip\
@@ -155,10 +155,10 @@ CVP_CONFIGLETS:
     \   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
     \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN\
     \ in\n   neighbor 10.255.251.0 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor\
-    \ 10.255.251.0 description leaf1\n   neighbor 172.31.255.4 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.31.255.4 remote-as 65001\n   neighbor 172.31.255.4 description\
-    \ spine1_Ethernet3\n   neighbor 172.31.255.6 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.31.255.6 remote-as 65001\n   neighbor 172.31.255.6 description\
+    \ 10.255.251.0 description leaf1\n   neighbor 172.30.255.4 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 172.30.255.4 remote-as 65001\n   neighbor 172.30.255.4 description\
+    \ spine1_Ethernet3\n   neighbor 172.30.255.6 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 172.30.255.6 remote-as 65001\n   neighbor 172.30.255.6 description\
     \ spine2_Ethernet3\n   neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS\n  \
     \ neighbor 192.0.255.1 remote-as 65001\n   neighbor 192.0.255.1 description spine1\n\
     \   neighbor 192.0.255.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.2\
@@ -197,9 +197,9 @@ CVP_CONFIGLETS:
     \   switchport access vlan 110\n   mlag 4\n!\ninterface Ethernet1\n   description\
     \ MLAG_PEER_leaf4_Ethernet1\n   no shutdown\n   channel-group 1 mode active\n\
     !\ninterface Ethernet2\n   description P2P_LINK_TO_SPINE1_Ethernet4\n   no shutdown\n\
-    \   mtu 1500\n   no switchport\n   ip address 172.31.255.9/31\n!\ninterface Ethernet3\n\
+    \   mtu 1500\n   no switchport\n   ip address 172.30.255.9/31\n!\ninterface Ethernet3\n\
     \   description P2P_LINK_TO_SPINE2_Ethernet4\n   no shutdown\n   mtu 1500\n  \
-    \ no switchport\n   ip address 172.31.255.11/31\n!\ninterface Ethernet4\n   description\
+    \ no switchport\n   ip address 172.30.255.11/31\n!\ninterface Ethernet4\n   description\
     \ host2_Eth1\n   no shutdown\n   channel-group 4 mode active\n!\ninterface Ethernet5\n\
     \   description host2_Eth2\n   no shutdown\n   channel-group 4 mode active\n!\n\
     interface Loopback0\n   description EVPN_Overlay_Peering\n   no shutdown\n   ip\
@@ -243,10 +243,10 @@ CVP_CONFIGLETS:
     \   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
     \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN\
     \ in\n   neighbor 10.255.251.5 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor\
-    \ 10.255.251.5 description leaf4\n   neighbor 172.31.255.8 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.31.255.8 remote-as 65001\n   neighbor 172.31.255.8 description\
-    \ spine1_Ethernet4\n   neighbor 172.31.255.10 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.31.255.10 remote-as 65001\n   neighbor 172.31.255.10 description\
+    \ 10.255.251.5 description leaf4\n   neighbor 172.30.255.8 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 172.30.255.8 remote-as 65001\n   neighbor 172.30.255.8 description\
+    \ spine1_Ethernet4\n   neighbor 172.30.255.10 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 172.30.255.10 remote-as 65001\n   neighbor 172.30.255.10 description\
     \ spine2_Ethernet4\n   neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS\n  \
     \ neighbor 192.0.255.1 remote-as 65001\n   neighbor 192.0.255.1 description spine1\n\
     \   neighbor 192.0.255.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.2\
@@ -285,9 +285,9 @@ CVP_CONFIGLETS:
     \   switchport access vlan 110\n   mlag 4\n!\ninterface Ethernet1\n   description\
     \ MLAG_PEER_leaf3_Ethernet1\n   no shutdown\n   channel-group 1 mode active\n\
     !\ninterface Ethernet2\n   description P2P_LINK_TO_SPINE1_Ethernet5\n   no shutdown\n\
-    \   mtu 1500\n   no switchport\n   ip address 172.31.255.13/31\n!\ninterface Ethernet3\n\
+    \   mtu 1500\n   no switchport\n   ip address 172.30.255.13/31\n!\ninterface Ethernet3\n\
     \   description P2P_LINK_TO_SPINE2_Ethernet5\n   no shutdown\n   mtu 1500\n  \
-    \ no switchport\n   ip address 172.31.255.15/31\n!\ninterface Ethernet4\n   description\
+    \ no switchport\n   ip address 172.30.255.15/31\n!\ninterface Ethernet4\n   description\
     \ host2_Eth3\n   no shutdown\n   channel-group 4 mode active\n!\ninterface Ethernet5\n\
     \   description host2_Eth4\n   no shutdown\n   channel-group 4 mode active\n!\n\
     interface Loopback0\n   description EVPN_Overlay_Peering\n   no shutdown\n   ip\
@@ -331,10 +331,10 @@ CVP_CONFIGLETS:
     \   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
     \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN\
     \ in\n   neighbor 10.255.251.4 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor\
-    \ 10.255.251.4 description leaf3\n   neighbor 172.31.255.12 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.31.255.12 remote-as 65001\n   neighbor 172.31.255.12 description\
-    \ spine1_Ethernet5\n   neighbor 172.31.255.14 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.31.255.14 remote-as 65001\n   neighbor 172.31.255.14 description\
+    \ 10.255.251.4 description leaf3\n   neighbor 172.30.255.12 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 172.30.255.12 remote-as 65001\n   neighbor 172.30.255.12 description\
+    \ spine1_Ethernet5\n   neighbor 172.30.255.14 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 172.30.255.14 remote-as 65001\n   neighbor 172.30.255.14 description\
     \ spine2_Ethernet5\n   neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS\n  \
     \ neighbor 192.0.255.1 remote-as 65001\n   neighbor 192.0.255.1 description spine1\n\
     \   neighbor 192.0.255.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.2\
@@ -362,12 +362,12 @@ CVP_CONFIGLETS:
     !\nno aaa root\nno enable password\n!\nusername ansible_local privilege 15 role\
     \ network-admin secret sha512 $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/\n\
     !\ninterface Ethernet2\n   description P2P_LINK_TO_LEAF1_Ethernet2\n   no shutdown\n\
-    \   mtu 1500\n   no switchport\n   ip address 172.31.255.0/31\n!\ninterface Ethernet3\n\
+    \   mtu 1500\n   no switchport\n   ip address 172.30.255.0/31\n!\ninterface Ethernet3\n\
     \   description P2P_LINK_TO_LEAF2_Ethernet2\n   no shutdown\n   mtu 1500\n   no\
-    \ switchport\n   ip address 172.31.255.4/31\n!\ninterface Ethernet4\n   description\
+    \ switchport\n   ip address 172.30.255.4/31\n!\ninterface Ethernet4\n   description\
     \ P2P_LINK_TO_LEAF3_Ethernet2\n   no shutdown\n   mtu 1500\n   no switchport\n\
-    \   ip address 172.31.255.8/31\n!\ninterface Ethernet5\n   description P2P_LINK_TO_LEAF4_Ethernet2\n\
-    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 172.31.255.12/31\n\
+    \   ip address 172.30.255.8/31\n!\ninterface Ethernet5\n   description P2P_LINK_TO_LEAF4_Ethernet2\n\
+    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 172.30.255.12/31\n\
     !\ninterface Loopback0\n   description EVPN_Overlay_Peering\n   no shutdown\n\
     \   ip address 192.0.255.1/32\n!\ninterface Management0\n   description oob_management\n\
     \   no shutdown\n   ip address 192.168.0.10/24\n!\nip routing\n!\nip prefix-list\
@@ -384,14 +384,14 @@ CVP_CONFIGLETS:
     \   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS\
     \ peer group\n   neighbor IPv4-UNDERLAY-PEERS password 7 AQQvKeimxJu+uGQ/yYvv9w==\n\
     \   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS\
-    \ maximum-routes 12000\n   neighbor 172.31.255.1 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.31.255.1 remote-as 65101\n   neighbor 172.31.255.1 description\
-    \ leaf1_Ethernet2\n   neighbor 172.31.255.5 peer group IPv4-UNDERLAY-PEERS\n \
-    \  neighbor 172.31.255.5 remote-as 65101\n   neighbor 172.31.255.5 description\
-    \ leaf2_Ethernet2\n   neighbor 172.31.255.9 peer group IPv4-UNDERLAY-PEERS\n \
-    \  neighbor 172.31.255.9 remote-as 65102\n   neighbor 172.31.255.9 description\
-    \ leaf3_Ethernet2\n   neighbor 172.31.255.13 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.31.255.13 remote-as 65102\n   neighbor 172.31.255.13 description\
+    \ maximum-routes 12000\n   neighbor 172.30.255.1 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 172.30.255.1 remote-as 65101\n   neighbor 172.30.255.1 description\
+    \ leaf1_Ethernet2\n   neighbor 172.30.255.5 peer group IPv4-UNDERLAY-PEERS\n \
+    \  neighbor 172.30.255.5 remote-as 65101\n   neighbor 172.30.255.5 description\
+    \ leaf2_Ethernet2\n   neighbor 172.30.255.9 peer group IPv4-UNDERLAY-PEERS\n \
+    \  neighbor 172.30.255.9 remote-as 65102\n   neighbor 172.30.255.9 description\
+    \ leaf3_Ethernet2\n   neighbor 172.30.255.13 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 172.30.255.13 remote-as 65102\n   neighbor 172.30.255.13 description\
     \ leaf4_Ethernet2\n   neighbor 192.0.255.3 peer group EVPN-OVERLAY-PEERS\n   neighbor\
     \ 192.0.255.3 remote-as 65101\n   neighbor 192.0.255.3 description leaf1\n   neighbor\
     \ 192.0.255.4 peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.4 remote-as\
@@ -415,12 +415,12 @@ CVP_CONFIGLETS:
     !\nno aaa root\nno enable password\n!\nusername ansible_local privilege 15 role\
     \ network-admin secret sha512 $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/\n\
     !\ninterface Ethernet2\n   description P2P_LINK_TO_LEAF1_Ethernet3\n   no shutdown\n\
-    \   mtu 1500\n   no switchport\n   ip address 172.31.255.2/31\n!\ninterface Ethernet3\n\
+    \   mtu 1500\n   no switchport\n   ip address 172.30.255.2/31\n!\ninterface Ethernet3\n\
     \   description P2P_LINK_TO_LEAF2_Ethernet3\n   no shutdown\n   mtu 1500\n   no\
-    \ switchport\n   ip address 172.31.255.6/31\n!\ninterface Ethernet4\n   description\
+    \ switchport\n   ip address 172.30.255.6/31\n!\ninterface Ethernet4\n   description\
     \ P2P_LINK_TO_LEAF3_Ethernet3\n   no shutdown\n   mtu 1500\n   no switchport\n\
-    \   ip address 172.31.255.10/31\n!\ninterface Ethernet5\n   description P2P_LINK_TO_LEAF4_Ethernet3\n\
-    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 172.31.255.14/31\n\
+    \   ip address 172.30.255.10/31\n!\ninterface Ethernet5\n   description P2P_LINK_TO_LEAF4_Ethernet3\n\
+    \   no shutdown\n   mtu 1500\n   no switchport\n   ip address 172.30.255.14/31\n\
     !\ninterface Loopback0\n   description EVPN_Overlay_Peering\n   no shutdown\n\
     \   ip address 192.0.255.2/32\n!\ninterface Management0\n   description oob_management\n\
     \   no shutdown\n   ip address 192.168.0.11/24\n!\nip routing\n!\nip prefix-list\
@@ -437,14 +437,14 @@ CVP_CONFIGLETS:
     \   neighbor EVPN-OVERLAY-PEERS maximum-routes 0\n   neighbor IPv4-UNDERLAY-PEERS\
     \ peer group\n   neighbor IPv4-UNDERLAY-PEERS password 7 AQQvKeimxJu+uGQ/yYvv9w==\n\
     \   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS\
-    \ maximum-routes 12000\n   neighbor 172.31.255.3 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.31.255.3 remote-as 65101\n   neighbor 172.31.255.3 description\
-    \ leaf1_Ethernet3\n   neighbor 172.31.255.7 peer group IPv4-UNDERLAY-PEERS\n \
-    \  neighbor 172.31.255.7 remote-as 65101\n   neighbor 172.31.255.7 description\
-    \ leaf2_Ethernet3\n   neighbor 172.31.255.11 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.31.255.11 remote-as 65102\n   neighbor 172.31.255.11 description\
-    \ leaf3_Ethernet3\n   neighbor 172.31.255.15 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.31.255.15 remote-as 65102\n   neighbor 172.31.255.15 description\
+    \ maximum-routes 12000\n   neighbor 172.30.255.3 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 172.30.255.3 remote-as 65101\n   neighbor 172.30.255.3 description\
+    \ leaf1_Ethernet3\n   neighbor 172.30.255.7 peer group IPv4-UNDERLAY-PEERS\n \
+    \  neighbor 172.30.255.7 remote-as 65101\n   neighbor 172.30.255.7 description\
+    \ leaf2_Ethernet3\n   neighbor 172.30.255.11 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 172.30.255.11 remote-as 65102\n   neighbor 172.30.255.11 description\
+    \ leaf3_Ethernet3\n   neighbor 172.30.255.15 peer group IPv4-UNDERLAY-PEERS\n\
+    \   neighbor 172.30.255.15 remote-as 65102\n   neighbor 172.30.255.15 description\
     \ leaf4_Ethernet3\n   neighbor 192.0.255.3 peer group EVPN-OVERLAY-PEERS\n   neighbor\
     \ 192.0.255.3 remote-as 65101\n   neighbor 192.0.255.3 description leaf1\n   neighbor\
     \ 192.0.255.4 peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.4 remote-as\

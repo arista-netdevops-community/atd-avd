@@ -41,11 +41,11 @@ router_bgp:
     10.255.251.0:
       peer_group: MLAG-IPv4-UNDERLAY-PEER
       description: leaf1
-    172.31.255.4:
+    172.30.255.4:
       peer_group: IPv4-UNDERLAY-PEERS
       remote_as: '65001'
       description: spine1_Ethernet3
-    172.31.255.6:
+    172.30.255.6:
       peer_group: IPv4-UNDERLAY-PEERS
       remote_as: '65001'
       description: spine2_Ethernet3
@@ -240,7 +240,7 @@ ethernet_interfaces:
     mtu: 1500
     type: routed
     shutdown: false
-    ip_address: 172.31.255.5/31
+    ip_address: 172.30.255.5/31
   Ethernet3:
     peer: spine2
     peer_interface: Ethernet3
@@ -249,7 +249,7 @@ ethernet_interfaces:
     mtu: 1500
     type: routed
     shutdown: false
-    ip_address: 172.31.255.7/31
+    ip_address: 172.30.255.7/31
   Ethernet4:
     peer: host1
     peer_interface: Eth3
@@ -288,8 +288,7 @@ route_maps:
         type: permit
         set:
         - origin incomplete
-        description: Make routes learned over MLAG Peer-link less preferred on spines
-          to ensure optimal routing
+        description: Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal routing
   RM-CONN-2-BGP:
     sequence_numbers:
       10:
@@ -324,6 +323,10 @@ router_bfd:
     multiplier: 3
 ip_igmp_snooping:
   globally_enabled: true
+ip_virtual_router_mac_address: 00:1c:73:00:dc:01
+virtual_source_nat_vrfs:
+  Tenant_A_OP_Zone:
+    ip_address: 10.255.1.4
 vxlan_interface:
   Vxlan1:
     description: leaf2_VTEP
@@ -339,7 +342,3 @@ vxlan_interface:
       vrfs:
         Tenant_A_OP_Zone:
           vni: 10
-virtual_source_nat_vrfs:
-  Tenant_A_OP_Zone:
-    ip_address: 10.255.1.4
-ip_virtual_router_mac_address: 00:1c:73:00:dc:01
