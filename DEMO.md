@@ -158,3 +158,35 @@ $ ansible-playbook playbooks/atd-fabric-deploy.yml --tags "build, provision"
 ```
 
 Once more, in CVP, create Change Control and Execute all tasks.
+
+## 7. Validate the fabric state
+
+Once deployed, it is possible to validate the state of the Fabric using a set of
+pre-configured tests by using the AVD `eos_validate_state` role. The test report
+is stored in the `atd-inventory/reports` folder.
+
+* Run playbook
+
+```shell
+# Run audit playbook to validate Fabric states
+$ ansible-playbook playbooks/atd-validate-states.yml
+```
+
+More information on the role can be found at
+[https://avd.sh/en/stable/roles/eos_validate_state/index.html](https://avd.sh/en/stable/roles/eos_validate_state/index.html)
+
+## 8. Take snapshots of show commands output on the fabric
+
+It is also possible to collect snapshots of the running configuration and
+addtional show commands using the AVD `eos_snapshot` role. The outputs are
+stored in the `atd-inventory/snapshots` folder.
+
+* Run playbook
+
+```shell
+# Execute EOS_SNAPSHOT role to collect show commands
+$ ansible-playbook playbooks/atd-snapshot.yml
+```
+
+More information on the role can be found at
+[https://avd.sh/en/stable/roles/eos_snapshot/index.html](https://avd.sh/en/stable/roles/eos_snapshot/index.html)
