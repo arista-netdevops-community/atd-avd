@@ -9,14 +9,14 @@ local_users:
 cvp_instance_ip: 192.168.0.5
 cvp_ingestauth_key: 'atd-lab'
 
-# OOB Management network default gateway.
+# OOB Management network default gateway
 mgmt_gateway: 10.255.0.1
 # If ATD is running cEOS, management interface is Management0
 # If ATD is running vEOS, management interface is Management1
 mgmt_interface: Management0
 mgmt_interface_vrf: default
 
-# dns servers.
+# dns servers
 name_servers:
   - 192.168.2.1
   - 8.8.8.8
@@ -24,9 +24,15 @@ name_servers:
 # dns domain
 dns_domain: atd.lab
 
-# NTP Servers IP or DNS name, first NTP server will be prefered, and sourced from Managment VRF
-# ntp_servers:
-#  - 192.168.0.1
+# NTP Servers IP or DNS name, first NTP server will be preferred
+# ntp:
+#   local_interface: 
+#     name: Management0
+#     vrf: default
+#   servers:
+#     - name: 192.168.0.1
+#       iburst: true
+#       preferred: true
 
 radius_servers:
   - host: 192.168.0.1
