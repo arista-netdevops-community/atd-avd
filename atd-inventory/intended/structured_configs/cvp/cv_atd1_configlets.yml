@@ -4,11 +4,11 @@ CVP_CONFIGLETS:
     \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
     !\nvlan internal order ascending range 1006 1199\n!\ntransceiver qsfp default-mode\
     \ 4x10G\n!\nservice routing protocols model multi-agent\n!\nhostname leaf1\nip\
-    \ name-server vrf default 8.8.8.8\nip name-server vrf default 192.168.2.1\n!\n\
-    dns domain atd.lab\n!\nradius-server host 192.168.0.1 key 7 0207165218120E\n!\n\
-    aaa group server radius atds\n   server 192.168.0.1\n!\nspanning-tree mode mstp\n\
-    no spanning-tree vlan-id 4093-4094\nspanning-tree mst 0 priority 16384\n!\nno\
-    \ aaa root\nno enable password\n!\nusername ansible_local privilege 15 role network-admin\
+    \ name-server vrf default 8.8.8.8\nip name-server vrf default 192.168.2.1\ndns\
+    \ domain atd.lab\n!\nradius-server host 192.168.0.1 key 7 0207165218120E\n!\n\
+    spanning-tree mode mstp\nno spanning-tree vlan-id 4093-4094\nspanning-tree mst\
+    \ 0 priority 16384\n!\naaa group server radius atds\n   server 192.168.0.1\n!\n\
+    no enable password\nno aaa root\n!\nusername ansible_local privilege 15 role network-admin\
     \ secret sha512 $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/\n\
     !\nvlan 110\n   name Tenant_A_OP_Zone_1\n!\nvlan 160\n   name Tenant_A_VMOTION\n\
     !\nvlan 3009\n   name MLAG_iBGP_Tenant_A_OP_Zone\n   trunk group LEAF_PEER_L3\n\
@@ -63,40 +63,41 @@ CVP_CONFIGLETS:
     \   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS\
     \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor\
     \ MLAG-IPv4-UNDERLAY-PEER remote-as 65101\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER password 7 vnEaG8gMeQf3d3cN6PktXQ==\n\
-    \   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN\
-    \ in\n   neighbor 10.255.251.1 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor\
-    \ 10.255.251.1 description leaf2\n   neighbor 172.30.255.0 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.30.255.0 remote-as 65001\n   neighbor 172.30.255.0 description\
-    \ spine1_Ethernet2\n   neighbor 172.30.255.2 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.30.255.2 remote-as 65001\n   neighbor 172.30.255.2 description\
-    \ spine2_Ethernet2\n   neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS\n  \
-    \ neighbor 192.0.255.1 remote-as 65001\n   neighbor 192.0.255.1 description spine1\n\
-    \   neighbor 192.0.255.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.2\
-    \ remote-as 65001\n   neighbor 192.0.255.2 description spine2\n   redistribute\
-    \ connected route-map RM-CONN-2-BGP\n   !\n   vlan-aware-bundle Tenant_A_OP_Zone\n\
-    \      rd 192.0.255.3:10\n      route-target both 10:10\n      redistribute learned\n\
-    \      vlan 110\n   !\n   vlan-aware-bundle Tenant_A_VMOTION\n      rd 192.0.255.3:55160\n\
-    \      route-target both 55160:55160\n      redistribute learned\n      vlan 160\n\
-    \   !\n   address-family evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n  \
-    \ !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS activate\n \
-    \     neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ activate\n   !\n   vrf Tenant_A_OP_Zone\n      rd 192.0.255.3:10\n      route-target\
-    \ import evpn 10:10\n      route-target export evpn 10:10\n      router-id 192.0.255.3\n\
-    \      neighbor 10.255.251.1 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
-    \ connected\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n\
-    \   !\n   vrf default\n      no shutdown\n!\nend\n"
+    \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description leaf2\n   neighbor\
+    \ MLAG-IPv4-UNDERLAY-PEER password 7 vnEaG8gMeQf3d3cN6PktXQ==\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n \
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in\n   neighbor\
+    \ 10.255.251.1 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.255.251.1 description\
+    \ leaf2\n   neighbor 172.30.255.0 peer group IPv4-UNDERLAY-PEERS\n   neighbor\
+    \ 172.30.255.0 remote-as 65001\n   neighbor 172.30.255.0 description spine1_Ethernet2\n\
+    \   neighbor 172.30.255.2 peer group IPv4-UNDERLAY-PEERS\n   neighbor 172.30.255.2\
+    \ remote-as 65001\n   neighbor 172.30.255.2 description spine2_Ethernet2\n   neighbor\
+    \ 192.0.255.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.1 remote-as\
+    \ 65001\n   neighbor 192.0.255.1 description spine1\n   neighbor 192.0.255.2 peer\
+    \ group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.2 remote-as 65001\n   neighbor\
+    \ 192.0.255.2 description spine2\n   redistribute connected route-map RM-CONN-2-BGP\n\
+    \   !\n   vlan-aware-bundle Tenant_A_OP_Zone\n      rd 192.0.255.3:10\n      route-target\
+    \ both 10:10\n      redistribute learned\n      vlan 110\n   !\n   vlan-aware-bundle\
+    \ Tenant_A_VMOTION\n      rd 192.0.255.3:55160\n      route-target both 55160:55160\n\
+    \      redistribute learned\n      vlan 160\n   !\n   address-family evpn\n  \
+    \    neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n    \
+    \  no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf Tenant_A_OP_Zone\n\
+    \      rd 192.0.255.3:10\n      route-target import evpn 10:10\n      route-target\
+    \ export evpn 10:10\n      router-id 192.0.255.3\n      neighbor 10.255.251.1\
+    \ peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nmanagement\
+    \ api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf default\n\
+    \      no shutdown\n!\nend\n"
   AVD_leaf2: "!RANCID-CONTENT-TYPE: arista\n!\ndaemon TerminAttr\n   exec /usr/bin/TerminAttr\
     \ -cvaddr=192.168.0.5:9910 -cvauth=key,atd-lab -cvvrf=default -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
     \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
     !\nvlan internal order ascending range 1006 1199\n!\ntransceiver qsfp default-mode\
     \ 4x10G\n!\nservice routing protocols model multi-agent\n!\nhostname leaf2\nip\
-    \ name-server vrf default 8.8.8.8\nip name-server vrf default 192.168.2.1\n!\n\
-    dns domain atd.lab\n!\nradius-server host 192.168.0.1 key 7 0207165218120E\n!\n\
-    aaa group server radius atds\n   server 192.168.0.1\n!\nspanning-tree mode mstp\n\
-    no spanning-tree vlan-id 4093-4094\nspanning-tree mst 0 priority 16384\n!\nno\
-    \ aaa root\nno enable password\n!\nusername ansible_local privilege 15 role network-admin\
+    \ name-server vrf default 8.8.8.8\nip name-server vrf default 192.168.2.1\ndns\
+    \ domain atd.lab\n!\nradius-server host 192.168.0.1 key 7 0207165218120E\n!\n\
+    spanning-tree mode mstp\nno spanning-tree vlan-id 4093-4094\nspanning-tree mst\
+    \ 0 priority 16384\n!\naaa group server radius atds\n   server 192.168.0.1\n!\n\
+    no enable password\nno aaa root\n!\nusername ansible_local privilege 15 role network-admin\
     \ secret sha512 $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/\n\
     !\nvlan 110\n   name Tenant_A_OP_Zone_1\n!\nvlan 160\n   name Tenant_A_VMOTION\n\
     !\nvlan 3009\n   name MLAG_iBGP_Tenant_A_OP_Zone\n   trunk group LEAF_PEER_L3\n\
@@ -151,40 +152,41 @@ CVP_CONFIGLETS:
     \   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS\
     \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor\
     \ MLAG-IPv4-UNDERLAY-PEER remote-as 65101\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER password 7 vnEaG8gMeQf3d3cN6PktXQ==\n\
-    \   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN\
-    \ in\n   neighbor 10.255.251.0 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor\
-    \ 10.255.251.0 description leaf1\n   neighbor 172.30.255.4 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.30.255.4 remote-as 65001\n   neighbor 172.30.255.4 description\
-    \ spine1_Ethernet3\n   neighbor 172.30.255.6 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.30.255.6 remote-as 65001\n   neighbor 172.30.255.6 description\
-    \ spine2_Ethernet3\n   neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS\n  \
-    \ neighbor 192.0.255.1 remote-as 65001\n   neighbor 192.0.255.1 description spine1\n\
-    \   neighbor 192.0.255.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.2\
-    \ remote-as 65001\n   neighbor 192.0.255.2 description spine2\n   redistribute\
-    \ connected route-map RM-CONN-2-BGP\n   !\n   vlan-aware-bundle Tenant_A_OP_Zone\n\
-    \      rd 192.0.255.4:10\n      route-target both 10:10\n      redistribute learned\n\
-    \      vlan 110\n   !\n   vlan-aware-bundle Tenant_A_VMOTION\n      rd 192.0.255.4:55160\n\
-    \      route-target both 55160:55160\n      redistribute learned\n      vlan 160\n\
-    \   !\n   address-family evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n  \
-    \ !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS activate\n \
-    \     neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ activate\n   !\n   vrf Tenant_A_OP_Zone\n      rd 192.0.255.4:10\n      route-target\
-    \ import evpn 10:10\n      route-target export evpn 10:10\n      router-id 192.0.255.4\n\
-    \      neighbor 10.255.251.0 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
-    \ connected\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n\
-    \   !\n   vrf default\n      no shutdown\n!\nend\n"
+    \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description leaf1\n   neighbor\
+    \ MLAG-IPv4-UNDERLAY-PEER password 7 vnEaG8gMeQf3d3cN6PktXQ==\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n \
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in\n   neighbor\
+    \ 10.255.251.0 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.255.251.0 description\
+    \ leaf1\n   neighbor 172.30.255.4 peer group IPv4-UNDERLAY-PEERS\n   neighbor\
+    \ 172.30.255.4 remote-as 65001\n   neighbor 172.30.255.4 description spine1_Ethernet3\n\
+    \   neighbor 172.30.255.6 peer group IPv4-UNDERLAY-PEERS\n   neighbor 172.30.255.6\
+    \ remote-as 65001\n   neighbor 172.30.255.6 description spine2_Ethernet3\n   neighbor\
+    \ 192.0.255.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.1 remote-as\
+    \ 65001\n   neighbor 192.0.255.1 description spine1\n   neighbor 192.0.255.2 peer\
+    \ group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.2 remote-as 65001\n   neighbor\
+    \ 192.0.255.2 description spine2\n   redistribute connected route-map RM-CONN-2-BGP\n\
+    \   !\n   vlan-aware-bundle Tenant_A_OP_Zone\n      rd 192.0.255.4:10\n      route-target\
+    \ both 10:10\n      redistribute learned\n      vlan 110\n   !\n   vlan-aware-bundle\
+    \ Tenant_A_VMOTION\n      rd 192.0.255.4:55160\n      route-target both 55160:55160\n\
+    \      redistribute learned\n      vlan 160\n   !\n   address-family evpn\n  \
+    \    neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n    \
+    \  no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf Tenant_A_OP_Zone\n\
+    \      rd 192.0.255.4:10\n      route-target import evpn 10:10\n      route-target\
+    \ export evpn 10:10\n      router-id 192.0.255.4\n      neighbor 10.255.251.0\
+    \ peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nmanagement\
+    \ api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf default\n\
+    \      no shutdown\n!\nend\n"
   AVD_leaf3: "!RANCID-CONTENT-TYPE: arista\n!\ndaemon TerminAttr\n   exec /usr/bin/TerminAttr\
     \ -cvaddr=192.168.0.5:9910 -cvauth=key,atd-lab -cvvrf=default -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
     \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
     !\nvlan internal order ascending range 1006 1199\n!\ntransceiver qsfp default-mode\
     \ 4x10G\n!\nservice routing protocols model multi-agent\n!\nhostname leaf3\nip\
-    \ name-server vrf default 8.8.8.8\nip name-server vrf default 192.168.2.1\n!\n\
-    dns domain atd.lab\n!\nradius-server host 192.168.0.1 key 7 0207165218120E\n!\n\
-    aaa group server radius atds\n   server 192.168.0.1\n!\nspanning-tree mode mstp\n\
-    no spanning-tree vlan-id 4093-4094\nspanning-tree mst 0 priority 16384\n!\nno\
-    \ aaa root\nno enable password\n!\nusername ansible_local privilege 15 role network-admin\
+    \ name-server vrf default 8.8.8.8\nip name-server vrf default 192.168.2.1\ndns\
+    \ domain atd.lab\n!\nradius-server host 192.168.0.1 key 7 0207165218120E\n!\n\
+    spanning-tree mode mstp\nno spanning-tree vlan-id 4093-4094\nspanning-tree mst\
+    \ 0 priority 16384\n!\naaa group server radius atds\n   server 192.168.0.1\n!\n\
+    no enable password\nno aaa root\n!\nusername ansible_local privilege 15 role network-admin\
     \ secret sha512 $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/\n\
     !\nvlan 110\n   name Tenant_A_OP_Zone_1\n!\nvlan 160\n   name Tenant_A_VMOTION\n\
     !\nvlan 3009\n   name MLAG_iBGP_Tenant_A_OP_Zone\n   trunk group LEAF_PEER_L3\n\
@@ -239,40 +241,41 @@ CVP_CONFIGLETS:
     \   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS\
     \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor\
     \ MLAG-IPv4-UNDERLAY-PEER remote-as 65102\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER password 7 vnEaG8gMeQf3d3cN6PktXQ==\n\
-    \   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN\
-    \ in\n   neighbor 10.255.251.5 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor\
-    \ 10.255.251.5 description leaf4\n   neighbor 172.30.255.8 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.30.255.8 remote-as 65001\n   neighbor 172.30.255.8 description\
-    \ spine1_Ethernet4\n   neighbor 172.30.255.10 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.30.255.10 remote-as 65001\n   neighbor 172.30.255.10 description\
-    \ spine2_Ethernet4\n   neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS\n  \
-    \ neighbor 192.0.255.1 remote-as 65001\n   neighbor 192.0.255.1 description spine1\n\
-    \   neighbor 192.0.255.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.2\
-    \ remote-as 65001\n   neighbor 192.0.255.2 description spine2\n   redistribute\
-    \ connected route-map RM-CONN-2-BGP\n   !\n   vlan-aware-bundle Tenant_A_OP_Zone\n\
-    \      rd 192.0.255.5:10\n      route-target both 10:10\n      redistribute learned\n\
-    \      vlan 110\n   !\n   vlan-aware-bundle Tenant_A_VMOTION\n      rd 192.0.255.5:55160\n\
-    \      route-target both 55160:55160\n      redistribute learned\n      vlan 160\n\
-    \   !\n   address-family evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n  \
-    \ !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS activate\n \
-    \     neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ activate\n   !\n   vrf Tenant_A_OP_Zone\n      rd 192.0.255.5:10\n      route-target\
-    \ import evpn 10:10\n      route-target export evpn 10:10\n      router-id 192.0.255.5\n\
-    \      neighbor 10.255.251.5 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
-    \ connected\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n\
-    \   !\n   vrf default\n      no shutdown\n!\nend\n"
+    \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description leaf4\n   neighbor\
+    \ MLAG-IPv4-UNDERLAY-PEER password 7 vnEaG8gMeQf3d3cN6PktXQ==\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n \
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in\n   neighbor\
+    \ 10.255.251.5 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.255.251.5 description\
+    \ leaf4\n   neighbor 172.30.255.8 peer group IPv4-UNDERLAY-PEERS\n   neighbor\
+    \ 172.30.255.8 remote-as 65001\n   neighbor 172.30.255.8 description spine1_Ethernet4\n\
+    \   neighbor 172.30.255.10 peer group IPv4-UNDERLAY-PEERS\n   neighbor 172.30.255.10\
+    \ remote-as 65001\n   neighbor 172.30.255.10 description spine2_Ethernet4\n  \
+    \ neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.1\
+    \ remote-as 65001\n   neighbor 192.0.255.1 description spine1\n   neighbor 192.0.255.2\
+    \ peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.2 remote-as 65001\n   neighbor\
+    \ 192.0.255.2 description spine2\n   redistribute connected route-map RM-CONN-2-BGP\n\
+    \   !\n   vlan-aware-bundle Tenant_A_OP_Zone\n      rd 192.0.255.5:10\n      route-target\
+    \ both 10:10\n      redistribute learned\n      vlan 110\n   !\n   vlan-aware-bundle\
+    \ Tenant_A_VMOTION\n      rd 192.0.255.5:55160\n      route-target both 55160:55160\n\
+    \      redistribute learned\n      vlan 160\n   !\n   address-family evpn\n  \
+    \    neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n    \
+    \  no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf Tenant_A_OP_Zone\n\
+    \      rd 192.0.255.5:10\n      route-target import evpn 10:10\n      route-target\
+    \ export evpn 10:10\n      router-id 192.0.255.5\n      neighbor 10.255.251.5\
+    \ peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nmanagement\
+    \ api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf default\n\
+    \      no shutdown\n!\nend\n"
   AVD_leaf4: "!RANCID-CONTENT-TYPE: arista\n!\ndaemon TerminAttr\n   exec /usr/bin/TerminAttr\
     \ -cvaddr=192.168.0.5:9910 -cvauth=key,atd-lab -cvvrf=default -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
     \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
     !\nvlan internal order ascending range 1006 1199\n!\ntransceiver qsfp default-mode\
     \ 4x10G\n!\nservice routing protocols model multi-agent\n!\nhostname leaf4\nip\
-    \ name-server vrf default 8.8.8.8\nip name-server vrf default 192.168.2.1\n!\n\
-    dns domain atd.lab\n!\nradius-server host 192.168.0.1 key 7 0207165218120E\n!\n\
-    aaa group server radius atds\n   server 192.168.0.1\n!\nspanning-tree mode mstp\n\
-    no spanning-tree vlan-id 4093-4094\nspanning-tree mst 0 priority 16384\n!\nno\
-    \ aaa root\nno enable password\n!\nusername ansible_local privilege 15 role network-admin\
+    \ name-server vrf default 8.8.8.8\nip name-server vrf default 192.168.2.1\ndns\
+    \ domain atd.lab\n!\nradius-server host 192.168.0.1 key 7 0207165218120E\n!\n\
+    spanning-tree mode mstp\nno spanning-tree vlan-id 4093-4094\nspanning-tree mst\
+    \ 0 priority 16384\n!\naaa group server radius atds\n   server 192.168.0.1\n!\n\
+    no enable password\nno aaa root\n!\nusername ansible_local privilege 15 role network-admin\
     \ secret sha512 $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/\n\
     !\nvlan 110\n   name Tenant_A_OP_Zone_1\n!\nvlan 160\n   name Tenant_A_VMOTION\n\
     !\nvlan 3009\n   name MLAG_iBGP_Tenant_A_OP_Zone\n   trunk group LEAF_PEER_L3\n\
@@ -327,39 +330,40 @@ CVP_CONFIGLETS:
     \   neighbor IPv4-UNDERLAY-PEERS send-community\n   neighbor IPv4-UNDERLAY-PEERS\
     \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER peer group\n   neighbor\
     \ MLAG-IPv4-UNDERLAY-PEER remote-as 65102\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER password 7 vnEaG8gMeQf3d3cN6PktXQ==\n\
-    \   neighbor MLAG-IPv4-UNDERLAY-PEER send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ maximum-routes 12000\n   neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN\
-    \ in\n   neighbor 10.255.251.4 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor\
-    \ 10.255.251.4 description leaf3\n   neighbor 172.30.255.12 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.30.255.12 remote-as 65001\n   neighbor 172.30.255.12 description\
-    \ spine1_Ethernet5\n   neighbor 172.30.255.14 peer group IPv4-UNDERLAY-PEERS\n\
-    \   neighbor 172.30.255.14 remote-as 65001\n   neighbor 172.30.255.14 description\
-    \ spine2_Ethernet5\n   neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS\n  \
-    \ neighbor 192.0.255.1 remote-as 65001\n   neighbor 192.0.255.1 description spine1\n\
-    \   neighbor 192.0.255.2 peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.2\
-    \ remote-as 65001\n   neighbor 192.0.255.2 description spine2\n   redistribute\
-    \ connected route-map RM-CONN-2-BGP\n   !\n   vlan-aware-bundle Tenant_A_OP_Zone\n\
-    \      rd 192.0.255.6:10\n      route-target both 10:10\n      redistribute learned\n\
-    \      vlan 110\n   !\n   vlan-aware-bundle Tenant_A_VMOTION\n      rd 192.0.255.6:55160\n\
-    \      route-target both 55160:55160\n      redistribute learned\n      vlan 160\n\
-    \   !\n   address-family evpn\n      neighbor EVPN-OVERLAY-PEERS activate\n  \
-    \ !\n   address-family ipv4\n      no neighbor EVPN-OVERLAY-PEERS activate\n \
-    \     neighbor IPv4-UNDERLAY-PEERS activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER\
-    \ activate\n   !\n   vrf Tenant_A_OP_Zone\n      rd 192.0.255.6:10\n      route-target\
-    \ import evpn 10:10\n      route-target export evpn 10:10\n      router-id 192.0.255.6\n\
-    \      neighbor 10.255.251.4 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute\
-    \ connected\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n\
-    \   !\n   vrf default\n      no shutdown\n!\nend\n"
+    \ next-hop-self\n   neighbor MLAG-IPv4-UNDERLAY-PEER description leaf3\n   neighbor\
+    \ MLAG-IPv4-UNDERLAY-PEER password 7 vnEaG8gMeQf3d3cN6PktXQ==\n   neighbor MLAG-IPv4-UNDERLAY-PEER\
+    \ send-community\n   neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000\n \
+    \  neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in\n   neighbor\
+    \ 10.255.251.4 peer group MLAG-IPv4-UNDERLAY-PEER\n   neighbor 10.255.251.4 description\
+    \ leaf3\n   neighbor 172.30.255.12 peer group IPv4-UNDERLAY-PEERS\n   neighbor\
+    \ 172.30.255.12 remote-as 65001\n   neighbor 172.30.255.12 description spine1_Ethernet5\n\
+    \   neighbor 172.30.255.14 peer group IPv4-UNDERLAY-PEERS\n   neighbor 172.30.255.14\
+    \ remote-as 65001\n   neighbor 172.30.255.14 description spine2_Ethernet5\n  \
+    \ neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.1\
+    \ remote-as 65001\n   neighbor 192.0.255.1 description spine1\n   neighbor 192.0.255.2\
+    \ peer group EVPN-OVERLAY-PEERS\n   neighbor 192.0.255.2 remote-as 65001\n   neighbor\
+    \ 192.0.255.2 description spine2\n   redistribute connected route-map RM-CONN-2-BGP\n\
+    \   !\n   vlan-aware-bundle Tenant_A_OP_Zone\n      rd 192.0.255.6:10\n      route-target\
+    \ both 10:10\n      redistribute learned\n      vlan 110\n   !\n   vlan-aware-bundle\
+    \ Tenant_A_VMOTION\n      rd 192.0.255.6:55160\n      route-target both 55160:55160\n\
+    \      redistribute learned\n      vlan 160\n   !\n   address-family evpn\n  \
+    \    neighbor EVPN-OVERLAY-PEERS activate\n   !\n   address-family ipv4\n    \
+    \  no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS\
+    \ activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf Tenant_A_OP_Zone\n\
+    \      rd 192.0.255.6:10\n      route-target import evpn 10:10\n      route-target\
+    \ export evpn 10:10\n      router-id 192.0.255.6\n      neighbor 10.255.251.4\
+    \ peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nmanagement\
+    \ api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf default\n\
+    \      no shutdown\n!\nend\n"
   AVD_spine1: "!RANCID-CONTENT-TYPE: arista\n!\ndaemon TerminAttr\n   exec /usr/bin/TerminAttr\
     \ -cvaddr=192.168.0.5:9910 -cvauth=key,atd-lab -cvvrf=default -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata\
     \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
     !\nvlan internal order ascending range 1006 1199\n!\ntransceiver qsfp default-mode\
     \ 4x10G\n!\nservice routing protocols model multi-agent\n!\nhostname spine1\n\
-    ip name-server vrf default 8.8.8.8\nip name-server vrf default 192.168.2.1\n!\n\
-    dns domain atd.lab\n!\nradius-server host 192.168.0.1 key 7 0207165218120E\n!\n\
-    aaa group server radius atds\n   server 192.168.0.1\n!\nspanning-tree mode none\n\
-    !\nno aaa root\nno enable password\n!\nusername ansible_local privilege 15 role\
+    ip name-server vrf default 8.8.8.8\nip name-server vrf default 192.168.2.1\ndns\
+    \ domain atd.lab\n!\nradius-server host 192.168.0.1 key 7 0207165218120E\n!\n\
+    spanning-tree mode none\n!\naaa group server radius atds\n   server 192.168.0.1\n\
+    !\nno enable password\nno aaa root\n!\nusername ansible_local privilege 15 role\
     \ network-admin secret sha512 $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/\n\
     !\ninterface Ethernet2\n   description P2P_LINK_TO_LEAF1_Ethernet2\n   no shutdown\n\
     \   mtu 1500\n   no switchport\n   ip address 172.30.255.0/31\n!\ninterface Ethernet3\n\
@@ -409,10 +413,10 @@ CVP_CONFIGLETS:
     \ -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs\n   no shutdown\n\
     !\nvlan internal order ascending range 1006 1199\n!\ntransceiver qsfp default-mode\
     \ 4x10G\n!\nservice routing protocols model multi-agent\n!\nhostname spine2\n\
-    ip name-server vrf default 8.8.8.8\nip name-server vrf default 192.168.2.1\n!\n\
-    dns domain atd.lab\n!\nradius-server host 192.168.0.1 key 7 0207165218120E\n!\n\
-    aaa group server radius atds\n   server 192.168.0.1\n!\nspanning-tree mode none\n\
-    !\nno aaa root\nno enable password\n!\nusername ansible_local privilege 15 role\
+    ip name-server vrf default 8.8.8.8\nip name-server vrf default 192.168.2.1\ndns\
+    \ domain atd.lab\n!\nradius-server host 192.168.0.1 key 7 0207165218120E\n!\n\
+    spanning-tree mode none\n!\naaa group server radius atds\n   server 192.168.0.1\n\
+    !\nno enable password\nno aaa root\n!\nusername ansible_local privilege 15 role\
     \ network-admin secret sha512 $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/\n\
     !\ninterface Ethernet2\n   description P2P_LINK_TO_LEAF1_Ethernet3\n   no shutdown\n\
     \   mtu 1500\n   no switchport\n   ip address 172.30.255.2/31\n!\ninterface Ethernet3\n\
