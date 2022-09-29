@@ -74,7 +74,6 @@ interface Management0
 ### DNS Domain Device Configuration
 
 ```eos
-!
 dns domain atd.lab
 !
 ```
@@ -99,9 +98,9 @@ ip name-server vrf default 192.168.2.1
 
 ### Management API HTTP Summary
 
-| HTTP | HTTPS |
-| ---- | ----- |
-| False | True |
+| HTTP | HTTPS | Default Services |
+| ---- | ----- | ---------------- |
+| False | True | - |
 
 ### Management API VRF Access
 
@@ -144,7 +143,7 @@ username ansible_local privilege 15 role network-admin secret sha512 $6$Dzu11L7y
 
 | VRF | RADIUS Servers |
 | --- | ---------------|
-|  default | 192.168.0.1 |
+| default | 192.168.0.1 |
 
 ### RADIUS Servers Device Configuration
 
@@ -159,7 +158,7 @@ radius-server host 192.168.0.1 key 7 0207165218120E
 
 | Server Group Name | Type  | VRF | IP address |
 | ------------------| ----- | --- | ---------- |
-| atds | radius |  default | 192.168.0.1 |
+| atds | radius | default | 192.168.0.1 |
 
 ### AAA Server Groups Device Configuration
 
@@ -193,9 +192,6 @@ daemon TerminAttr
 ## Spanning Tree Summary
 
 STP mode: **none**
-
-### Global Spanning-Tree Settings
-
 
 ## Spanning Tree Device Configuration
 
@@ -317,7 +313,8 @@ service routing protocols model multi-agent
 
 | VRF | Routing Enabled |
 | --- | --------------- |
-| default | true|| default | false |
+| default | true |
+| default | false |
 
 ### IP Routing Device Configuration
 
@@ -331,8 +328,8 @@ ip routing
 
 | VRF | Routing Enabled |
 | --- | --------------- |
-| default | false || default | false |
-
+| default | false |
+| default | false |
 
 ## Static Routes
 
@@ -340,7 +337,7 @@ ip routing
 
 | VRF | Destination Prefix | Next Hop IP             | Exit interface      | Administrative Distance       | Tag               | Route Name                    | Metric         |
 | --- | ------------------ | ----------------------- | ------------------- | ----------------------------- | ----------------- | ----------------------------- | -------------- |
-| default  | 0.0.0.0/0 |  10.255.0.1  |  -  |  1  |  -  |  -  |  - |
+| default | 0.0.0.0/0 | 10.255.0.1 | - | 1 | - | - | - |
 
 ### Static Routes Device Configuration
 
@@ -374,7 +371,7 @@ ip route 0.0.0.0/0 10.255.0.1
 | Address Family | evpn |
 | Next-hop unchanged | True |
 | Source | Loopback0 |
-| Bfd | true |
+| BFD | True |
 | Ebgp multihop | 3 |
 | Send community | all |
 | Maximum routes | 0 (no limit) |
@@ -389,16 +386,16 @@ ip route 0.0.0.0/0 10.255.0.1
 
 ### BGP Neighbors
 
-| Neighbor | Remote AS | VRF | Send-community | Maximum-routes | Allowas-in |
-| -------- | --------- | --- | -------------- | -------------- | ---------- |
-| 172.30.255.1 | 65101 | default | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - |
-| 172.30.255.5 | 65101 | default | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - |
-| 172.30.255.9 | 65102 | default | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - |
-| 172.30.255.13 | 65102 | default | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - |
-| 192.0.255.3 | 65101 | default | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - |
-| 192.0.255.4 | 65101 | default | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - |
-| 192.0.255.5 | 65102 | default | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - |
-| 192.0.255.6 | 65102 | default | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - |
+| Neighbor | Remote AS | VRF | Shutdown | Send-community | Maximum-routes | Allowas-in | BFD | RIB Pre-Policy Retain |
+| -------- | --------- | --- | -------- | -------------- | -------------- | ---------- | --- | --------------------- |
+| 172.30.255.1 | 65101 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - |
+| 172.30.255.5 | 65101 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - |
+| 172.30.255.9 | 65102 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - |
+| 172.30.255.13 | 65102 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - |
+| 192.0.255.3 | 65101 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - |
+| 192.0.255.4 | 65101 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - |
+| 192.0.255.5 | 65102 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - |
+| 192.0.255.6 | 65102 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - |
 
 ### Router BGP EVPN Address Family
 

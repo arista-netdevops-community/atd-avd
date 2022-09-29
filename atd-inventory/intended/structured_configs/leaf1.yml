@@ -12,6 +12,7 @@ router_bgp:
       type: ipv4
       remote_as: '65101'
       next_hop_self: true
+      description: leaf2
       password: vnEaG8gMeQf3d3cN6PktXQ==
       maximum_routes: 12000
       send_community: all
@@ -324,9 +325,6 @@ router_bfd:
 ip_igmp_snooping:
   globally_enabled: true
 ip_virtual_router_mac_address: 00:1c:73:00:dc:01
-virtual_source_nat_vrfs:
-  Tenant_A_OP_Zone:
-    ip_address: 10.255.1.3
 vxlan_interface:
   Vxlan1:
     description: leaf1_VTEP
@@ -342,3 +340,6 @@ vxlan_interface:
       vrfs:
         Tenant_A_OP_Zone:
           vni: 10
+virtual_source_nat_vrfs:
+  Tenant_A_OP_Zone:
+    ip_address: 10.255.1.3
