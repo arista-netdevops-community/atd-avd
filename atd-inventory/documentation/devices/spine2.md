@@ -118,55 +118,6 @@ management api http-commands
 
 # Authentication
 
-<<<<<<< HEAD
-## Local Users
-
-### Local Users Summary
-
-| User | Privilege | Role |
-| ---- | --------- | ---- |
-| ansible_local | 15 | network-admin |
-
-### Local Users Device Configuration
-
-```eos
-!
-username ansible_local privilege 15 role network-admin secret sha512 $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/
-```
-
-## RADIUS Servers
-
-### RADIUS Servers
-
-| VRF | RADIUS Servers |
-| --- | ---------------|
-| default | 192.168.0.1 |
-
-### RADIUS Servers Device Configuration
-
-```eos
-!
-radius-server host 192.168.0.1 key 7 0207165218120E
-```
-
-## AAA Server Groups
-
-### AAA Server Groups Summary
-
-| Server Group Name | Type  | VRF | IP address |
-| ------------------| ----- | --- | ---------- |
-| atds | radius | default | 192.168.0.1 |
-
-### AAA Server Groups Device Configuration
-
-```eos
-!
-aaa group server radius atds
-   server 192.168.0.1
-```
-
-=======
->>>>>>> 66a6fb2 (Updates to playbooks, readmes, and graphic)
 # Monitoring
 
 # Spanning Tree
@@ -319,11 +270,7 @@ ip routing
 
 | VRF | Destination Prefix | Next Hop IP             | Exit interface      | Administrative Distance       | Tag               | Route Name                    | Metric         |
 | --- | ------------------ | ----------------------- | ------------------- | ----------------------------- | ----------------- | ----------------------------- | -------------- |
-<<<<<<< HEAD
-| default | 0.0.0.0/0 | 10.255.0.1 | - | 1 | - | - | - |
-=======
 | default | 0.0.0.0/0 | 192.168.0.1 | - | 1 | - | - | - |
->>>>>>> 66a6fb2 (Updates to playbooks, readmes, and graphic)
 
 ### Static Routes Device Configuration
 

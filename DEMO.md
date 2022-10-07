@@ -215,7 +215,70 @@ VLAN  Name                             Status    Ports
 leaf1#
 ```
 
-## 8. Validate the fabric state
+## 8. Connected endpoints or network ports
+
+At the moment we have a host specific configuration for host1 and host2 in [ATD_SERVERS.yml](atd-inventory/group_vars/ATD_SERVERS.yml). Example below:
+
+```yaml
+  host2:
+    rack: pod2
+    adapters:
+      - type: nic
+        server_ports: [Eth1, Eth2, Eth3, Eth4]
+        switch_ports: [Ethernet4, Ethernet5, Ethernet4, Ethernet5]
+        switches: [leaf3, leaf3, leaf4, leaf4]
+        profile: TENANT_A
+        port_channel:
+          state: present
+          description: PortChanne1
+          mode: active
+```
+
+AVD now has the option to use a more generic definition of host facing ports. This is useful when a series of interfaces share the same configuration. For example, if we wanted interfaces four through five on leaf3 and leaf4 configured in a similar fashion, we could do something like this.
+
+```yaml
+---
+port_profiles:
+  TENANT_A:
+    mode: access
+    vlans: "110"
+...
+network_ports:
+  - switches:
+      - leaf[34] # Simple regex to match on leaf3 and leaf4
+    switch_ports: # Ex Ethernet1-48 or Ethernet2-3/1-48
+      - Ethernet4-5
+    description: Connection to host2
+    profile: TENANT_A
+```
+
+Please note, if using this example, the connected endpoints example for host2 will have to be commented out or removed.
+
+- Run the `atd-fabric-deploy.yml` playbook.
+
+  ```bash
+  ansible-playbook playbooks/atd-fabric-deploy.yml --tags build
+  ```
+
+We can see the generated configuration from from the [leaf3](atd-inventory/intended/configs/leaf3.cfg) configuration file.
+
+```eos
+interface Ethernet4
+   description Connection to host2
+   no shutdown
+   switchport access vlan 110
+   switchport mode access
+   switchport
+!
+interface Ethernet5
+   description Connection to host2
+   no shutdown
+   switchport access vlan 110
+   switchport mode access
+   switchport
+```
+
+## 9. Validate the fabric state
 
 Once deployed, it's possible to validate the fabric state using a set of generated tests by using the AVD `eos_validate_state` role. The reports are stored in the `atd-inventory/reports` folder.
 
@@ -228,7 +291,7 @@ Once deployed, it's possible to validate the fabric state using a set of generat
 More information on the role can be found at
 [https://avd.sh/en/stable/roles/eos_validate_state/index.html](https://avd.sh/en/stable/roles/eos_validate_state/index.html)
 
-## 8. Take snapshots of show commands output on the fabric
+## 10. Take snapshots of show commands output on the fabric
 
 It's also possible to collect snapshots of the running configuration and
 additional show commands using the AVD `eos_snapshot` role. The outputs are stored in the `atd-inventory/snapshots` folder.
