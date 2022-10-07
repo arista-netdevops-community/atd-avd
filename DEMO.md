@@ -217,7 +217,7 @@ leaf1#
 
 ## 8. Connected endpoints or network ports
 
-At the moment we have a host specific configuration for host1 and host2 in [ATD_SERVERS.yml](atd-inventory/group_vars/ATD_SERVERS.yml). Example below:
+Currently, we have a host-specific configuration for host1 and host2 in [ATD_SERVERS.yml](atd-inventory/group_vars/ATD_SERVERS.yml). Example below:
 
 ```yaml
   host2:
@@ -234,7 +234,7 @@ At the moment we have a host specific configuration for host1 and host2 in [ATD_
           mode: active
 ```
 
-AVD now has the option to use a more generic definition of host facing ports. This is useful when a series of interfaces share the same configuration. For example, if we wanted interfaces four through five on leaf3 and leaf4 configured in a similar fashion, we could do something like this.
+AVD can now use a more generic definition of host-facing ports. The network_ports feature is useful when a series of interfaces share the same configuration. For example, if we wanted interfaces four through five on leaf3 and leaf4 configured similarly, we could do something like this.
 
 ```yaml
 ---
@@ -260,7 +260,7 @@ Please note, if using this example, the connected endpoints example for host2 wi
   ansible-playbook playbooks/atd-fabric-deploy.yml --tags build
   ```
 
-We can see the generated configuration from from the [leaf3](atd-inventory/intended/configs/leaf3.cfg) configuration file.
+We can see the generated configuration from the [leaf3](atd-inventory/intended/configs/leaf3.cfg) configuration file.
 
 ```eos
 interface Ethernet4
