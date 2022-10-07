@@ -71,19 +71,9 @@ router_bgp:
 static_routes:
 - vrf: default
   destination_address_prefix: 0.0.0.0/0
-  gateway: 10.255.0.1
+  gateway: 192.168.0.1
 service_routing_protocols_model: multi-agent
 ip_routing: true
-daemon_terminattr:
-  cvaddrs:
-  - 192.168.0.5:9910
-  cvauth:
-    method: key
-    key: atd-lab
-  cvvrf: default
-  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
-  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
-  disable_aaa: false
 vlan_internal_order:
   allocation: ascending
   range:
@@ -97,21 +87,16 @@ name_server:
   - 8.8.8.8
 spanning_tree:
   mode: none
-local_users:
-  ansible_local:
-    privilege: 15
-    role: network-admin
-    sha512_password: $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/
 vrfs:
   default:
     ip_routing: false
 management_interfaces:
-  Management0:
+  Management1:
     description: oob_management
     shutdown: false
     vrf: default
     ip_address: 192.168.0.10/24
-    gateway: 10.255.0.1
+    gateway: 192.168.0.1
     type: oob
 management_api_http:
   enable_vrfs:

@@ -17,6 +17,12 @@ tenants:
   # Tenant A Specific Information - VRFs / VLANs
   Tenant_A:
     mac_vrf_vni_base: 10000
+    # Optional example enabling multicast for tenant
+    # Requires enabling of multicast in ATD_FABRIC.yml
+    # evpn_l2_multicast:
+    #   enabled: true
+    #   underlay_l2_multicast_group_ipv4_pool: 232.0.0.0/20
+    #   underlay_l2_multicast_group_ipv4_pool_offset: 2
     vrfs:
       Tenant_A_OP_Zone:
         vrf_vni: 10

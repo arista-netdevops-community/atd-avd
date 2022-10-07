@@ -7,11 +7,7 @@
   - [Name Servers](#name-servers)
   - [Management API HTTP](#management-api-http)
 - [Authentication](#authentication)
-  - [Local Users](#local-users)
-  - [RADIUS Servers](#radius-servers)
-  - [AAA Server Groups](#aaa-server-groups)
 - [Monitoring](#monitoring)
-  - [TerminAttr Daemon](#terminattr-daemon)
 - [MLAG](#mlag)
   - [MLAG Summary](#mlag-summary)
   - [MLAG Device Configuration](#mlag-device-configuration)
@@ -63,19 +59,19 @@
 
 | Management Interface | description | Type | VRF | IP Address | Gateway |
 | -------------------- | ----------- | ---- | --- | ---------- | ------- |
-| Management0 | oob_management | oob | default | 192.168.0.14/24 | 10.255.0.1 |
+| Management1 | oob_management | oob | default | 192.168.0.14/24 | 192.168.0.1 |
 
 #### IPv6
 
 | Management Interface | description | Type | VRF | IPv6 Address | IPv6 Gateway |
 | -------------------- | ----------- | ---- | --- | ------------ | ------------ |
-| Management0 | oob_management | oob | default | -  | - |
+| Management1 | oob_management | oob | default | -  | - |
 
 ### Management Interfaces Device Configuration
 
 ```eos
 !
-interface Management0
+interface Management1
    description oob_management
    no shutdown
    ip address 192.168.0.14/24
@@ -136,6 +132,7 @@ management api http-commands
 
 # Authentication
 
+<<<<<<< HEAD
 ## Local Users
 
 ### Local Users Summary
@@ -182,24 +179,9 @@ aaa group server radius atds
    server 192.168.0.1
 ```
 
+=======
+>>>>>>> 66a6fb2 (Updates to playbooks, readmes, and graphic)
 # Monitoring
-
-## TerminAttr Daemon
-
-### TerminAttr Daemon Summary
-
-| CV Compression | CloudVision Servers | VRF | Authentication | Smash Excludes | Ingest Exclude | Bypass AAA |
-| -------------- | ------------------- | --- | -------------- | -------------- | -------------- | ---------- |
-| gzip | 192.168.0.5:9910 | default | key,atd-lab | ale,flexCounter,hardware,kni,pulse,strata | /Sysdb/cell/1/agent,/Sysdb/cell/2/agent | False |
-
-### TerminAttr Daemon Device Configuration
-
-```eos
-!
-daemon TerminAttr
-   exec /usr/bin/TerminAttr -cvaddr=192.168.0.5:9910 -cvauth=key,atd-lab -cvvrf=default -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs
-   no shutdown
-```
 
 # MLAG
 
@@ -574,13 +556,17 @@ ip routing vrf Tenant_A_OP_Zone
 
 | VRF | Destination Prefix | Next Hop IP             | Exit interface      | Administrative Distance       | Tag               | Route Name                    | Metric         |
 | --- | ------------------ | ----------------------- | ------------------- | ----------------------------- | ----------------- | ----------------------------- | -------------- |
+<<<<<<< HEAD
 | default | 0.0.0.0/0 | 10.255.0.1 | - | 1 | - | - | - |
+=======
+| default | 0.0.0.0/0 | 192.168.0.1 | - | 1 | - | - | - |
+>>>>>>> 66a6fb2 (Updates to playbooks, readmes, and graphic)
 
 ### Static Routes Device Configuration
 
 ```eos
 !
-ip route 0.0.0.0/0 10.255.0.1
+ip route 0.0.0.0/0 192.168.0.1
 ```
 
 ## Router BGP
