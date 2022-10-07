@@ -284,7 +284,7 @@ Once deployed, it's possible to validate the fabric state using a set of generat
 
 - Run the `atd-validate-states.yml` playbook
 
-  ```shell
+  ```bash
   ansible-playbook playbooks/atd-validate-states.yml
   ```
 
@@ -298,7 +298,7 @@ additional show commands using the AVD `eos_snapshot` role. The outputs are stor
 
 - Run the playbook `atd-snapshot.yml` playbook
 
-```shell
+```bash
 ansible-playbook playbooks/atd-snapshot.yml
 ```
 
