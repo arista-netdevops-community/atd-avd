@@ -7,7 +7,6 @@ all:
           ansible_host: 192.168.0.5
           cv_collection: v3
     ATD_LAB:
-      vars:
       children:
         ATD_FABRIC:
           children:
