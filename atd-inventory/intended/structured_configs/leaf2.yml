@@ -201,7 +201,7 @@ port_channel_interfaces:
     - LEAF_PEER_L3
     - MLAG
   Port-Channel4:
-    description: host1_PortChanne1
+    description: host1_PortChannel
     type: switched
     shutdown: false
     mode: access

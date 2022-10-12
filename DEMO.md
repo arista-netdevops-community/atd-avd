@@ -230,11 +230,11 @@ Currently, we have a host-specific configuration for host1 and host2 in [ATD_SER
         profile: TENANT_A
         port_channel:
           state: present
-          description: PortChanne1
+          description: PortChannel
           mode: active
 ```
 
-AVD can now use a more generic definition of host-facing ports. The network_ports feature is useful when a series of interfaces share the same configuration. For example, if we wanted interfaces four through five on leaf3 and leaf4 configured similarly, we could do something like this.
+AVD can now use a more generic definition of host-facing ports. The `network_ports` feature is useful when a series of interfaces share the same configuration. For example, if we wanted interfaces four through five on leaf3 and leaf4 configured similarly, we could do something like this.
 
 ```yaml
 ---

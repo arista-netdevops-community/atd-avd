@@ -11,7 +11,7 @@ CVP_CONFIGLETS:
     \ Tenant_A_OP_Zone\n!\ninterface Port-Channel1\n   description MLAG_PEER_leaf2_Po1\n\
     \   no shutdown\n   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport\
     \ mode trunk\n   switchport trunk group LEAF_PEER_L3\n   switchport trunk group\
-    \ MLAG\n!\ninterface Port-Channel4\n   description host1_PortChanne1\n   no shutdown\n\
+    \ MLAG\n!\ninterface Port-Channel4\n   description host1_PortChannel\n   no shutdown\n\
     \   switchport\n   switchport access vlan 110\n   mlag 4\n!\ninterface Ethernet1\n\
     \   description MLAG_PEER_leaf2_Ethernet1\n   no shutdown\n   channel-group 1\
     \ mode active\n!\ninterface Ethernet2\n   description P2P_LINK_TO_SPINE1_Ethernet2\n\
@@ -95,7 +95,7 @@ CVP_CONFIGLETS:
     \ Tenant_A_OP_Zone\n!\ninterface Port-Channel1\n   description MLAG_PEER_leaf1_Po1\n\
     \   no shutdown\n   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport\
     \ mode trunk\n   switchport trunk group LEAF_PEER_L3\n   switchport trunk group\
-    \ MLAG\n!\ninterface Port-Channel4\n   description host1_PortChanne1\n   no shutdown\n\
+    \ MLAG\n!\ninterface Port-Channel4\n   description host1_PortChannel\n   no shutdown\n\
     \   switchport\n   switchport access vlan 110\n   mlag 4\n!\ninterface Ethernet1\n\
     \   description MLAG_PEER_leaf1_Ethernet1\n   no shutdown\n   channel-group 1\
     \ mode active\n!\ninterface Ethernet2\n   description P2P_LINK_TO_SPINE1_Ethernet3\n\
@@ -179,7 +179,7 @@ CVP_CONFIGLETS:
     \ Tenant_A_OP_Zone\n!\ninterface Port-Channel1\n   description MLAG_PEER_leaf4_Po1\n\
     \   no shutdown\n   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport\
     \ mode trunk\n   switchport trunk group LEAF_PEER_L3\n   switchport trunk group\
-    \ MLAG\n!\ninterface Port-Channel4\n   description host2_PortChanne1\n   no shutdown\n\
+    \ MLAG\n!\ninterface Port-Channel4\n   description host2_PortChannel\n   no shutdown\n\
     \   switchport\n   switchport access vlan 110\n   mlag 4\n!\ninterface Ethernet1\n\
     \   description MLAG_PEER_leaf4_Ethernet1\n   no shutdown\n   channel-group 1\
     \ mode active\n!\ninterface Ethernet2\n   description P2P_LINK_TO_SPINE1_Ethernet4\n\
@@ -263,7 +263,7 @@ CVP_CONFIGLETS:
     \ Tenant_A_OP_Zone\n!\ninterface Port-Channel1\n   description MLAG_PEER_leaf3_Po1\n\
     \   no shutdown\n   switchport\n   switchport trunk allowed vlan 2-4094\n   switchport\
     \ mode trunk\n   switchport trunk group LEAF_PEER_L3\n   switchport trunk group\
-    \ MLAG\n!\ninterface Port-Channel4\n   description host2_PortChanne1\n   no shutdown\n\
+    \ MLAG\n!\ninterface Port-Channel4\n   description host2_PortChannel\n   no shutdown\n\
     \   switchport\n   switchport access vlan 110\n   mlag 4\n!\ninterface Ethernet1\n\
     \   description MLAG_PEER_leaf3_Ethernet1\n   no shutdown\n   channel-group 1\
     \ mode active\n!\ninterface Ethernet2\n   description P2P_LINK_TO_SPINE1_Ethernet5\n\

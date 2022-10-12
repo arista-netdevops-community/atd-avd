@@ -16,7 +16,7 @@ servers:
         profile: TENANT_A
         port_channel:
           state: present
-          description: PortChanne1
+          description: PortChannel
           mode: active
 
   host2:
@@ -29,7 +29,7 @@ servers:
         profile: TENANT_A
         port_channel:
           state: present
-          description: PortChanne1
+          description: PortChannel
           mode: active
 
 # Sample network port config as access ports

@@ -298,7 +298,7 @@ interface Ethernet5
 | Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
 | Port-Channel1 | MLAG_PEER_leaf3_Po1 | switched | trunk | 2-4094 | - | ['LEAF_PEER_L3', 'MLAG'] | - | - | - | - |
-| Port-Channel4 | host2_PortChanne1 | switched | access | 110 | - | - | - | - | 4 | - |
+| Port-Channel4 | host2_PortChannel | switched | access | 110 | - | - | - | - | 4 | - |
 
 ### Port-Channel Interfaces Device Configuration
 
@@ -314,7 +314,7 @@ interface Port-Channel1
    switchport trunk group MLAG
 !
 interface Port-Channel4
-   description host2_PortChanne1
+   description host2_PortChannel
    no shutdown
    switchport
    switchport access vlan 110

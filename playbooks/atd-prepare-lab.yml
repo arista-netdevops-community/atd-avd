@@ -3,8 +3,6 @@
   hosts: cv_servers
   connection: local
   gather_facts: false
-  collections:
-    - arista.avd
   vars:
     execute_tasks: true
   tasks:
