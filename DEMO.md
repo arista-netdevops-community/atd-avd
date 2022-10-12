@@ -4,7 +4,7 @@
 
 In your ATD interface, click on __Programmability IDE__ and use the password listed on your lab topology.
 
-> __Note:__ unique password is auto-generated for each lab instance).
+> __Note:__ Unique password is auto-generated for each lab instance.
 
 ![ATD Interface](./docs/imgs/atd-interface.png)
 
@@ -20,7 +20,7 @@ In your VScode instance, navigate to `labfiles/arista-ansible/atd-avd` to comple
 cd labfiles/arista-ansible/atd-avd
 ```
 
-In addition, open CVP by clicking the __CVP__ link. Then, log in with the username `arista` and the auto-generated password on the lab topology screen.
+In addition, open CloudVision Portal (CVP) by clicking the __CVP__ link. Then, log in with the username `arista` and the auto-generated password on the lab topology screen.
 
 ## 2. Configure your inventory
 
@@ -53,7 +53,7 @@ ansible-playbook playbooks/atd-prepare-lab.yml
 - This playbook executes the following tasks:
   - Recreates the container topology in staging format
   - Moves nodes to appropriate container
-  - Executes pending tasks for user
+  - Executes pending tasks for user on CVP
 - Provisioning topology view should be similar to below
 
   ![Provisioning topo](docs/imgs/atd-topo-provisioning.png)
@@ -93,7 +93,7 @@ Create the change control and execute all pending tasks.
 
 ![CloudVision Topology for AVD](./docs/imgs/atd-topo-avd.png)
 
-## 5. Update underlay routing options
+## 5. Update underlay routing protocol
 
 By default, AVD leverages EBGP for the underlay and overlay. However, these settings can be easily modified to fit your environment. For example, if you would like to deploy OSPF as the underlay, update the [ATD_FABRIC.yml](atd-inventory/group_vars/ATD_FABRIC.yml) file by uncommenting the `underlay_routing_protocol: OSPF` variable.
 
@@ -112,7 +112,7 @@ You can rerun the build tasks to review the configuration or build and provision
 ```bash
 ansible-playbook playbooks/atd-fabric-deploy.yml --tags build
 # or
-ansible-playbook playbooks/atd-fabric-deploy.yml --tags "build, provision"
+ansible-playbook playbooks/atd-fabric-deploy.yml
 ```
 
 ## 6. Add a new tenant to the fabric
@@ -147,7 +147,7 @@ tenants:
 - Run the `atd-fabric-deploy.yml` playbook.
 
   ```bash
-  ansible-playbook playbooks/atd-fabric-deploy.yml --tags "build, provision"
+  ansible-playbook playbooks/atd-fabric-deploy.yml
   ```
 
 Once more, in CVP, create a change control and execute all tasks.
@@ -195,25 +195,25 @@ To enable the filtering feature, uncomment the `only_vlans_in_use` variable with
 - Run the `atd-fabric-deploy.yml` playbook.
 
   ```bash
-  ansible-playbook playbooks/atd-fabric-deploy.yml --tags "build, provision"
+  ansible-playbook playbooks/atd-fabric-deploy.yml
   ```
 
-Once more, in CVP, create a change control and execute all tasks. Below is the new output from leaf1 with VLANs filtered.
+  Once more, in CVP, create a change control and execute all tasks. Below is the new output from leaf1 with VLANs filtered.
 
-```eos
-leaf1#show vlan
-VLAN  Name                             Status    Ports
------ -------------------------------- --------- -------------------------------
-1     default                          active    Et6, PEt6
-110   Tenant_A_OP_Zone_1               active    Cpu, Po1, Po4, Vx1
-1199* VLAN1199                         active    Cpu, Po1, Vx1
-3009  MLAG_iBGP_Tenant_A_OP_Zone       active    Cpu, Po1
-4093  LEAF_PEER_L3                     active    Cpu, Po1
-4094  MLAG_PEER                        active    Cpu, Po1
+  ```eos
+  leaf1#show vlan
+  VLAN  Name                             Status    Ports
+  ----- -------------------------------- --------- -------------------------------
+  1     default                          active    Et6, PEt6
+  110   Tenant_A_OP_Zone_1               active    Cpu, Po1, Po4, Vx1
+  1199* VLAN1199                         active    Cpu, Po1, Vx1
+  3009  MLAG_iBGP_Tenant_A_OP_Zone       active    Cpu, Po1
+  4093  LEAF_PEER_L3                     active    Cpu, Po1
+  4094  MLAG_PEER                        active    Cpu, Po1
 
-* indicates a Dynamic VLAN
-leaf1#
-```
+  * indicates a Dynamic VLAN
+  leaf1#
+  ```
 
 ## 8. Connected endpoints or network ports
 
@@ -260,23 +260,23 @@ Please note, if using this example, the connected endpoints example for host2 wi
   ansible-playbook playbooks/atd-fabric-deploy.yml --tags build
   ```
 
-We can see the generated configuration from the [leaf3](atd-inventory/intended/configs/leaf3.cfg) configuration file.
+  We can see the generated configuration from the [leaf3](atd-inventory/intended/configs/leaf3.cfg) configuration file.
 
-```eos
-interface Ethernet4
-   description Connection to host2
-   no shutdown
-   switchport access vlan 110
-   switchport mode access
-   switchport
-!
-interface Ethernet5
-   description Connection to host2
-   no shutdown
-   switchport access vlan 110
-   switchport mode access
-   switchport
-```
+  ```eos
+  interface Ethernet4
+     description Connection to host2
+     no shutdown
+     switchport access vlan 110
+     switchport mode access
+     switchport
+  !
+  interface Ethernet5
+     description Connection to host2
+     no shutdown
+     switchport access vlan 110
+     switchport mode access
+     switchport
+  ```
 
 ## 9. Validate the fabric state
 
@@ -298,9 +298,9 @@ additional show commands using the AVD `eos_snapshot` role. The outputs are stor
 
 - Run the playbook `atd-snapshot.yml` playbook
 
-```bash
-ansible-playbook playbooks/atd-snapshot.yml
-```
+  ```bash
+  ansible-playbook playbooks/atd-snapshot.yml
+  ```
 
 More information on the role can be found at
 [https://avd.sh/en/stable/roles/eos_snapshot/index.html](https://avd.sh/en/stable/roles/eos_snapshot/index.html)
