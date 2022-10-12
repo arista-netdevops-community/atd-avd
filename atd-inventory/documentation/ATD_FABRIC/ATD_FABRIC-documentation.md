@@ -37,11 +37,13 @@
 | l3leaf | leaf1 | Ethernet1 | mlag_peer | leaf2 | Ethernet1 |
 | l3leaf | leaf1 | Ethernet2 | spine | spine1 | Ethernet2 |
 | l3leaf | leaf1 | Ethernet3 | spine | spine2 | Ethernet2 |
+| l3leaf | leaf1 | Ethernet6 | mlag_peer | leaf2 | Ethernet6 |
 | l3leaf | leaf2 | Ethernet2 | spine | spine1 | Ethernet3 |
 | l3leaf | leaf2 | Ethernet3 | spine | spine2 | Ethernet3 |
 | l3leaf | leaf3 | Ethernet1 | mlag_peer | leaf4 | Ethernet1 |
 | l3leaf | leaf3 | Ethernet2 | spine | spine1 | Ethernet4 |
 | l3leaf | leaf3 | Ethernet3 | spine | spine2 | Ethernet4 |
+| l3leaf | leaf3 | Ethernet6 | mlag_peer | leaf4 | Ethernet6 |
 | l3leaf | leaf4 | Ethernet2 | spine | spine1 | Ethernet5 |
 | l3leaf | leaf4 | Ethernet3 | spine | spine2 | Ethernet5 |
 

@@ -19,7 +19,7 @@ build: ## Build fabric artifacts
 	ansible-playbook playbooks/atd-fabric-deploy.yml --tags build
 
 .PHONY: cvp
-cvp: ## Create tasks for fabric deployment with CVP (user must execute)
+cvp: ## Push configurations to CVP and create tasks (user must execute)
 	ansible-playbook playbooks/atd-fabric-deploy.yml --tags provision
 
 .PHONY: validate

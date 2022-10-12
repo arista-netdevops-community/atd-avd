@@ -245,6 +245,7 @@ vlan 4094
 | Ethernet1 | MLAG_PEER_leaf4_Ethernet1 | *trunk | *2-4094 | *- | *['LEAF_PEER_L3', 'MLAG'] | 1 |
 | Ethernet4 | host2_Eth1 | *access | *110 | *- | *- | 4 |
 | Ethernet5 | host2_Eth2 | *access | *110 | *- | *- | 4 |
+| Ethernet6 | MLAG_PEER_leaf4_Ethernet6 | *trunk | *2-4094 | *- | *['LEAF_PEER_L3', 'MLAG'] | 1 |
 
 *Inherited from Port-Channel Interface
 
@@ -287,6 +288,11 @@ interface Ethernet5
    description host2_Eth2
    no shutdown
    channel-group 4 mode active
+!
+interface Ethernet6
+   description MLAG_PEER_leaf4_Ethernet6
+   no shutdown
+   channel-group 1 mode active
 ```
 
 ## Port-Channel Interfaces

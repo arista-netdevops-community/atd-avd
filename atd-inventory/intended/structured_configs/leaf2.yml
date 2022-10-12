@@ -218,6 +218,16 @@ ethernet_interfaces:
     channel_group:
       id: 1
       mode: active
+  Ethernet6:
+    peer: leaf1
+    peer_interface: Ethernet6
+    peer_type: mlag_peer
+    description: MLAG_PEER_leaf1_Ethernet6
+    type: switched
+    shutdown: false
+    channel_group:
+      id: 1
+      mode: active
   Ethernet2:
     peer: spine1
     peer_interface: Ethernet3
