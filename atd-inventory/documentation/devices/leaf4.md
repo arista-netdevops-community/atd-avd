@@ -253,8 +253,8 @@ vlan 4094
 
 | Interface | Description | Type | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
 | --------- | ----------- | -----| ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
-| Ethernet2 | P2P_LINK_TO_SPINE1_Ethernet5 | routed | - | 172.30.255.13/31 | default | 1500 | false | - | - |
-| Ethernet3 | P2P_LINK_TO_SPINE2_Ethernet5 | routed | - | 172.30.255.15/31 | default | 1500 | false | - | - |
+| Ethernet2 | P2P_LINK_TO_SPINE1_Ethernet5 | routed | - | 172.30.255.13/31 | default | 1500 | False | - | - |
+| Ethernet3 | P2P_LINK_TO_SPINE2_Ethernet5 | routed | - | 172.30.255.15/31 | default | 1500 | False | - | - |
 
 ### Ethernet Interfaces Device Configuration
 
@@ -375,10 +375,10 @@ interface Loopback100
 
 | Interface | Description | VRF |  MTU | Shutdown |
 | --------- | ----------- | --- | ---- | -------- |
-| Vlan110 | Tenant_A_OP_Zone_1 | Tenant_A_OP_Zone | - | false |
-| Vlan3009 | MLAG_PEER_L3_iBGP: vrf Tenant_A_OP_Zone | Tenant_A_OP_Zone | 1500 | false |
-| Vlan4093 | MLAG_PEER_L3_PEERING | default | 1500 | false |
-| Vlan4094 | MLAG_PEER | default | 1500 | false |
+| Vlan110 | Tenant_A_OP_Zone_1 | Tenant_A_OP_Zone | - | False |
+| Vlan3009 | MLAG_PEER_L3_iBGP: vrf Tenant_A_OP_Zone | Tenant_A_OP_Zone | 1500 | False |
+| Vlan4093 | MLAG_PEER_L3_PEERING | default | 1500 | False |
+| Vlan4094 | MLAG_PEER | default | 1500 | False |
 
 #### IPv4
 
@@ -486,7 +486,7 @@ ip virtual-router mac-address 00:1c:73:00:dc:01
 
 | VRF | Routing Enabled |
 | --- | --------------- |
-| default | true |
+| default | True |
 | default | false |
 | Tenant_A_OP_Zone | true |
 
@@ -503,7 +503,7 @@ ip routing vrf Tenant_A_OP_Zone
 
 | VRF | Routing Enabled |
 | --- | --------------- |
-| default | false |
+| default | False |
 | default | false |
 | Tenant_A_OP_Zone | false |
 
@@ -737,15 +737,15 @@ ip prefix-list PL-LOOPBACKS-EVPN-OVERLAY
 
 #### RM-CONN-2-BGP
 
-| Sequence | Type | Match and/or Set |
-| -------- | ---- | ---------------- |
-| 10 | permit | match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY |
+| Sequence | Type | Match | Set | Sub-Route-Map | Continue |
+| -------- | ---- | ----- | --- | ------------- | -------- |
+| 10 | permit | ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY | - | - | - |
 
 #### RM-MLAG-PEER-IN
 
-| Sequence | Type | Match and/or Set |
-| -------- | ---- | ---------------- |
-| 10 | permit | set origin incomplete |
+| Sequence | Type | Match | Set | Sub-Route-Map | Continue |
+| -------- | ---- | ----- | --- | ------------- | -------- |
+| 10 | permit | - | origin incomplete | - | - |
 
 ### Route-maps Device Configuration
 
