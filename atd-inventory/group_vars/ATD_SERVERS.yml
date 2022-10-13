@@ -4,6 +4,7 @@ port_profiles:
     mode: access
     vlans: "110"
 
+
 servers:
   host1:
     rack: pod1
@@ -15,8 +16,9 @@ servers:
         profile: TENANT_A
         port_channel:
           state: present
-          description: PortChanne1
+          description: PortChannel
           mode: active
+
   host2:
     rack: pod2
     adapters:
@@ -27,5 +29,16 @@ servers:
         profile: TENANT_A
         port_channel:
           state: present
-          description: PortChanne1
+          description: PortChannel
           mode: active
+
+# Sample network port config as access ports
+# For multiport port-channel setup, please use the connected endpoint example above
+
+# network_ports:
+#   - switches:
+#       - leaf[34] # Simple regex to match on leaf3 and leaf4
+#     switch_ports: # Ex Ethernet1-48 or Ethernet2-3/1-48
+#       - Ethernet4-5
+#     description: Connection to host2
+#     profile: TENANT_A

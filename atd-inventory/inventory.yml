@@ -5,13 +5,8 @@ all:
       hosts:
         cv_atd1:
           ansible_host: 192.168.0.5
-          ansible_user: arista
-          ansible_password: # update password with "Lab Credentials"
           cv_collection: v3
     ATD_LAB:
-      vars:
-        ansible_user: arista
-        ansible_ssh_pass: # update password with "Lab Credentials"
       children:
         ATD_FABRIC:
           children:
@@ -45,3 +40,17 @@ all:
             ATD_SERVERS:
               children:
                 ATD_LEAFS:
+
+  vars:
+    ansible_user: arista
+    ansible_password: # Update password with lab credentials
+    ansible_network_os: arista.eos.eos
+    # Configure privilege escalation
+    ansible_become: true
+    ansible_become_method: enable
+    # HTTPAPI configuration
+    ansible_connection: httpapi
+    ansible_httpapi_port: 443
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_python_interpreter: $(which python3)

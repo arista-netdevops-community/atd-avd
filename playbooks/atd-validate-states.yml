@@ -4,9 +4,8 @@
   gather_facts: false
   collections:
     - arista.avd
-    - arista.cvp
   tasks:
 
-    - name: deploy configuration to device
+    - name: Deploy configuration to device
       import_role:
-         name: arista.avd.eos_validate_state
+        name: eos_validate_state

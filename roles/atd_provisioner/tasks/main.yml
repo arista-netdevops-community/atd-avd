@@ -1,28 +1,28 @@
 ---
 # tasks file for atd-provisioner
 # tasks file for eos-config-deploy-cvp - state=present
-- name: "Building Containers topology on {{inventory_hostname}}"
+- name: "Building Containers topology on {{ inventory_hostname }}"
   tags: [provision, apply]
   arista.cvp.cv_container_v3:
-    topology: '{{CVP_CONTAINERS_INIT}}'
+    topology: '{{ CVP_CONTAINERS_INIT }}'
 
-- name: "Configure devices on {{inventory_hostname}}"
+- name: "Configure devices on {{ inventory_hostname }}"
   tags: [provision, apply]
   arista.cvp.cv_device_v3:
-    devices: "{{CVP_DEVICES_INIT}}"
+    devices: "{{ CVP_DEVICES_INIT }}"
     state: present
-  register: CVP_DEVICES_RESULTS
+  register: cvp_device_results
 
-- name: "Execute pending tasks on {{inventory_hostname}}"
+- name: "Execute pending tasks on {{ inventory_hostname }}"
   tags: [apply]
   arista.cvp.cv_task_v3:
-    tasks: "{{ CVP_DEVICES_RESULTS.taskIds }}"
+    tasks: "{{ cvp_device_results.taskIds }}"
   when:
     - execute_tasks|bool
-    - CVP_DEVICES_RESULTS.taskIds | length > 0
+    - cvp_device_results.taskIds | length > 0
 
-- name: "Refresh Containers topology on {{inventory_hostname}}"
+- name: "Refresh Containers topology on {{ inventory_hostname }}"
   tags: [provision, apply]
   arista.cvp.cv_container_v3:
-    topology: '{{CVP_CONTAINERS_DELETE}}'
+    topology: '{{ CVP_CONTAINERS_DELETE }}'
     state: absent

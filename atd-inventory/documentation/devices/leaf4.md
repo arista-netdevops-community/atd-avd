@@ -7,11 +7,7 @@
   - [Name Servers](#name-servers)
   - [Management API HTTP](#management-api-http)
 - [Authentication](#authentication)
-  - [Local Users](#local-users)
-  - [RADIUS Servers](#radius-servers)
-  - [AAA Server Groups](#aaa-server-groups)
 - [Monitoring](#monitoring)
-  - [TerminAttr Daemon](#terminattr-daemon)
 - [MLAG](#mlag)
   - [MLAG Summary](#mlag-summary)
   - [MLAG Device Configuration](#mlag-device-configuration)
@@ -63,19 +59,19 @@
 
 | Management Interface | description | Type | VRF | IP Address | Gateway |
 | -------------------- | ----------- | ---- | --- | ---------- | ------- |
-| Management0 | oob_management | oob | default | 192.168.0.15/24 | 10.255.0.1 |
+| Management1 | oob_management | oob | default | 192.168.0.15/24 | 192.168.0.1 |
 
 #### IPv6
 
 | Management Interface | description | Type | VRF | IPv6 Address | IPv6 Gateway |
 | -------------------- | ----------- | ---- | --- | ------------ | ------------ |
-| Management0 | oob_management | oob | default | -  | - |
+| Management1 | oob_management | oob | default | -  | - |
 
 ### Management Interfaces Device Configuration
 
 ```eos
 !
-interface Management0
+interface Management1
    description oob_management
    no shutdown
    ip address 192.168.0.15/24
@@ -136,70 +132,7 @@ management api http-commands
 
 # Authentication
 
-## Local Users
-
-### Local Users Summary
-
-| User | Privilege | Role |
-| ---- | --------- | ---- |
-| ansible_local | 15 | network-admin |
-
-### Local Users Device Configuration
-
-```eos
-!
-username ansible_local privilege 15 role network-admin secret sha512 $6$Dzu11L7yp9j3nCM9$FSptxMPyIL555OMO.ldnjDXgwZmrfMYwHSr0uznE5Qoqvd9a6UdjiFcJUhGLtvXVZR1r.A/iF5aAt50hf/EK4/
-```
-
-## RADIUS Servers
-
-### RADIUS Servers
-
-| VRF | RADIUS Servers |
-| --- | ---------------|
-| default | 192.168.0.1 |
-
-### RADIUS Servers Device Configuration
-
-```eos
-!
-radius-server host 192.168.0.1 key 7 0207165218120E
-```
-
-## AAA Server Groups
-
-### AAA Server Groups Summary
-
-| Server Group Name | Type  | VRF | IP address |
-| ------------------| ----- | --- | ---------- |
-| atds | radius | default | 192.168.0.1 |
-
-### AAA Server Groups Device Configuration
-
-```eos
-!
-aaa group server radius atds
-   server 192.168.0.1
-```
-
 # Monitoring
-
-## TerminAttr Daemon
-
-### TerminAttr Daemon Summary
-
-| CV Compression | CloudVision Servers | VRF | Authentication | Smash Excludes | Ingest Exclude | Bypass AAA |
-| -------------- | ------------------- | --- | -------------- | -------------- | -------------- | ---------- |
-| gzip | 192.168.0.5:9910 | default | key,atd-lab | ale,flexCounter,hardware,kni,pulse,strata | /Sysdb/cell/1/agent,/Sysdb/cell/2/agent | False |
-
-### TerminAttr Daemon Device Configuration
-
-```eos
-!
-daemon TerminAttr
-   exec /usr/bin/TerminAttr -cvaddr=192.168.0.5:9910 -cvauth=key,atd-lab -cvvrf=default -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs
-   no shutdown
-```
 
 # MLAG
 
@@ -312,6 +245,7 @@ vlan 4094
 | Ethernet1 | MLAG_PEER_leaf3_Ethernet1 | *trunk | *2-4094 | *- | *['LEAF_PEER_L3', 'MLAG'] | 1 |
 | Ethernet4 | host2_Eth3 | *access | *110 | *- | *- | 4 |
 | Ethernet5 | host2_Eth4 | *access | *110 | *- | *- | 4 |
+| Ethernet6 | MLAG_PEER_leaf3_Ethernet6 | *trunk | *2-4094 | *- | *['LEAF_PEER_L3', 'MLAG'] | 1 |
 
 *Inherited from Port-Channel Interface
 
@@ -354,6 +288,11 @@ interface Ethernet5
    description host2_Eth4
    no shutdown
    channel-group 4 mode active
+!
+interface Ethernet6
+   description MLAG_PEER_leaf3_Ethernet6
+   no shutdown
+   channel-group 1 mode active
 ```
 
 ## Port-Channel Interfaces
@@ -365,7 +304,7 @@ interface Ethernet5
 | Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
 | Port-Channel1 | MLAG_PEER_leaf3_Po1 | switched | trunk | 2-4094 | - | ['LEAF_PEER_L3', 'MLAG'] | - | - | - | - |
-| Port-Channel4 | host2_PortChanne1 | switched | access | 110 | - | - | - | - | 4 | - |
+| Port-Channel4 | host2_PortChannel | switched | access | 110 | - | - | - | - | 4 | - |
 
 ### Port-Channel Interfaces Device Configuration
 
@@ -381,7 +320,7 @@ interface Port-Channel1
    switchport trunk group MLAG
 !
 interface Port-Channel4
-   description host2_PortChanne1
+   description host2_PortChannel
    no shutdown
    switchport
    switchport access vlan 110
@@ -574,13 +513,13 @@ ip routing vrf Tenant_A_OP_Zone
 
 | VRF | Destination Prefix | Next Hop IP             | Exit interface      | Administrative Distance       | Tag               | Route Name                    | Metric         |
 | --- | ------------------ | ----------------------- | ------------------- | ----------------------------- | ----------------- | ----------------------------- | -------------- |
-| default | 0.0.0.0/0 | 10.255.0.1 | - | 1 | - | - | - |
+| default | 0.0.0.0/0 | 192.168.0.1 | - | 1 | - | - | - |
 
 ### Static Routes Device Configuration
 
 ```eos
 !
-ip route 0.0.0.0/0 10.255.0.1
+ip route 0.0.0.0/0 192.168.0.1
 ```
 
 ## Router BGP
