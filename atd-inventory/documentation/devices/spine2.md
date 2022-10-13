@@ -165,10 +165,10 @@ vlan internal order ascending range 1006 1199
 
 | Interface | Description | Type | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
 | --------- | ----------- | -----| ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
-| Ethernet2 | P2P_LINK_TO_LEAF1_Ethernet3 | routed | - | 172.30.255.2/31 | default | 1500 | false | - | - |
-| Ethernet3 | P2P_LINK_TO_LEAF2_Ethernet3 | routed | - | 172.30.255.6/31 | default | 1500 | false | - | - |
-| Ethernet4 | P2P_LINK_TO_LEAF3_Ethernet3 | routed | - | 172.30.255.10/31 | default | 1500 | false | - | - |
-| Ethernet5 | P2P_LINK_TO_LEAF4_Ethernet3 | routed | - | 172.30.255.14/31 | default | 1500 | false | - | - |
+| Ethernet2 | P2P_LINK_TO_LEAF1_Ethernet3 | routed | - | 172.30.255.2/31 | default | 1500 | False | - | - |
+| Ethernet3 | P2P_LINK_TO_LEAF2_Ethernet3 | routed | - | 172.30.255.6/31 | default | 1500 | False | - | - |
+| Ethernet4 | P2P_LINK_TO_LEAF3_Ethernet3 | routed | - | 172.30.255.10/31 | default | 1500 | False | - | - |
+| Ethernet5 | P2P_LINK_TO_LEAF4_Ethernet3 | routed | - | 172.30.255.14/31 | default | 1500 | False | - | - |
 
 ### Ethernet Interfaces Device Configuration
 
@@ -246,7 +246,7 @@ service routing protocols model multi-agent
 
 | VRF | Routing Enabled |
 | --- | --------------- |
-| default | true |
+| default | True |
 | default | false |
 
 ### IP Routing Device Configuration
@@ -261,7 +261,7 @@ ip routing
 
 | VRF | Routing Enabled |
 | --- | --------------- |
-| default | false |
+| default | False |
 | default | false |
 
 ## Static Routes
@@ -441,9 +441,9 @@ ip prefix-list PL-LOOPBACKS-EVPN-OVERLAY
 
 #### RM-CONN-2-BGP
 
-| Sequence | Type | Match and/or Set |
-| -------- | ---- | ---------------- |
-| 10 | permit | match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY |
+| Sequence | Type | Match | Set | Sub-Route-Map | Continue |
+| -------- | ---- | ----- | --- | ------------- | -------- |
+| 10 | permit | ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY | - | - | - |
 
 ### Route-maps Device Configuration
 
