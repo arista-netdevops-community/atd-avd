@@ -1,3 +1,4 @@
+---
 - name: "Collect EOS commands from devices"
   hosts: ATD_FABRIC
   connection: local

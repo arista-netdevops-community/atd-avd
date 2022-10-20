@@ -42,7 +42,7 @@ all:
     ...
 ```
 
-## 3. Provision ATD
+## 3. Prepare ATD
 
 To emulate a ZTP environment, we will move all devices from their current containers to a dedicated one named `STAGING` to mimic an `undefined` container.
 
@@ -62,15 +62,13 @@ ansible-playbook playbooks/atd-prepare-lab.yml
 
 While the playbook supports build/provision/execute in one sequence, we will proceed step-by-step.
 
-### Build Device Configurations & Documentation Files
+### Build device configurations and documentation files
 
 ```bash
-ansible-playbook playbooks/atd-fabric-deploy.yml --tags build
+ansible-playbook playbooks/atd-fabric-build.yml
 ```
 
-When used with the `build` tag, this playbook creates configuration files and documentation.
-
-Output can be reviewed in your VScode instance:
+The generated output can be reviewed in your VScode instance:
 
 - EOS Configuration: [atd-inventory/intended/configs](atd-inventory/intended/configs)
 - Fabric documentation: [atd-inventory/documentation](atd-inventory/documentation)
@@ -78,10 +76,10 @@ Output can be reviewed in your VScode instance:
 ### Provision CVP
 
 ```bash
-ansible-playbook playbooks/atd-fabric-deploy.yml --tags provision
+ansible-playbook playbooks/atd-fabric-provision.yml
 ```
 
-This playbook, when used with the `provision` tag, creates the following:
+This playbook creates the following:
 
 - A new containers topology to support AVD devices based on inventory file
 - Move devices to their respective container
@@ -89,7 +87,7 @@ This playbook, when used with the `provision` tag, creates the following:
 
 Change control remains on the user's side as it's a safer approach for production. We have the option to execute tasks automatically on CloudVision as well.
 
-Create the change control and execute all pending tasks.
+> Create the change control and execute all pending tasks.
 
 ![CloudVision Topology for AVD](./docs/imgs/atd-topo-avd.png)
 
@@ -107,12 +105,11 @@ bgp_peer_groups:
 ...
 ```
 
-You can rerun the build tasks to review the configuration or build and provision all at once. Don't forget to create a change control to finalize the deployment on the EOS nodes.
+You can rerun the build and provision playbooks to build and provision all at once. Don't forget to create a change control to finalize the deployment on the EOS nodes.
 
 ```bash
-ansible-playbook playbooks/atd-fabric-deploy.yml --tags build
-# or
-ansible-playbook playbooks/atd-fabric-deploy.yml
+ansible-playbook playbooks/atd-fabric-build.yml
+ansible-playbook playbooks/atd-fabric-provision.yml
 ```
 
 ## 6. Add a new tenant to the fabric
@@ -144,13 +141,14 @@ tenants:
             ip_address_virtual: 10.2.11.1/24
 ```
 
-- Run the `atd-fabric-deploy.yml` playbook.
+- Run the build and provision playbooks once again.
 
   ```bash
-  ansible-playbook playbooks/atd-fabric-deploy.yml
+  ansible-playbook playbooks/atd-fabric-build.yml
+  ansible-playbook playbooks/atd-fabric-provision.yml
   ```
 
-Once more, in CVP, create a change control and execute all tasks.
+  > Once more, in CVP, create a change control and execute all tasks.
 
 ## 7. Filter VLANs deployed on the fabric
 
@@ -192,10 +190,11 @@ To enable the filtering feature, uncomment the `only_vlans_in_use` variable with
 ...
 ```
 
-- Run the `atd-fabric-deploy.yml` playbook.
+- Run the build and provision playbooks once again.
 
   ```bash
-  ansible-playbook playbooks/atd-fabric-deploy.yml
+  ansible-playbook playbooks/atd-fabric-build.yml
+  ansible-playbook playbooks/atd-fabric-provision.yml
   ```
 
   Once more, in CVP, create a change control and execute all tasks. Below is the new output from leaf1 with VLANs filtered.
@@ -252,12 +251,13 @@ network_ports:
     profile: TENANT_A
 ```
 
-Please note, if using this example, the connected endpoints example for host2 will have to be commented out or removed.
+> Please note, if using this example, the connected endpoints example for host2 will have to be commented out or removed.
 
-- Run the `atd-fabric-deploy.yml` playbook.
+- Run the build and provision playbooks once again.
 
   ```bash
-  ansible-playbook playbooks/atd-fabric-deploy.yml --tags build
+  ansible-playbook playbooks/atd-fabric-build.yml
+  ansible-playbook playbooks/atd-fabric-provision.yml
   ```
 
   We can see the generated configuration from the [leaf3](atd-inventory/intended/configs/leaf3.cfg) configuration file.
