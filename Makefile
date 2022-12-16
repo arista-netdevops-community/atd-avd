@@ -16,11 +16,11 @@ prepare: ## Build container topology in CVP to simulate a ZTP environment
 
 .PHONY: build
 build: ## Build fabric artifacts
-	ansible-playbook playbooks/atd-fabric-deploy.yml --tags build
+	ansible-playbook playbooks/atd-fabric-build.yml
 
 .PHONY: cvp
 cvp: ## Push configurations to CVP and create tasks (user must execute)
-	ansible-playbook playbooks/atd-fabric-deploy.yml --tags provision
+	ansible-playbook playbooks/atd-fabric-provision.yml
 
 .PHONY: validate
 validate: ## Validate the fabric from the EOS nodes using eAPI

@@ -93,10 +93,11 @@ The diagram below shows that the ATD lab topology consists of two Spines, four L
 
 5. Run playbook to deploy AVD setup
 
-    - Execute the following command:
+    - Execute the following commands:
 
       ```shell
-      ansible-playbook playbooks/atd-fabric-deploy.yml
+      ansible-playbook playbooks/atd-fabric-build.yml
+      ansible-playbook playbooks/atd-fabric-provision.yml
       ```
 
     - Execute pending tasks in CloudVision Portal manually.
