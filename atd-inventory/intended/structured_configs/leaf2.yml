@@ -26,10 +26,10 @@ router_bgp:
       type: evpn
       update_source: Loopback0
       bfd: true
-      ebgp_multihop: '3'
       password: q+VNViP5i4rVjW1cxFv2wA==
       send_community: all
       maximum_routes: 0
+      ebgp_multihop: 3
   address_family_ipv4:
     peer_groups:
       MLAG-IPv4-UNDERLAY-PEER:
@@ -76,11 +76,11 @@ router_bgp:
         export:
           evpn:
           - '10:10'
+      redistribute_routes:
+      - connected
       neighbors:
         10.255.251.0:
           peer_group: MLAG-IPv4-UNDERLAY-PEER
-      redistribute_routes:
-      - connected
   vlan_aware_bundles:
     Tenant_A_OP_Zone:
       rd: 192.0.255.4:10
@@ -89,7 +89,7 @@ router_bgp:
         - '10:10'
       redistribute_routes:
       - learned
-      vlan: 110
+      vlan: '110'
     Tenant_A_VMOTION:
       tenant: Tenant_A
       rd: 192.0.255.4:55160
@@ -98,7 +98,7 @@ router_bgp:
         - 55160:55160
       redistribute_routes:
       - learned
-      vlan: 160
+      vlan: '160'
 static_routes:
 - vrf: default
   destination_address_prefix: 0.0.0.0/0
@@ -180,16 +180,16 @@ vlan_interfaces:
     - opzone
     description: Tenant_A_OP_Zone_1
     shutdown: false
-    vrf: Tenant_A_OP_Zone
     ip_address_virtual: 10.1.10.1/24
+    vrf: Tenant_A_OP_Zone
   Vlan3009:
     tenant: Tenant_A
     type: underlay_peering
     shutdown: false
     description: 'MLAG_PEER_L3_iBGP: vrf Tenant_A_OP_Zone'
     vrf: Tenant_A_OP_Zone
-    ip_address: 10.255.251.1/31
     mtu: 1500
+    ip_address: 10.255.251.1/31
 port_channel_interfaces:
   Port-Channel1:
     description: MLAG_PEER_leaf1_Po1
@@ -205,7 +205,7 @@ port_channel_interfaces:
     type: switched
     shutdown: false
     mode: access
-    vlans: 110
+    vlans: '110'
     mlag: 4
 ethernet_interfaces:
   Ethernet1:
@@ -233,18 +233,18 @@ ethernet_interfaces:
     peer_interface: Ethernet3
     peer_type: spine
     description: P2P_LINK_TO_SPINE1_Ethernet3
+    shutdown: false
     mtu: 1500
     type: routed
-    shutdown: false
     ip_address: 172.30.255.5/31
   Ethernet3:
     peer: spine2
     peer_interface: Ethernet3
     peer_type: spine
     description: P2P_LINK_TO_SPINE2_Ethernet3
+    shutdown: false
     mtu: 1500
     type: routed
-    shutdown: false
     ip_address: 172.30.255.7/31
   Ethernet4:
     peer: host1
@@ -254,7 +254,7 @@ ethernet_interfaces:
     type: switched
     shutdown: false
     mode: access
-    vlans: 110
+    vlans: '110'
     channel_group:
       id: 4
       mode: active
@@ -266,7 +266,7 @@ ethernet_interfaces:
     type: switched
     shutdown: false
     mode: access
-    vlans: 110
+    vlans: '110'
     channel_group:
       id: 4
       mode: active
@@ -324,9 +324,9 @@ vxlan_interface:
   Vxlan1:
     description: leaf2_VTEP
     vxlan:
+      udp_port: 4789
       source_interface: Loopback1
       virtual_router_encapsulation_mac_address: mlag-system-id
-      udp_port: 4789
       vlans:
         110:
           vni: 10110

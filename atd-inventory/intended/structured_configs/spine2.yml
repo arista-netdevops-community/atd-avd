@@ -17,10 +17,10 @@ router_bgp:
       type: evpn
       update_source: Loopback0
       bfd: true
-      ebgp_multihop: '3'
       password: q+VNViP5i4rVjW1cxFv2wA==
       send_community: all
       maximum_routes: 0
+      ebgp_multihop: 3
       next_hop_unchanged: true
   address_family_ipv4:
     peer_groups:
@@ -108,36 +108,36 @@ ethernet_interfaces:
     peer_interface: Ethernet3
     peer_type: l3leaf
     description: P2P_LINK_TO_LEAF1_Ethernet3
+    shutdown: false
     mtu: 1500
     type: routed
-    shutdown: false
     ip_address: 172.30.255.2/31
   Ethernet3:
     peer: leaf2
     peer_interface: Ethernet3
     peer_type: l3leaf
     description: P2P_LINK_TO_LEAF2_Ethernet3
+    shutdown: false
     mtu: 1500
     type: routed
-    shutdown: false
     ip_address: 172.30.255.6/31
   Ethernet4:
     peer: leaf3
     peer_interface: Ethernet3
     peer_type: l3leaf
     description: P2P_LINK_TO_LEAF3_Ethernet3
+    shutdown: false
     mtu: 1500
     type: routed
-    shutdown: false
     ip_address: 172.30.255.10/31
   Ethernet5:
     peer: leaf4
     peer_interface: Ethernet3
     peer_type: l3leaf
     description: P2P_LINK_TO_LEAF4_Ethernet3
+    shutdown: false
     mtu: 1500
     type: routed
-    shutdown: false
     ip_address: 172.30.255.14/31
 loopback_interfaces:
   Loopback0:
