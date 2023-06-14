@@ -1,21 +1,21 @@
 svi_profiles:
-  GENERIC:
+  - profile: GENERIC
     mtu: 1560
     enabled: true
-  GENERIC_FULL:
+  - profile: GENERIC_FULL
     name: GENERIC Name
     mtu: 1560
     enabled: false
     ip_address_virtual: 10.1.10.254/24
-  WITH_NO_MTU:
+  - profile: WITH_NO_MTU
     enabled: true
-  WITH_SNOOPING:
+  - profile: WITH_SNOOPING
     enabled: true
     igmp_snooping_enabled: false
 
 tenants:
   # Tenant A Specific Information - VRFs / VLANs
-  Tenant_A:
+  - name: Tenant_A
     mac_vrf_vni_base: 10000
     # Optional example enabling multicast for tenant
     # Requires enabling of multicast in ATD_FABRIC.yml
@@ -24,34 +24,34 @@ tenants:
     #   underlay_l2_multicast_group_ipv4_pool: 232.0.0.0/20
     #   underlay_l2_multicast_group_ipv4_pool_offset: 2
     vrfs:
-      Tenant_A_OP_Zone:
+      - name: Tenant_A_OP_Zone
         vrf_vni: 10
         vtep_diagnostic:
           loopback: 100
           loopback_ip_range: 10.255.1.0/24
         svis:
-          110:
+          - id: 110
             name: Tenant_A_OP_Zone_1
             tags: [opzone]
             enabled: true
             ip_address_virtual: 10.1.10.1/24
     l2vlans:
-      160:
+      - id: 160
         vni_override: 55160
         name: Tenant_A_VMOTION
         tags: [vmotion]
   # Tenant_B:
   #   mac_vrf_vni_base: 20000
-  #   vrfs:
+  #   - name: vrfs
   #     Tenant_B_OP_Zone:
   #       vrf_vni: 20
   #       svis:
-  #         210:
+  #         - id: 210
   #           name: Tenant_B_OP_Zone_1
   #           tags: ['opzone']
   #           profile: WITH_NO_MTU
   #           ip_address_virtual: 10.2.10.1/24
-  #         211:
+  #         - id: 211
   #           name: Tenant_B_OP_Zone_2
   #           tags: ['opzone']
   #           profile: GENERIC_FULL

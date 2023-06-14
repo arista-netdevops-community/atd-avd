@@ -54,3 +54,5 @@ all:
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
     ansible_python_interpreter: $(which python3)
+    avd_data_conversion_mode: error
+    avd_data_validation_mode: error
