@@ -40,10 +40,10 @@ tenants:
         vni_override: 55160
         name: Tenant_A_VMOTION
         tags: [vmotion]
-  # Tenant_B:
+  # - name: Tenant_B
   #   mac_vrf_vni_base: 20000
-  #   - name: vrfs
-  #     Tenant_B_OP_Zone:
+  #   vrfs:
+  #     - name: Tenant_B_OP_Zone
   #       vrf_vni: 20
   #       svis:
   #         - id: 210
