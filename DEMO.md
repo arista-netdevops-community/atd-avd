@@ -237,7 +237,7 @@ AVD can now use a more generic definition of host-facing ports. The `network_por
 ```yaml
 ---
 port_profiles:
-  TENANT_A:
+  - profile: TENANT_A
     mode: access
     vlans: "110"
 ...
