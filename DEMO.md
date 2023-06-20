@@ -52,8 +52,8 @@ ansible-playbook playbooks/atd-prepare-lab.yml
 
 - This playbook executes the following tasks:
   - Recreates the container topology in staging format
-  - Moves nodes to appropriate container
-  - Executes pending tasks for user on CVP
+  - Moves nodes to the appropriate container
+  - Executes pending tasks for the user on CVP
 - Provisioning topology view should be similar to below
 
   ![Provisioning topo](docs/imgs/atd-topo-provisioning.png)
@@ -99,13 +99,14 @@ By default, AVD leverages EBGP for the underlay and overlay. However, these sett
 ...
 underlay_routing_protocol: OSPF
 
+...
 # bgp peer groups passwords
 bgp_peer_groups:
-  IPv4_UNDERLAY_PEERS:
+  ipv4_underlay_peers:
 ...
 ```
 
-You can rerun the build and provision playbooks to build and provision all at once. Don't forget to create a change control to finalize the deployment on the EOS nodes.
+You can rerun the build and provision playbooks to build and provision simultaneously. Remember to create a change control to finalize the deployment on the EOS nodes.
 
 ```bash
 ansible-playbook playbooks/atd-fabric-build.yml
@@ -120,21 +121,21 @@ Edit the [ATD_TENANTS_NETWORKS.yml](atd-inventory/group_vars/ATD_TENANTS_NETWORK
 # edit atd-inventory/group_vars/ATD_TENANTS_NETWORKS.yml
 tenants:
   # Tenant A Specific Information - VRFs / VLANs
-  Tenant_A:
+  - name: Tenant_A:
   ...
 
-  Tenant_B:
+  - name: Tenant_B
     mac_vrf_vni_base: 20000
     vrfs:
-      Tenant_B_OP_Zone:
+      - name: Tenant_B_OP_Zone
         vrf_vni: 20
         svis:
-          210:
+          - id: 210
             name: Tenant_B_OP_Zone_1
             tags: ['opzone']
             profile: WITH_NO_MTU
             ip_address_virtual: 10.2.10.1/24
-          211:
+          - id: 211
             name: Tenant_B_OP_Zone_2
             tags: ['opzone']
             profile: GENERIC_FULL
@@ -148,7 +149,7 @@ tenants:
   ansible-playbook playbooks/atd-fabric-provision.yml
   ```
 
-  > Once more, in CVP, create a change control and execute all tasks.
+  > Once more, create a change control in CVP and execute all tasks.
 
 ## 7. Filter VLANs deployed on the fabric
 
@@ -185,8 +186,8 @@ To enable the filtering feature, uncomment the `only_vlans_in_use` variable with
     filter:
       only_vlans_in_use: true
   node_groups:
-    pod1:
-      bgp_as: 65101
+    - group: pod1
+      bgp_as: 6510
 ...
 ```
 
@@ -219,21 +220,19 @@ To enable the filtering feature, uncomment the `only_vlans_in_use` variable with
 Currently, we have a host-specific configuration for host1 and host2 in [ATD_SERVERS.yml](atd-inventory/group_vars/ATD_SERVERS.yml). Example below:
 
 ```yaml
-  host2:
+  - name: host2
     rack: pod2
     adapters:
-      - type: nic
-        server_ports: [Eth1, Eth2, Eth3, Eth4]
+      - endpoint_ports: [Eth1, Eth2, Eth3, Eth4]
         switch_ports: [Ethernet4, Ethernet5, Ethernet4, Ethernet5]
         switches: [leaf3, leaf3, leaf4, leaf4]
         profile: TENANT_A
         port_channel:
-          state: present
           description: PortChannel
           mode: active
 ```
 
-AVD can now use a more generic definition of host-facing ports. The `network_ports` feature is useful when a series of interfaces share the same configuration. For example, if we wanted interfaces four through five on leaf3 and leaf4 configured similarly, we could do something like this.
+AVD can now use a more generic definition of host-facing ports. The `network_ports` feature is useful when a series of interfaces share the same configuration. For example, if we wanted interfaces four through five on leaf3 and leaf4 configured similarly, we could do something like the following:
 
 ```yaml
 ---
@@ -251,7 +250,7 @@ network_ports:
     profile: TENANT_A
 ```
 
-> Please note, if using this example, the connected endpoints example for host2 will have to be commented out or removed.
+> Please note, if using this example, the connected endpoints example for host2 must be commented out or removed.
 
 - Run the build and provision playbooks once again.
 
@@ -280,7 +279,7 @@ network_ports:
 
 ## 9. Validate the fabric state
 
-Once deployed, it's possible to validate the fabric state using a set of generated tests by using the AVD `eos_validate_state` role. The reports are stored in the `atd-inventory/reports` folder.
+Once deployed, it's possible to validate the fabric state using a set of generated tests using the AVD `eos_validate_state` role. The reports are stored in the `atd-inventory/reports` folder.
 
 - Run the `atd-validate-states.yml` playbook
 
