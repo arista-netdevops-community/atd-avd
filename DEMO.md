@@ -187,7 +187,7 @@ To enable the filtering feature, uncomment the `only_vlans_in_use` variable with
       only_vlans_in_use: true
   node_groups:
     - group: pod1
-      bgp_as: 6510
+      bgp_as: 65101
 ...
 ```
 
