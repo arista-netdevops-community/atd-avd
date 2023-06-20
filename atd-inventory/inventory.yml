@@ -34,12 +34,12 @@ all:
                       ansible_host: 192.168.0.14
                     leaf4:
                       ansible_host: 192.168.0.15
-            ATD_TENANTS_NETWORKS:
-              children:
-                ATD_LEAFS:
-            ATD_SERVERS:
-              children:
-                ATD_LEAFS:
+        ATD_TENANTS_NETWORKS:
+          children:
+            ATD_LEAFS:
+        ATD_SERVERS:
+          children:
+            ATD_LEAFS:
 
   vars:
     ansible_user: arista
@@ -54,3 +54,5 @@ all:
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
     ansible_python_interpreter: $(which python3)
+    avd_data_conversion_mode: error
+    avd_data_validation_mode: error

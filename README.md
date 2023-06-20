@@ -10,7 +10,7 @@ This repository is configured to run [`arista.cvp`](https://github.com/aristanet
   <img src='docs/imgs/cv_ansible_logo.png' alt='Arista CloudVision and Ansible'/>
 </p>
 
-To access an ATD topology, please get in touch with your Arista representative.
+To access an ATD topology, please contact your Arista representative.
 
 ## Lab topology
 
