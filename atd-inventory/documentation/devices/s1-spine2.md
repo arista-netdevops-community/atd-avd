@@ -1,4 +1,4 @@
-# spine2
+# s1-spine2
 
 ## Table of Contents
 
@@ -41,19 +41,19 @@
 
 | Management Interface | description | Type | VRF | IP Address | Gateway |
 | -------------------- | ----------- | ---- | --- | ---------- | ------- |
-| Management1 | oob_management | oob | default | 192.168.0.11/24 | 192.168.0.1 |
+| Management0 | oob_management | oob | default | 192.168.0.11/24 | 192.168.0.1 |
 
 ##### IPv6
 
 | Management Interface | description | Type | VRF | IPv6 Address | IPv6 Gateway |
 | -------------------- | ----------- | ---- | --- | ------------ | ------------ |
-| Management1 | oob_management | oob | default | - | - |
+| Management0 | oob_management | oob | default | - | - |
 
 #### Management Interfaces Device Configuration
 
 ```eos
 !
-interface Management1
+interface Management0
    description oob_management
    no shutdown
    ip address 192.168.0.11/24
@@ -157,38 +157,38 @@ vlan internal order ascending range 1006 1199
 
 | Interface | Description | Type | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
 | --------- | ----------- | -----| ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
-| Ethernet2 | P2P_LINK_TO_LEAF1_Ethernet3 | routed | - | 172.30.255.2/31 | default | 1500 | False | - | - |
-| Ethernet3 | P2P_LINK_TO_LEAF2_Ethernet3 | routed | - | 172.30.255.6/31 | default | 1500 | False | - | - |
-| Ethernet4 | P2P_LINK_TO_LEAF3_Ethernet3 | routed | - | 172.30.255.10/31 | default | 1500 | False | - | - |
-| Ethernet5 | P2P_LINK_TO_LEAF4_Ethernet3 | routed | - | 172.30.255.14/31 | default | 1500 | False | - | - |
+| Ethernet2 | P2P_LINK_TO_S1-LEAF1_Ethernet3 | routed | - | 172.30.255.2/31 | default | 1500 | False | - | - |
+| Ethernet3 | P2P_LINK_TO_S1-LEAF2_Ethernet3 | routed | - | 172.30.255.6/31 | default | 1500 | False | - | - |
+| Ethernet4 | P2P_LINK_TO_S1-LEAF3_Ethernet3 | routed | - | 172.30.255.10/31 | default | 1500 | False | - | - |
+| Ethernet5 | P2P_LINK_TO_S1-LEAF4_Ethernet3 | routed | - | 172.30.255.14/31 | default | 1500 | False | - | - |
 
 #### Ethernet Interfaces Device Configuration
 
 ```eos
 !
 interface Ethernet2
-   description P2P_LINK_TO_LEAF1_Ethernet3
+   description P2P_LINK_TO_S1-LEAF1_Ethernet3
    no shutdown
    mtu 1500
    no switchport
    ip address 172.30.255.2/31
 !
 interface Ethernet3
-   description P2P_LINK_TO_LEAF2_Ethernet3
+   description P2P_LINK_TO_S1-LEAF2_Ethernet3
    no shutdown
    mtu 1500
    no switchport
    ip address 172.30.255.6/31
 !
 interface Ethernet4
-   description P2P_LINK_TO_LEAF3_Ethernet3
+   description P2P_LINK_TO_S1-LEAF3_Ethernet3
    no shutdown
    mtu 1500
    no switchport
    ip address 172.30.255.10/31
 !
 interface Ethernet5
-   description P2P_LINK_TO_LEAF4_Ethernet3
+   description P2P_LINK_TO_S1-LEAF4_Ethernet3
    no shutdown
    mtu 1500
    no switchport
@@ -284,6 +284,7 @@ ip route 0.0.0.0/0 192.168.0.1
 | ---------- |
 | graceful-restart restart-time 300 |
 | graceful-restart |
+| update wait-install |
 | no bgp default ipv4-unicast |
 | distance bgp 20 200 200 |
 | maximum-paths 4 ecmp 4 |
@@ -341,6 +342,7 @@ router bgp 65001
    graceful-restart restart-time 300
    graceful-restart
    maximum-paths 4 ecmp 4
+   update wait-install
    no bgp default ipv4-unicast
    neighbor EVPN-OVERLAY-PEERS peer group
    neighbor EVPN-OVERLAY-PEERS next-hop-unchanged
@@ -356,28 +358,28 @@ router bgp 65001
    neighbor IPv4-UNDERLAY-PEERS maximum-routes 12000
    neighbor 172.30.255.3 peer group IPv4-UNDERLAY-PEERS
    neighbor 172.30.255.3 remote-as 65101
-   neighbor 172.30.255.3 description leaf1_Ethernet3
+   neighbor 172.30.255.3 description s1-leaf1_Ethernet3
    neighbor 172.30.255.7 peer group IPv4-UNDERLAY-PEERS
    neighbor 172.30.255.7 remote-as 65101
-   neighbor 172.30.255.7 description leaf2_Ethernet3
+   neighbor 172.30.255.7 description s1-leaf2_Ethernet3
    neighbor 172.30.255.11 peer group IPv4-UNDERLAY-PEERS
    neighbor 172.30.255.11 remote-as 65102
-   neighbor 172.30.255.11 description leaf3_Ethernet3
+   neighbor 172.30.255.11 description s1-leaf3_Ethernet3
    neighbor 172.30.255.15 peer group IPv4-UNDERLAY-PEERS
    neighbor 172.30.255.15 remote-as 65102
-   neighbor 172.30.255.15 description leaf4_Ethernet3
+   neighbor 172.30.255.15 description s1-leaf4_Ethernet3
    neighbor 192.0.255.3 peer group EVPN-OVERLAY-PEERS
    neighbor 192.0.255.3 remote-as 65101
-   neighbor 192.0.255.3 description leaf1
+   neighbor 192.0.255.3 description s1-leaf1
    neighbor 192.0.255.4 peer group EVPN-OVERLAY-PEERS
    neighbor 192.0.255.4 remote-as 65101
-   neighbor 192.0.255.4 description leaf2
+   neighbor 192.0.255.4 description s1-leaf2
    neighbor 192.0.255.5 peer group EVPN-OVERLAY-PEERS
    neighbor 192.0.255.5 remote-as 65102
-   neighbor 192.0.255.5 description leaf3
+   neighbor 192.0.255.5 description s1-leaf3
    neighbor 192.0.255.6 peer group EVPN-OVERLAY-PEERS
    neighbor 192.0.255.6 remote-as 65102
-   neighbor 192.0.255.6 description leaf4
+   neighbor 192.0.255.6 description s1-leaf4
    redistribute connected route-map RM-CONN-2-BGP
    !
    address-family evpn

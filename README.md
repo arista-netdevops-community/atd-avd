@@ -24,16 +24,16 @@ The diagram below shows that the ATD lab topology consists of two Spines, four L
 
 | Device | IP Address |
 | ------ | ------------ |
-| spine1 |192.168.0.10 |
-| spine2 |192.168.0.11 |
-| leaf1  |192.168.0.12 |
-| leaf2  |192.168.0.13 |
-| leaf3  |192.168.0.14 |
-| leaf4  |192.168.0.15 |
-| host1  |192.168.0.16 |
-| host2  |192.168.0.17 |
+| s1-spine1 |192.168.0.10 |
+| s1-spine2 |192.168.0.11 |
+| s1-leaf1  |192.168.0.12 |
+| s1-leaf2  |192.168.0.13 |
+| s1-leaf3  |192.168.0.14 |
+| s1-leaf4  |192.168.0.15 |
+| s1-host1  |192.168.0.16 |
+| s1-host2  |192.168.0.17 |
 
-> Current repository is built with vEOS management interface (`Management1`). If you run a cEOS topology, please update `mgmt_interface` field to `Management0` in the [ATD_LAB](./atd-inventory/group_vars/ATD_LAB.yml) `group_vars`.
+> Current repository is built with cEOS management interface (`Management0`). If you run a vEOS topology, please update `mgmt_interface` field to `Management1` in the [ATD_LAB](./atd-inventory/group_vars/ATD_LAB.yml) `group_vars`.
 
 ## Getting Started
 
@@ -53,10 +53,14 @@ The diagram below shows that the ATD lab topology consists of two Spines, four L
     git config --global user.name "Your Name"
     ```
 
-2. Run the install script to clone the required repositories and install any dependencies
+2. Set credentials and install any required tools
 
     ```shell
-    curl -fsSL https://get.avd.sh/atd/install.sh | sh
+    export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
+    ansible-galaxy collection install -r requirements.yml
+    export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
+    pip3 config set global.disable-pip-version-check true
+    pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
     ```
 
 3. Update the inventory file with new lab credentials
