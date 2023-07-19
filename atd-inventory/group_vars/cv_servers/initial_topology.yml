@@ -28,10 +28,6 @@ CVP_DEVICES_INIT:
 CVP_CONTAINERS_INIT:
   STAGING:
     parentContainerName: Tenant
-  Hosts:
-    parentContainerName: Tenant
-  CVX:
-    parentContainerName: Tenant
 
 CVP_CONTAINERS_DELETE:
   S1-Leaf:

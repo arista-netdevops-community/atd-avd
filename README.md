@@ -14,7 +14,7 @@ To access an ATD topology, please contact your Arista representative.
 
 ## Lab topology
 
-The diagram below shows that the ATD lab topology consists of two Spines, four Leafs, and two Hosts.
+The diagram below shows that the ATD lab topology consists of two data centers. We will only leverage DC1 in this example.
 
 <p align="center">
   <img src="docs/imgs/atd-topo.png" alt="ATD Lab Topology" width="600"/>
@@ -56,36 +56,15 @@ The diagram below shows that the ATD lab topology consists of two Spines, four L
 2. Set credentials and install any required tools
 
     ```shell
+    cd /home/coder/project/labfiles
     export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
     ansible-galaxy collection install -r requirements.yml
     export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
-    pip3 config set global.disable-pip-version-check true
     pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
+    git clone https://github.com/arista-netdevops-community/atd-avd.git
     ```
 
-3. Update the inventory file with new lab credentials
-
-    - Open file in VS Code: `atd-avd/atd-inventory/inventory.yml`
-
-    - Set credentials in the `inventory.yml` file to the credentials provided on the ATD landing page.
-
-      ```yaml
-      ---
-      all:
-        children:
-          cv_servers:
-            hosts:
-              cv_atd1:
-                ansible_host: 192.168.0.5
-                cv_collection: v3
-      ...
-      vars:
-        ansible_user: arista
-        ansible_password: # Update password with lab credentials
-      ...
-      ```
-
-4. Run the playbook to prepare CloudVision for AVD
+3. Run the playbook to prepare CloudVision for AVD
 
     - Execute the following command:
 
@@ -95,7 +74,7 @@ The diagram below shows that the ATD lab topology consists of two Spines, four L
 
     - Check that tasks in CloudVision have been automatically completed
 
-5. Run playbook to deploy AVD setup
+4. Run playbook to deploy AVD setup
 
     - Execute the following commands:
 
@@ -106,7 +85,7 @@ The diagram below shows that the ATD lab topology consists of two Spines, four L
 
     - Execute pending tasks in CloudVision Portal manually.
 
-6. Run validation and snapshot playbooks
+5. Run validation and snapshot playbooks
 
     - Execute the following commands:
 
