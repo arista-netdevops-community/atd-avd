@@ -10,11 +10,11 @@ This repository is configured to run [`arista.cvp`](https://github.com/aristanet
   <img src='docs/imgs/cv_ansible_logo.png' alt='Arista CloudVision and Ansible'/>
 </p>
 
-To access an ATD topology, please contact your Arista representative.
+To access an ATD topology, please get in touch with your Arista representative.
 
 ## Lab topology
 
-The diagram below shows that the ATD lab topology consists of two data centers. We will only leverage DC1 in this example.
+The diagram below shows that the ATD lab topology has two data centers. We will only leverage DC1 in this example.
 
 <p align="center">
   <img src="docs/imgs/atd-topo.png" alt="ATD Lab Topology" width="600"/>
@@ -62,6 +62,7 @@ The diagram below shows that the ATD lab topology consists of two data centers. 
     export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
     pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
     git clone https://github.com/arista-netdevops-community/atd-avd.git
+    cd atd-avd
     ```
 
 3. Run the playbook to prepare CloudVision for AVD
@@ -76,24 +77,24 @@ The diagram below shows that the ATD lab topology consists of two data centers. 
 
 4. Run playbook to deploy AVD setup
 
-    - Execute the following commands:
+    - Run the following commands:
 
       ```shell
       ansible-playbook playbooks/atd-fabric-build.yml
       ansible-playbook playbooks/atd-fabric-provision.yml
       ```
 
-    - Execute pending tasks in CloudVision Portal manually.
+    - Run pending tasks in CloudVision Portal manually.
 
 5. Run validation and snapshot playbooks
 
-    - Execute the following commands:
+    - Run the following commands:
 
       ```shell
       # Run audit playbook to validate the fabric state
       ansible-playbook playbooks/atd-validate-states.yml
 
-      # Execute the atd-snapshot playbook to collect show commands
+      # Run the atd-snapshot playbook to collect show commands
       ansible-playbook playbooks/atd-snapshot.yml
       ```
 
@@ -107,7 +108,7 @@ A complete [step-by-step guide](./DEMO.md) is available.
 
 - [Arista Ansible AVD Collection](https://github.com/aristanetworks/ansible-avd)
 - [Arista CloudVision Collection](https://github.com/aristanetworks/ansible-cvp)
-- [Arista AVD documentation](https://www.avd.sh)
+- [Arista AVD documentation](https://avd.arista.com)
 
 ## License
 
