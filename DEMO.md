@@ -34,16 +34,16 @@ export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "pas
 
 The code block below performs the following actions:
 
-- Moves to the correct directory
-- Installs Ansible Galaxy collections based on our `requirements.yml` file
+- Moves to the `labfiles` directory
+- Installs version 4.1.0 of the arista.avd collection
 - Exports an environment variable based on the location of the `arista.avd` collection
-- Leverages the new environment variable to install the Python requirements
+- Leverages the new environment variable to install the Python requirements for arista.avd
 - Clones this repository
 - Moves to the cloned repository folder
 
     ```shell
     cd /home/coder/project/labfiles
-    ansible-galaxy collection install -r requirements.yml
+    ansible-galaxy collection install arista.avd:==4.1.0
     export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
     pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
     git clone https://github.com/arista-netdevops-community/atd-avd.git
