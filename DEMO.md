@@ -22,27 +22,35 @@ cd labfiles/arista-ansible/atd-avd
 
 In addition, open CloudVision Portal (CVP) by clicking the __CVP__ link. Then, log in with the username `arista` and the auto-generated password on the lab topology screen.
 
-## 2. Configure your inventory
+## 2. Configure your credential
 
-Because the password is auto-generated, you must update the `ansible_password` variable in this inventory file to use the correct credentials. Also, ensure the `ansible_host` variable for `cv_atd1` is set to the static IP below.
+Because the password is auto-generated, you must update the `ansible_password` variable. We will read a configuration file to set our credential file as an environment variable.
 
-```yaml
-# edit atd-inventory/inventory.yml
----
-all:
-  children:
-    cv_servers:
-      hosts:
-        cv_atd1:
-          ansible_host: 192.168.0.5
-    ...
-  vars:
-    ansible_user: arista
-    ansible_password: # Update password with lab credentials
-    ...
+```shell
+export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
 ```
 
-## 3. Prepare ATD
+## 3. Install all the requirements
+
+The code block below performs the following actions:
+
+- Moves to the `labfiles` directory
+- Installs version 4.1.0 of the arista.avd collection
+- Exports an environment variable based on the location of the `arista.avd` collection
+- Leverages the new environment variable to install the Python requirements for arista.avd
+- Clones this repository
+- Moves to the cloned repository folder
+
+    ```shell
+    cd /home/coder/project/labfiles
+    ansible-galaxy collection install arista.avd:==4.1.0
+    export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
+    pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
+    git clone https://github.com/arista-netdevops-community/atd-avd.git
+    cd atd-avd
+    ```
+
+## 4. Prepare ATD
 
 To emulate a ZTP environment, we will move all devices from their current containers to a dedicated one named `STAGING` to mimic an `undefined` container.
 
@@ -68,7 +76,7 @@ While the playbook supports build/provision/execute in one sequence, we will pro
 ansible-playbook playbooks/atd-fabric-build.yml
 ```
 
-The generated output can be reviewed in your VScode instance:
+You can review the generated output in your VScode instance:
 
 - EOS Configuration: [atd-inventory/intended/configs](atd-inventory/intended/configs)
 - Fabric documentation: [atd-inventory/documentation](atd-inventory/documentation)
@@ -223,16 +231,16 @@ Currently, we have a host-specific configuration for host1 and host2 in [ATD_SER
   - name: host2
     rack: pod2
     adapters:
-      - endpoint_ports: [Eth1, Eth2, Eth3, Eth4]
-        switch_ports: [Ethernet4, Ethernet5, Ethernet4, Ethernet5]
-        switches: [leaf3, leaf3, leaf4, leaf4]
+      - endpoint_ports: [Eth1, Eth2]
+        switch_ports: [Ethernet4, Ethernet4]
+        switches: [s1-leaf3, s1-leaf4]
         profile: TENANT_A
         port_channel:
           description: PortChannel
           mode: active
 ```
 
-AVD can now use a more generic definition of host-facing ports. The `network_ports` feature is useful when a series of interfaces share the same configuration. For example, if we wanted interfaces four through five on leaf3 and leaf4 configured similarly, we could do something like the following:
+AVD can now use a more generic definition of host-facing ports. The `network_ports` feature is useful when a series of interfaces share the same configuration. For example, if we wanted interface four on leaf3 and leaf4 configured similarly, we could do something like the following:
 
 ```yaml
 ---
@@ -243,9 +251,9 @@ port_profiles:
 ...
 network_ports:
   - switches:
-      - leaf[34] # Simple regex to match on leaf3 and leaf4
+      - s1-leaf[34] # Simple regex to match on leaf3 and leaf4
     switch_ports: # Ex Ethernet1-48 or Ethernet2-3/1-48
-      - Ethernet4-5
+      - Ethernet4
     description: Connection to host2
     profile: TENANT_A
 ```
@@ -263,13 +271,6 @@ network_ports:
 
   ```eos
   interface Ethernet4
-     description Connection to host2
-     no shutdown
-     switchport access vlan 110
-     switchport mode access
-     switchport
-  !
-  interface Ethernet5
      description Connection to host2
      no shutdown
      switchport access vlan 110

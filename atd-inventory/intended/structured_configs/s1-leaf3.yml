@@ -1,6 +1,6 @@
 router_bgp:
-  as: '65101'
-  router_id: 192.0.255.4
+  as: '65102'
+  router_id: 192.0.255.5
   distance:
     external_routes: 20
     internal_routes: 200
@@ -11,15 +11,17 @@ router_bgp:
   maximum_paths:
     paths: 4
     ecmp: 4
+  updates:
+    wait_install: true
   graceful_restart:
     enabled: true
     restart_time: 300
   peer_groups:
   - name: MLAG-IPv4-UNDERLAY-PEER
     type: ipv4
-    remote_as: '65101'
+    remote_as: '65102'
     next_hop_self: true
-    description: leaf1
+    description: s1-leaf4
     password: vnEaG8gMeQf3d3cN6PktXQ==
     maximum_routes: 12000
     send_community: all
@@ -46,24 +48,24 @@ router_bgp:
     - name: EVPN-OVERLAY-PEERS
       activate: false
   neighbors:
-  - ip_address: 10.255.251.0
+  - ip_address: 10.255.251.5
     peer_group: MLAG-IPv4-UNDERLAY-PEER
-    description: leaf1
-  - ip_address: 172.30.255.4
+    description: s1-leaf4
+  - ip_address: 172.30.255.8
     peer_group: IPv4-UNDERLAY-PEERS
     remote_as: '65001'
-    description: spine1_Ethernet3
-  - ip_address: 172.30.255.6
+    description: s1-spine1_Ethernet4
+  - ip_address: 172.30.255.10
     peer_group: IPv4-UNDERLAY-PEERS
     remote_as: '65001'
-    description: spine2_Ethernet3
+    description: s1-spine2_Ethernet4
   - ip_address: 192.0.255.1
     peer_group: EVPN-OVERLAY-PEERS
-    description: spine1
+    description: s1-spine1
     remote_as: '65001'
   - ip_address: 192.0.255.2
     peer_group: EVPN-OVERLAY-PEERS
-    description: spine2
+    description: s1-spine2
     remote_as: '65001'
   redistribute_routes:
   - source_protocol: connected
@@ -74,8 +76,8 @@ router_bgp:
       activate: true
   vrfs:
   - name: Tenant_A_OP_Zone
-    router_id: 192.0.255.4
-    rd: 192.0.255.4:10
+    router_id: 192.0.255.5
+    rd: 192.0.255.5:10
     route_targets:
       import:
       - address_family: evpn
@@ -88,11 +90,13 @@ router_bgp:
     redistribute_routes:
     - source_protocol: connected
     neighbors:
-    - ip_address: 10.255.251.0
+    - ip_address: 10.255.251.5
       peer_group: MLAG-IPv4-UNDERLAY-PEER
+    updates:
+      wait_install: true
   vlan_aware_bundles:
   - name: Tenant_A_OP_Zone
-    rd: 192.0.255.4:10
+    rd: 192.0.255.5:10
     route_targets:
       both:
       - '10:10'
@@ -101,7 +105,7 @@ router_bgp:
     vlan: '110'
   - name: Tenant_A_VMOTION
     tenant: Tenant_A
-    rd: 192.0.255.4:55160
+    rd: 192.0.255.5:55160
     route_targets:
       both:
       - 55160:55160
@@ -137,11 +141,11 @@ vrfs:
   tenant: Tenant_A
   ip_routing: true
 management_interfaces:
-- name: Management1
+- name: Management0
   description: oob_management
   shutdown: false
   vrf: default
-  ip_address: 192.168.0.13/24
+  ip_address: 192.168.0.14/24
   gateway: 192.168.0.1
   type: oob
 management_api_http:
@@ -175,11 +179,11 @@ vlan_interfaces:
   description: MLAG_PEER_L3_PEERING
   shutdown: false
   mtu: 1500
-  ip_address: 10.255.251.1/31
+  ip_address: 10.255.251.4/31
 - name: Vlan4094
   description: MLAG_PEER
   shutdown: false
-  ip_address: 10.255.252.1/31
+  ip_address: 10.255.252.4/31
   no_autostate: true
   mtu: 1500
 - name: Vlan110
@@ -197,10 +201,10 @@ vlan_interfaces:
   description: 'MLAG_PEER_L3_iBGP: vrf Tenant_A_OP_Zone'
   vrf: Tenant_A_OP_Zone
   mtu: 1500
-  ip_address: 10.255.251.1/31
+  ip_address: 10.255.251.4/31
 port_channel_interfaces:
 - name: Port-Channel1
-  description: MLAG_PEER_leaf1_Po1
+  description: MLAG_PEER_s1-leaf4_Po1
   type: switched
   shutdown: false
   mode: trunk
@@ -208,7 +212,7 @@ port_channel_interfaces:
   - LEAF_PEER_L3
   - MLAG
 - name: Port-Channel4
-  description: host1_PortChannel
+  description: s1-host2_PortChannel
   type: switched
   shutdown: false
   mode: access
@@ -216,69 +220,58 @@ port_channel_interfaces:
   mlag: 4
 ethernet_interfaces:
 - name: Ethernet1
-  peer: leaf1
+  peer: s1-leaf4
   peer_interface: Ethernet1
   peer_type: mlag_peer
-  description: MLAG_PEER_leaf1_Ethernet1
+  description: MLAG_PEER_s1-leaf4_Ethernet1
   type: port-channel-member
   shutdown: false
   channel_group:
     id: 1
     mode: active
 - name: Ethernet6
-  peer: leaf1
+  peer: s1-leaf4
   peer_interface: Ethernet6
   peer_type: mlag_peer
-  description: MLAG_PEER_leaf1_Ethernet6
+  description: MLAG_PEER_s1-leaf4_Ethernet6
   type: port-channel-member
   shutdown: false
   channel_group:
     id: 1
     mode: active
 - name: Ethernet2
-  peer: spine1
-  peer_interface: Ethernet3
+  peer: s1-spine1
+  peer_interface: Ethernet4
   peer_type: spine
-  description: P2P_LINK_TO_SPINE1_Ethernet3
+  description: P2P_LINK_TO_S1-SPINE1_Ethernet4
   shutdown: false
   mtu: 1500
   type: routed
-  ip_address: 172.30.255.5/31
+  ip_address: 172.30.255.9/31
 - name: Ethernet3
-  peer: spine2
-  peer_interface: Ethernet3
+  peer: s1-spine2
+  peer_interface: Ethernet4
   peer_type: spine
-  description: P2P_LINK_TO_SPINE2_Ethernet3
+  description: P2P_LINK_TO_S1-SPINE2_Ethernet4
   shutdown: false
   mtu: 1500
   type: routed
-  ip_address: 172.30.255.7/31
+  ip_address: 172.30.255.11/31
 - name: Ethernet4
-  peer: host1
-  peer_interface: Eth3
+  peer: s1-host2
+  peer_interface: Eth1
   peer_type: server
   port_profile: TENANT_A
-  description: host1_Eth3
-  shutdown: false
-  type: port-channel-member
-  channel_group:
-    id: 4
-    mode: active
-- name: Ethernet5
-  peer: host1
-  peer_interface: Eth4
-  peer_type: server
-  port_profile: TENANT_A
-  description: host1_Eth4
+  description: s1-host2_Eth1
   shutdown: false
   type: port-channel-member
   channel_group:
     id: 4
     mode: active
 mlag_configuration:
-  domain_id: pod1
+  domain_id: pod2
   local_interface: Vlan4094
-  peer_address: 10.255.252.0
+  peer_address: 10.255.252.5
   peer_link: Port-Channel1
   reload_delay_mlag: '300'
   reload_delay_non_mlag: '330'
@@ -300,16 +293,16 @@ loopback_interfaces:
 - name: Loopback0
   description: EVPN_Overlay_Peering
   shutdown: false
-  ip_address: 192.0.255.4/32
+  ip_address: 192.0.255.5/32
 - name: Loopback1
   description: VTEP_VXLAN_Tunnel_Source
   shutdown: false
-  ip_address: 192.0.254.3/32
+  ip_address: 192.0.254.5/32
 - name: Loopback100
   description: Tenant_A_OP_Zone_VTEP_DIAGNOSTICS
   shutdown: false
   vrf: Tenant_A_OP_Zone
-  ip_address: 10.255.1.4/32
+  ip_address: 10.255.1.5/32
 prefix_lists:
 - name: PL-LOOPBACKS-EVPN-OVERLAY
   sequence_numbers:
@@ -327,7 +320,7 @@ ip_igmp_snooping:
 ip_virtual_router_mac_address: 00:1c:73:00:dc:01
 vxlan_interface:
   Vxlan1:
-    description: leaf2_VTEP
+    description: s1-leaf3_VTEP
     vxlan:
       udp_port: 4789
       source_interface: Loopback1
@@ -342,4 +335,4 @@ vxlan_interface:
         vni: 10
 virtual_source_nat_vrfs:
 - name: Tenant_A_OP_Zone
-  ip_address: 10.255.1.4
+  ip_address: 10.255.1.5

@@ -10,11 +10,11 @@ This repository is configured to run [`arista.cvp`](https://github.com/aristanet
   <img src='docs/imgs/cv_ansible_logo.png' alt='Arista CloudVision and Ansible'/>
 </p>
 
-To access an ATD topology, please contact your Arista representative.
+To access an ATD topology, please get in touch with your Arista representative.
 
 ## Lab topology
 
-The diagram below shows that the ATD lab topology consists of two Spines, four Leafs, and two Hosts.
+The diagram below shows that the ATD lab topology has two data centers. We will only leverage DC1 in this example.
 
 <p align="center">
   <img src="docs/imgs/atd-topo.png" alt="ATD Lab Topology" width="600"/>
@@ -24,16 +24,16 @@ The diagram below shows that the ATD lab topology consists of two Spines, four L
 
 | Device | IP Address |
 | ------ | ------------ |
-| spine1 |192.168.0.10 |
-| spine2 |192.168.0.11 |
-| leaf1  |192.168.0.12 |
-| leaf2  |192.168.0.13 |
-| leaf3  |192.168.0.14 |
-| leaf4  |192.168.0.15 |
-| host1  |192.168.0.16 |
-| host2  |192.168.0.17 |
+| s1-spine1 |192.168.0.10 |
+| s1-spine2 |192.168.0.11 |
+| s1-leaf1  |192.168.0.12 |
+| s1-leaf2  |192.168.0.13 |
+| s1-leaf3  |192.168.0.14 |
+| s1-leaf4  |192.168.0.15 |
+| s1-host1  |192.168.0.16 |
+| s1-host2  |192.168.0.17 |
 
-> Current repository is built with vEOS management interface (`Management1`). If you run a cEOS topology, please update `mgmt_interface` field to `Management0` in the [ATD_LAB](./atd-inventory/group_vars/ATD_LAB.yml) `group_vars`.
+> Current repository is built with cEOS management interface (`Management0`). If you run a vEOS topology, please update `mgmt_interface` field to `Management1` in the [ATD_LAB](./atd-inventory/group_vars/ATD_LAB.yml) `group_vars`.
 
 ## Getting Started
 
@@ -53,35 +53,19 @@ The diagram below shows that the ATD lab topology consists of two Spines, four L
     git config --global user.name "Your Name"
     ```
 
-2. Run the install script to clone the required repositories and install any dependencies
+2. Set credentials and install any required tools
 
     ```shell
-    curl -fsSL https://get.avd.sh/atd/install.sh | sh
+    cd /home/coder/project/labfiles
+    export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
+    ansible-galaxy collection install arista.avd:==4.1.0
+    export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
+    pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
+    git clone https://github.com/arista-netdevops-community/atd-avd.git
+    cd atd-avd
     ```
 
-3. Update the inventory file with new lab credentials
-
-    - Open file in VS Code: `atd-avd/atd-inventory/inventory.yml`
-
-    - Set credentials in the `inventory.yml` file to the credentials provided on the ATD landing page.
-
-      ```yaml
-      ---
-      all:
-        children:
-          cv_servers:
-            hosts:
-              cv_atd1:
-                ansible_host: 192.168.0.5
-                cv_collection: v3
-      ...
-      vars:
-        ansible_user: arista
-        ansible_password: # Update password with lab credentials
-      ...
-      ```
-
-4. Run the playbook to prepare CloudVision for AVD
+3. Run the playbook to prepare CloudVision for AVD
 
     - Execute the following command:
 
@@ -91,26 +75,26 @@ The diagram below shows that the ATD lab topology consists of two Spines, four L
 
     - Check that tasks in CloudVision have been automatically completed
 
-5. Run playbook to deploy AVD setup
+4. Run playbook to deploy AVD setup
 
-    - Execute the following commands:
+    - Run the following commands:
 
       ```shell
       ansible-playbook playbooks/atd-fabric-build.yml
       ansible-playbook playbooks/atd-fabric-provision.yml
       ```
 
-    - Execute pending tasks in CloudVision Portal manually.
+    - Run pending tasks in CloudVision Portal manually.
 
-6. Run validation and snapshot playbooks
+5. Run validation and snapshot playbooks
 
-    - Execute the following commands:
+    - Run the following commands:
 
       ```shell
       # Run audit playbook to validate the fabric state
       ansible-playbook playbooks/atd-validate-states.yml
 
-      # Execute the atd-snapshot playbook to collect show commands
+      # Run the atd-snapshot playbook to collect show commands
       ansible-playbook playbooks/atd-snapshot.yml
       ```
 
@@ -124,7 +108,7 @@ A complete [step-by-step guide](./DEMO.md) is available.
 
 - [Arista Ansible AVD Collection](https://github.com/aristanetworks/ansible-avd)
 - [Arista CloudVision Collection](https://github.com/aristanetworks/ansible-cvp)
-- [Arista AVD documentation](https://www.avd.sh)
+- [Arista AVD documentation](https://avd.arista.com)
 
 ## License
 

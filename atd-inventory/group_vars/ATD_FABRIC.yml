@@ -40,15 +40,15 @@ bgp_distance:
 # Spine Switches
 spine:
   defaults:
-    platform: vEOS-lab
+    platform: cEOS-lab
     bgp_as: 65001
     loopback_ipv4_pool: 192.0.255.0/24
     loopback_ipv6_pool: 2001:db8:c01d:c01a::/64
   nodes:
-    - name: spine1
+    - name: s1-spine1
       id: 1
       mgmt_ip: 192.168.0.10/24
-    - name: spine2
+    - name: s1-spine2
       id: 2
       mgmt_ip: 192.168.0.11/24
 
@@ -58,13 +58,13 @@ spine:
 
 l3leaf:
   defaults:
-    platform: vEOS-lab
+    platform: cEOS-lab
     loopback_ipv4_pool: 192.0.255.0/24
     loopback_ipv6_pool: 2001:db8:c01d:c01a::/64
     loopback_ipv4_offset: 2
     vtep_loopback_ipv4_pool: 192.0.254.0/24
     uplink_interfaces: [Ethernet2, Ethernet3]
-    uplink_switches: [spine1, spine2]
+    uplink_switches: [s1-spine1, s1-spine2]
     uplink_ipv4_pool: 172.30.255.0/24
     mlag_interfaces: [Ethernet1, Ethernet6]
     mlag_peer_ipv4_pool: 10.255.252.0/24
@@ -78,22 +78,22 @@ l3leaf:
     - group: pod1
       bgp_as: 65101
       nodes:
-        - name: leaf1
+        - name: s1-leaf1
           id: 1
           mgmt_ip: 192.168.0.12/24
           uplink_switch_interfaces: [Ethernet2, Ethernet2]
-        - name: leaf2
+        - name: s1-leaf2
           id: 2
           mgmt_ip: 192.168.0.13/24
           uplink_switch_interfaces: [Ethernet3, Ethernet3]
     - group: pod2
       bgp_as: 65102
       nodes:
-        - name: leaf3
+        - name: s1-leaf3
           id: 3
           mgmt_ip: 192.168.0.14/24
           uplink_switch_interfaces: [Ethernet4, Ethernet4]
-        - name: leaf4
+        - name: s1-leaf4
           id: 4
           mgmt_ip: 192.168.0.15/24
           uplink_switch_interfaces: [Ethernet5, Ethernet5]

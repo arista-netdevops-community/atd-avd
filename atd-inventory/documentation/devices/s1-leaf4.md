@@ -1,4 +1,4 @@
-# leaf4
+# s1-leaf4
 
 ## Table of Contents
 
@@ -56,19 +56,19 @@
 
 | Management Interface | description | Type | VRF | IP Address | Gateway |
 | -------------------- | ----------- | ---- | --- | ---------- | ------- |
-| Management1 | oob_management | oob | default | 192.168.0.15/24 | 192.168.0.1 |
+| Management0 | oob_management | oob | default | 192.168.0.15/24 | 192.168.0.1 |
 
 ##### IPv6
 
 | Management Interface | description | Type | VRF | IPv6 Address | IPv6 Gateway |
 | -------------------- | ----------- | ---- | --- | ------------ | ------------ |
-| Management1 | oob_management | oob | default | - | - |
+| Management0 | oob_management | oob | default | - | - |
 
 #### Management Interfaces Device Configuration
 
 ```eos
 !
-interface Management1
+interface Management0
    description oob_management
    no shutdown
    ip address 192.168.0.15/24
@@ -235,10 +235,9 @@ vlan 4094
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
-| Ethernet1 | MLAG_PEER_leaf3_Ethernet1 | *trunk | *- | *- | *['LEAF_PEER_L3', 'MLAG'] | 1 |
-| Ethernet4 | host2_Eth3 | *access | *110 | *- | *- | 4 |
-| Ethernet5 | host2_Eth4 | *access | *110 | *- | *- | 4 |
-| Ethernet6 | MLAG_PEER_leaf3_Ethernet6 | *trunk | *- | *- | *['LEAF_PEER_L3', 'MLAG'] | 1 |
+| Ethernet1 | MLAG_PEER_s1-leaf3_Ethernet1 | *trunk | *- | *- | *['LEAF_PEER_L3', 'MLAG'] | 1 |
+| Ethernet4 | s1-host2_Eth2 | *access | *110 | *- | *- | 4 |
+| Ethernet6 | MLAG_PEER_s1-leaf3_Ethernet6 | *trunk | *- | *- | *['LEAF_PEER_L3', 'MLAG'] | 1 |
 
 *Inherited from Port-Channel Interface
 
@@ -246,44 +245,39 @@ vlan 4094
 
 | Interface | Description | Type | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
 | --------- | ----------- | -----| ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
-| Ethernet2 | P2P_LINK_TO_SPINE1_Ethernet5 | routed | - | 172.30.255.13/31 | default | 1500 | False | - | - |
-| Ethernet3 | P2P_LINK_TO_SPINE2_Ethernet5 | routed | - | 172.30.255.15/31 | default | 1500 | False | - | - |
+| Ethernet2 | P2P_LINK_TO_S1-SPINE1_Ethernet5 | routed | - | 172.30.255.13/31 | default | 1500 | False | - | - |
+| Ethernet3 | P2P_LINK_TO_S1-SPINE2_Ethernet5 | routed | - | 172.30.255.15/31 | default | 1500 | False | - | - |
 
 #### Ethernet Interfaces Device Configuration
 
 ```eos
 !
 interface Ethernet1
-   description MLAG_PEER_leaf3_Ethernet1
+   description MLAG_PEER_s1-leaf3_Ethernet1
    no shutdown
    channel-group 1 mode active
 !
 interface Ethernet2
-   description P2P_LINK_TO_SPINE1_Ethernet5
+   description P2P_LINK_TO_S1-SPINE1_Ethernet5
    no shutdown
    mtu 1500
    no switchport
    ip address 172.30.255.13/31
 !
 interface Ethernet3
-   description P2P_LINK_TO_SPINE2_Ethernet5
+   description P2P_LINK_TO_S1-SPINE2_Ethernet5
    no shutdown
    mtu 1500
    no switchport
    ip address 172.30.255.15/31
 !
 interface Ethernet4
-   description host2_Eth3
-   no shutdown
-   channel-group 4 mode active
-!
-interface Ethernet5
-   description host2_Eth4
+   description s1-host2_Eth2
    no shutdown
    channel-group 4 mode active
 !
 interface Ethernet6
-   description MLAG_PEER_leaf3_Ethernet6
+   description MLAG_PEER_s1-leaf3_Ethernet6
    no shutdown
    channel-group 1 mode active
 ```
@@ -296,15 +290,15 @@ interface Ethernet6
 
 | Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
-| Port-Channel1 | MLAG_PEER_leaf3_Po1 | switched | trunk | - | - | ['LEAF_PEER_L3', 'MLAG'] | - | - | - | - |
-| Port-Channel4 | host2_PortChannel | switched | access | 110 | - | - | - | - | 4 | - |
+| Port-Channel1 | MLAG_PEER_s1-leaf3_Po1 | switched | trunk | - | - | ['LEAF_PEER_L3', 'MLAG'] | - | - | - | - |
+| Port-Channel4 | s1-host2_PortChannel | switched | access | 110 | - | - | - | - | 4 | - |
 
 #### Port-Channel Interfaces Device Configuration
 
 ```eos
 !
 interface Port-Channel1
-   description MLAG_PEER_leaf3_Po1
+   description MLAG_PEER_s1-leaf3_Po1
    no shutdown
    switchport
    switchport mode trunk
@@ -312,7 +306,7 @@ interface Port-Channel1
    switchport trunk group MLAG
 !
 interface Port-Channel4
-   description host2_PortChannel
+   description s1-host2_PortChannel
    no shutdown
    switchport
    switchport access vlan 110
@@ -440,7 +434,7 @@ interface Vlan4094
 ```eos
 !
 interface Vxlan1
-   description leaf4_VTEP
+   description s1-leaf4_VTEP
    vxlan source-interface Loopback1
    vxlan virtual-router encapsulation mac-address mlag-system-id
    vxlan udp-port 4789
@@ -527,6 +521,7 @@ ip route 0.0.0.0/0 192.168.0.1
 | ---------- |
 | graceful-restart restart-time 300 |
 | graceful-restart |
+| update wait-install |
 | no bgp default ipv4-unicast |
 | distance bgp 20 200 200 |
 | maximum-paths 4 ecmp 4 |
@@ -604,6 +599,7 @@ router bgp 65102
    graceful-restart restart-time 300
    graceful-restart
    maximum-paths 4 ecmp 4
+   update wait-install
    no bgp default ipv4-unicast
    neighbor EVPN-OVERLAY-PEERS peer group
    neighbor EVPN-OVERLAY-PEERS update-source Loopback0
@@ -619,25 +615,25 @@ router bgp 65102
    neighbor MLAG-IPv4-UNDERLAY-PEER peer group
    neighbor MLAG-IPv4-UNDERLAY-PEER remote-as 65102
    neighbor MLAG-IPv4-UNDERLAY-PEER next-hop-self
-   neighbor MLAG-IPv4-UNDERLAY-PEER description leaf3
+   neighbor MLAG-IPv4-UNDERLAY-PEER description s1-leaf3
    neighbor MLAG-IPv4-UNDERLAY-PEER password 7 <removed>
    neighbor MLAG-IPv4-UNDERLAY-PEER send-community
    neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000
    neighbor MLAG-IPv4-UNDERLAY-PEER route-map RM-MLAG-PEER-IN in
    neighbor 10.255.251.4 peer group MLAG-IPv4-UNDERLAY-PEER
-   neighbor 10.255.251.4 description leaf3
+   neighbor 10.255.251.4 description s1-leaf3
    neighbor 172.30.255.12 peer group IPv4-UNDERLAY-PEERS
    neighbor 172.30.255.12 remote-as 65001
-   neighbor 172.30.255.12 description spine1_Ethernet5
+   neighbor 172.30.255.12 description s1-spine1_Ethernet5
    neighbor 172.30.255.14 peer group IPv4-UNDERLAY-PEERS
    neighbor 172.30.255.14 remote-as 65001
-   neighbor 172.30.255.14 description spine2_Ethernet5
+   neighbor 172.30.255.14 description s1-spine2_Ethernet5
    neighbor 192.0.255.1 peer group EVPN-OVERLAY-PEERS
    neighbor 192.0.255.1 remote-as 65001
-   neighbor 192.0.255.1 description spine1
+   neighbor 192.0.255.1 description s1-spine1
    neighbor 192.0.255.2 peer group EVPN-OVERLAY-PEERS
    neighbor 192.0.255.2 remote-as 65001
-   neighbor 192.0.255.2 description spine2
+   neighbor 192.0.255.2 description s1-spine2
    redistribute connected route-map RM-CONN-2-BGP
    !
    vlan-aware-bundle Tenant_A_OP_Zone
@@ -665,6 +661,7 @@ router bgp 65102
       route-target import evpn 10:10
       route-target export evpn 10:10
       router-id 192.0.255.6
+      update wait-install
       neighbor 10.255.251.4 peer group MLAG-IPv4-UNDERLAY-PEER
       redistribute connected
 ```

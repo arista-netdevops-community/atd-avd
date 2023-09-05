@@ -11,6 +11,8 @@ router_bgp:
   maximum_paths:
     paths: 4
     ecmp: 4
+  updates:
+    wait_install: true
   graceful_restart:
     enabled: true
     restart_time: 300
@@ -42,34 +44,34 @@ router_bgp:
   - ip_address: 172.30.255.3
     peer_group: IPv4-UNDERLAY-PEERS
     remote_as: '65101'
-    description: leaf1_Ethernet3
+    description: s1-leaf1_Ethernet3
   - ip_address: 172.30.255.7
     peer_group: IPv4-UNDERLAY-PEERS
     remote_as: '65101'
-    description: leaf2_Ethernet3
+    description: s1-leaf2_Ethernet3
   - ip_address: 172.30.255.11
     peer_group: IPv4-UNDERLAY-PEERS
     remote_as: '65102'
-    description: leaf3_Ethernet3
+    description: s1-leaf3_Ethernet3
   - ip_address: 172.30.255.15
     peer_group: IPv4-UNDERLAY-PEERS
     remote_as: '65102'
-    description: leaf4_Ethernet3
+    description: s1-leaf4_Ethernet3
   - ip_address: 192.0.255.3
     peer_group: EVPN-OVERLAY-PEERS
-    description: leaf1
+    description: s1-leaf1
     remote_as: '65101'
   - ip_address: 192.0.255.4
     peer_group: EVPN-OVERLAY-PEERS
-    description: leaf2
+    description: s1-leaf2
     remote_as: '65101'
   - ip_address: 192.0.255.5
     peer_group: EVPN-OVERLAY-PEERS
-    description: leaf3
+    description: s1-leaf3
     remote_as: '65102'
   - ip_address: 192.0.255.6
     peer_group: EVPN-OVERLAY-PEERS
-    description: leaf4
+    description: s1-leaf4
     remote_as: '65102'
   address_family_evpn:
     peer_groups:
@@ -97,7 +99,7 @@ vrfs:
 - name: default
   ip_routing: false
 management_interfaces:
-- name: Management1
+- name: Management0
   description: oob_management
   shutdown: false
   vrf: default
@@ -110,37 +112,37 @@ management_api_http:
   enable_https: true
 ethernet_interfaces:
 - name: Ethernet2
-  peer: leaf1
+  peer: s1-leaf1
   peer_interface: Ethernet3
   peer_type: l3leaf
-  description: P2P_LINK_TO_LEAF1_Ethernet3
+  description: P2P_LINK_TO_S1-LEAF1_Ethernet3
   shutdown: false
   mtu: 1500
   type: routed
   ip_address: 172.30.255.2/31
 - name: Ethernet3
-  peer: leaf2
+  peer: s1-leaf2
   peer_interface: Ethernet3
   peer_type: l3leaf
-  description: P2P_LINK_TO_LEAF2_Ethernet3
+  description: P2P_LINK_TO_S1-LEAF2_Ethernet3
   shutdown: false
   mtu: 1500
   type: routed
   ip_address: 172.30.255.6/31
 - name: Ethernet4
-  peer: leaf3
+  peer: s1-leaf3
   peer_interface: Ethernet3
   peer_type: l3leaf
-  description: P2P_LINK_TO_LEAF3_Ethernet3
+  description: P2P_LINK_TO_S1-LEAF3_Ethernet3
   shutdown: false
   mtu: 1500
   type: routed
   ip_address: 172.30.255.10/31
 - name: Ethernet5
-  peer: leaf4
+  peer: s1-leaf4
   peer_interface: Ethernet3
   peer_type: l3leaf
-  description: P2P_LINK_TO_LEAF4_Ethernet3
+  description: P2P_LINK_TO_S1-LEAF4_Ethernet3
   shutdown: false
   mtu: 1500
   type: routed
