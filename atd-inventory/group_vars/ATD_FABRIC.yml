@@ -40,7 +40,7 @@ bgp_distance:
 # Spine Switches
 spine:
   defaults:
-    platform: cEOS-lab
+    platform: cEOS
     bgp_as: 65001
     loopback_ipv4_pool: 192.0.255.0/24
     loopback_ipv6_pool: 2001:db8:c01d:c01a::/64
@@ -58,7 +58,7 @@ spine:
 
 l3leaf:
   defaults:
-    platform: cEOS-lab
+    platform: cEOS
     loopback_ipv4_pool: 192.0.255.0/24
     loopback_ipv6_pool: 2001:db8:c01d:c01a::/64
     loopback_ipv4_offset: 2
