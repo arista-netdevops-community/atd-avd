@@ -1,3 +1,4 @@
+hostname: s1-leaf2
 router_bgp:
   as: '65101'
   router_id: 192.0.255.4
@@ -11,8 +12,6 @@ router_bgp:
   maximum_paths:
     paths: 4
     ecmp: 4
-  updates:
-    wait_install: true
   graceful_restart:
     enabled: true
     restart_time: 300
@@ -92,8 +91,6 @@ router_bgp:
     neighbors:
     - ip_address: 10.255.251.0
       peer_group: MLAG-IPv4-UNDERLAY-PEER
-    updates:
-      wait_install: true
   vlan_aware_bundles:
   - name: Tenant_A_OP_Zone
     rd: 192.0.255.4:10

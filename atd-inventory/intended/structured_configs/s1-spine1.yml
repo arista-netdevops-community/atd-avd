@@ -1,3 +1,4 @@
+hostname: s1-spine1
 router_bgp:
   as: '65001'
   router_id: 192.0.255.1
@@ -11,8 +12,6 @@ router_bgp:
   maximum_paths:
     paths: 4
     ecmp: 4
-  updates:
-    wait_install: true
   graceful_restart:
     enabled: true
     restart_time: 300
