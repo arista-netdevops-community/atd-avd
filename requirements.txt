@@ -1,3 +1,4 @@
+ansible-core<2.15.0
 netaddr>=0.7.19
 Jinja2>=2.11.3
 treelib>=1.5.5
