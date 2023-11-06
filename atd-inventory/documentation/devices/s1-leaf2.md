@@ -515,13 +515,12 @@ ip route 0.0.0.0/0 192.168.0.1
 
 | BGP AS | Router ID |
 | ------ | --------- |
-| 65101|  192.0.255.4 |
+| 65101 | 192.0.255.4 |
 
 | BGP Tuning |
 | ---------- |
 | graceful-restart restart-time 300 |
 | graceful-restart |
-| update wait-install |
 | no bgp default ipv4-unicast |
 | distance bgp 20 200 200 |
 | maximum-paths 4 ecmp 4 |
@@ -599,7 +598,6 @@ router bgp 65101
    graceful-restart restart-time 300
    graceful-restart
    maximum-paths 4 ecmp 4
-   update wait-install
    no bgp default ipv4-unicast
    neighbor EVPN-OVERLAY-PEERS peer group
    neighbor EVPN-OVERLAY-PEERS update-source Loopback0
@@ -661,7 +659,6 @@ router bgp 65101
       route-target import evpn 10:10
       route-target export evpn 10:10
       router-id 192.0.255.4
-      update wait-install
       neighbor 10.255.251.0 peer group MLAG-IPv4-UNDERLAY-PEER
       redistribute connected
 ```

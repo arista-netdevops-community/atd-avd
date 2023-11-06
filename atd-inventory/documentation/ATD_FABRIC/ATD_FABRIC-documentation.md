@@ -17,12 +17,12 @@
 
 | POD | Type | Node | Management IP | Platform | Provisioned in CloudVision | Serial Number |
 | --- | ---- | ---- | ------------- | -------- | -------------------------- | ------------- |
-| ATD_FABRIC | l3leaf | s1-leaf1 | 192.168.0.12/24 | cEOS-lab | Provisioned | - |
-| ATD_FABRIC | l3leaf | s1-leaf2 | 192.168.0.13/24 | cEOS-lab | Provisioned | - |
-| ATD_FABRIC | l3leaf | s1-leaf3 | 192.168.0.14/24 | cEOS-lab | Provisioned | - |
-| ATD_FABRIC | l3leaf | s1-leaf4 | 192.168.0.15/24 | cEOS-lab | Provisioned | - |
-| ATD_FABRIC | spine | s1-spine1 | 192.168.0.10/24 | cEOS-lab | Provisioned | - |
-| ATD_FABRIC | spine | s1-spine2 | 192.168.0.11/24 | cEOS-lab | Provisioned | - |
+| ATD_FABRIC | l3leaf | s1-leaf1 | 192.168.0.12/24 | cEOS | Provisioned | - |
+| ATD_FABRIC | l3leaf | s1-leaf2 | 192.168.0.13/24 | cEOS | Provisioned | - |
+| ATD_FABRIC | l3leaf | s1-leaf3 | 192.168.0.14/24 | cEOS | Provisioned | - |
+| ATD_FABRIC | l3leaf | s1-leaf4 | 192.168.0.15/24 | cEOS | Provisioned | - |
+| ATD_FABRIC | spine | s1-spine1 | 192.168.0.10/24 | cEOS | Provisioned | - |
+| ATD_FABRIC | spine | s1-spine2 | 192.168.0.11/24 | cEOS | Provisioned | - |
 
 > Provision status is based on Ansible inventory declaration and do not represent real status from CloudVision.
 

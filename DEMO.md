@@ -8,23 +8,13 @@ In your ATD interface, click on __Programmability IDE__ and use the password lis
 
 ![ATD Interface](./docs/imgs/atd-interface.png)
 
-Once your VScode interface is ready, we will install the ATD-AVD repository to your lab instance. Next, open a new terminal window and enter the command below.
-
-```bash
-curl -fsSL https://get.avd.sh/atd/install.sh | sh
-```
-
-In your VScode instance, navigate to `labfiles/arista-ansible/atd-avd` to complete the lab. The following sections assume users execute playbooks from this directory.
-
-```bash
-cd labfiles/arista-ansible/atd-avd
-```
-
 In addition, open CloudVision Portal (CVP) by clicking the __CVP__ link. Then, log in with the username `arista` and the auto-generated password on the lab topology screen.
 
 ## 2. Configure your credential
 
 Because the password is auto-generated, you must update the `ansible_password` variable. We will read a configuration file to set our credential file as an environment variable.
+
+Run the following commands from the Programmability IDE terminal:
 
 ```shell
 export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
@@ -35,7 +25,7 @@ export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "pas
 The code block below performs the following actions:
 
 - Moves to the `labfiles` directory
-- Installs version 4.1.0 of the arista.avd collection
+- Installs version 4.4.0 of the arista.avd collection
 - Exports an environment variable based on the location of the `arista.avd` collection
 - Leverages the new environment variable to install the Python requirements for arista.avd
 - Clones this repository
@@ -43,7 +33,7 @@ The code block below performs the following actions:
 
     ```shell
     cd /home/coder/project/labfiles
-    ansible-galaxy collection install arista.avd:==4.1.0
+    ansible-galaxy collection install arista.avd:==4.4.0
     export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
     pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
     git clone https://github.com/arista-netdevops-community/atd-avd.git
