@@ -22,16 +22,16 @@ The diagram below shows that the ATD lab topology has two data centers. We will 
 
 ## ATD topology device list
 
-| Device | IP Address |
-| ------ | ------------ |
-| s1-spine1 |192.168.0.10 |
-| s1-spine2 |192.168.0.11 |
-| s1-leaf1  |192.168.0.12 |
-| s1-leaf2  |192.168.0.13 |
-| s1-leaf3  |192.168.0.14 |
-| s1-leaf4  |192.168.0.15 |
-| s1-host1  |192.168.0.16 |
-| s1-host2  |192.168.0.17 |
+| Device    | IP Address   |
+| --------- | ------------ |
+| s1-spine1 | 192.168.0.10 |
+| s1-spine2 | 192.168.0.11 |
+| s1-leaf1  | 192.168.0.12 |
+| s1-leaf2  | 192.168.0.13 |
+| s1-leaf3  | 192.168.0.14 |
+| s1-leaf4  | 192.168.0.15 |
+| s1-host1  | 192.168.0.16 |
+| s1-host2  | 192.168.0.17 |
 
 > Current repository is built with cEOS management interface (`Management0`). If you run a vEOS topology, please update `mgmt_interface` field to `Management1` in the [ATD_LAB](./atd-inventory/group_vars/ATD_LAB.yml) `group_vars`.
 
@@ -58,7 +58,7 @@ The diagram below shows that the ATD lab topology has two data centers. We will 
     ```shell
     cd /home/coder/project/labfiles
     export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
-    ansible-galaxy collection install arista.avd:==4.4.0
+    ansible-galaxy collection install arista.avd:==4.8.0
     export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
     pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
     git clone https://github.com/arista-netdevops-community/atd-avd.git

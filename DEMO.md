@@ -25,7 +25,7 @@ export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "pas
 The code block below performs the following actions:
 
 - Moves to the `labfiles` directory
-- Installs version 4.4.0 of the arista.avd collection
+- Installs version 4.8.0 of the arista.avd collection
 - Exports an environment variable based on the location of the `arista.avd` collection
 - Leverages the new environment variable to install the Python requirements for arista.avd
 - Clones this repository
