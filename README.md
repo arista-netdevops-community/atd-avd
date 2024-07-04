@@ -60,6 +60,8 @@ The diagram below shows that the ATD lab topology has two data centers. We will 
     export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
     ansible-galaxy collection install arista.avd:==4.8.0
     export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
+    pip3 config set global.break-system-packages true
+    pip3 config set global.disable-pip-version-check true
     pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
     git clone https://github.com/arista-netdevops-community/atd-avd.git
     cd atd-avd

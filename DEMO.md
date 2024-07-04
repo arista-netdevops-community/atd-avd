@@ -35,6 +35,8 @@ The code block below performs the following actions:
     cd /home/coder/project/labfiles
     ansible-galaxy collection install arista.avd:==4.8.0
     export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
+    pip3 config set global.break-system-packages true
+    pip3 config set global.disable-pip-version-check true
     pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
     pip3 install 'anta==0.14.0'
     git clone https://github.com/arista-netdevops-community/atd-avd.git
