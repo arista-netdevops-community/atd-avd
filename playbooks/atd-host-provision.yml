@@ -1,0 +1,39 @@
+---
+- name: Configuration deployment with CVP
+  hosts: cv_servers
+  connection: local
+  gather_facts: false
+  collections:
+    - arista.avd
+    - arista.cvp
+  tasks:
+    - name: "upload configlets to cloudvision {{inventory_hostname}}"
+      import_role:
+        name: arista.avd.cvp_configlet_upload
+      vars:
+        configlet_directory: "configlets/"
+        configlets_cvp_prefix: "AVD"
+        file_extension: "cfg"
+
+    - name: "Configure devices on {{ inventory_hostname }}"
+      arista.cvp.cv_device_v3:
+        devices: "{{ CVP_DEVICES_INIT }}"
+        state: present
+        apply_mode: strict
+      vars:
+        CVP_DEVICES_INIT:
+          - fqdn: s1-host1
+            parentContainerName: S1-Hosts
+            configlets:
+              - AVD_s1-host1
+          - fqdn: s1-host2
+            parentContainerName: S1-Hosts
+            configlets:
+              - AVD_s1-host2
+      register: cvp_device_results
+
+    - name: "Execute pending tasks on {{ inventory_hostname }}"
+      arista.cvp.cv_task_v3:
+        tasks: "{{ cvp_device_results.taskIds }}"
+      vars:
+        execute_tasks: true
