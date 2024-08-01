@@ -13,6 +13,8 @@
           arista.eos.eos_config:
             lines: copy running-config flash:backup.cfg
 
+        # Need to fail task if test cases fail
+        # Cert tests should not start if baseline is incorrect
         - name: Baseline fabrics current state using ANTA NRFU catalog
           import_role:
             name: eos_validate_state
@@ -51,3 +53,5 @@
             use_anta: true
             save_catalog: true
             hosts: ATD_FABRIC
+        
+        # reporting task
