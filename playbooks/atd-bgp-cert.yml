@@ -1,0 +1,12 @@
+---
+- name: Certify BGP resilency on a link failure
+  hosts: ATD_LAB
+  connection: local
+  gather_facts: false
+  collections:
+    - arista.avd
+    - arista.cvp
+  tasks:
+    - name: Backup fabric and host configurations prior to destructive tests
+      arista.eos.eos_config:
+        lines: copy running-config flash:backup.cfg
