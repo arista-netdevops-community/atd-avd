@@ -25,11 +25,11 @@
           - fqdn: s1-host1
             parentContainerName: S1-Hosts
             configlets:
-              - AVD_s1-host1
+              - AVD_bgp-cert-s1-host1
           - fqdn: s1-host2
             parentContainerName: S1-Hosts
             configlets:
-              - AVD_s1-host2
+              - AVD_bgp-cert-s1-host2
       register: cvp_device_results
 
     - name: "Execute pending tasks on {{ inventory_hostname }}"

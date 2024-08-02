@@ -13,9 +13,6 @@
           arista.eos.eos_config:
             lines: copy running-config flash:backup.cfg
 
-        # Need to fail task if test cases fail
-        # Cert tests should not start if baseline is incorrect
-        # use json_query combined with assert statement
         - name: Baseline fabrics current state using ANTA NRFU catalog
           import_role:
             name: eos_validate_state
@@ -25,19 +22,22 @@
             save_catalog: true
             hosts: ATD_FABRIC
 
-        - name: Read results from fabric baseline tests
-          ansible.builtin.include_vars:
-            dir: atd-inventory/reports/test_results
-            extensions:
-              - 'yml'
+        # adding chars when inputted
+        # unable to translate to json
+        # need to find a solution so can query and assert against data
+        - name: Read output of ANTA tests and assign a variable to them
+          ansible.builtin.set_fact:
+            "{{ inventory_hostname | replace('-','_') }}_fact": "{{ lookup('file','/home/coder/project/labfiles/atd-avd/atd-inventory/reports/test_results/{{ inventory_hostname }}-results.json') | to_json }}"
+          when: inventory_hostname in groups['ATD_FABRIC']
 
-        # connectivity test failing (10.1.10.11 to 10.1.10.12)
-        #   s1-host1#ping 10.1.10.12 source 10.1.10.11
-        #   ping: bind: Permission denied
-        #   works without source keywork but this is required in anta
+        - debug: var={{ inventory_hostname | replace('-','_') }}_fact
+          when: inventory_hostname in groups['ATD_FABRIC']
+
         # need to save these files to a different output dir
         # skip tests that are needed in this 
         # should i copy custom catalog before this step so it doesn't get run in baseline or have a separate test catalog dir for this step?
+        #
+        # is it easier to run anta from command line instead of trying to get anta to do what i want with eos_validate_state 
         - name: Start a continious ping to validate data-plane between s1-host1 and s1-host2
           import_role:
             name: eos_validate_state
@@ -47,8 +47,34 @@
           vars:
             use_anta: true
             save_catalog: true
-            # custom_anta_catalogs_dir: atd-inventory
-            # custom_anta_catalogs: custom_anta_catalogs
+
+        - name: Disable uplinks on s1-leaf1 to test BGP resilency
+          arista.eos.eos_commands:
+            lines:
+              - configure
+              - interface ethernet2
+              - shutdown
+              - interface ethernet3
+              - shutdown
+          when: inventory_hostname == "s1-leaf1"
+
+        # - name: Test BGP and reachability in network
+        # is it easier to run anta from command line instead of trying to get anta to do what i want with eos_validate_state 
+
+        # what additional evidence do i need?  
+        - name: collect evidence for reporting
+          arista.eos.eos_command:
+            commands:
+              - command: show ip bgp summary
+              - command: show bgp evpn summary
+              - command: show ip int brief
+          register: results
+          when: inventory_hostname == "s1-leaf1"
+
+        - name: Read output of evidence and assign a variable to them
+          ansible.builtin.set_fact:
+            evidence: results
+          when: inventory_hostname == "s1-leaf1"
 
       always:
         - name: Restore backup fabric and host configuration after destructive tests
@@ -64,4 +90,4 @@
             save_catalog: true
             hosts: ATD_FABRIC
         
-        # reporting task
+        # - name: Use data from certification test to write a report
