@@ -15,6 +15,11 @@
             commands:
               - copy running-config flash:backup.cfg
           tags: [ setup ]
+
+        - name: Delete test results (if they already exist)
+          ansible.builtin.shell: "rm atd-inventory/reports/test_results/*"
+          tags: [ setup ]
+          run_once: true
         
         - name: Remove certification results directories if they already exist
           ansible.builtin.file:
@@ -52,6 +57,8 @@
           tags: [ baseline ]
           run_once: true
 
+        # fix assert
+        #
         # adding chars when inputted
         # unable to translate to json
         # need to find a solution so can query and assert against data
@@ -63,12 +70,6 @@
         # - debug: var={{ inventory_hostname | replace('-','_') }}_fact
         #   when: inventory_hostname in groups['ATD_FABRIC']
 
-        # need to save these files to a different output dir
-        # skip tests that are needed in this 
-        # should i copy custom catalog before this step so it doesn't get run in baseline or have a separate test catalog dir for this step?
-        #
-        # is it easier to run anta from command line instead of trying to get anta to do what i want with eos_validate_state 
-
         - name: Disable uplinks on s1-leaf1 to test BGP resilency
           arista.eos.eos_command:
             commands:
@@ -78,20 +79,13 @@
               - interface ethernet3
               - shutdown
           when: "'s1-leaf1' in inventory_hostname"
-
-        # - name: Test BGP and reachability in network
-        # is it easier to run anta from command line instead of trying to get anta to do what i want with eos_validate_state 
-
-        # - name: sleep for convergence
-        #   ansible.builtin.pause:
-        #     seconds: 25
-        #   run_once: true
+          tags: [ step1_setup ]
 
         - name: Validate data-plane between s1-host1 and s1-host2
           import_role:
             name: eos_validate_state
-          async: 300
-          poll: 0
+          # async: 300
+          # poll: 0
           when: "'s1-leaf1' in inventory_hostname"
           vars:
             use_anta: true
@@ -105,18 +99,16 @@
             use_anta: true
             save_catalog: true
 
-        # what additional evidence do i need?  
         - name: collect plain-text evidence for reporting
           arista.eos.eos_command:
             commands: 
-              - ping 10.1.10.12 source 10.1.10.11 repeat 100
+              - ping 10.1.10.12 source 10.1.10.11 repeat 5
           register: ping_evidence
           when: "'s1-host1' in inventory_hostname"
 
         - debug: var=ping_evidence
           when: "'s1-host1' in inventory_hostname"
 
-        # what additional evidence do i need?  
         - name: collect plain-text evidence for reporting
           arista.eos.eos_command:
             commands: 
