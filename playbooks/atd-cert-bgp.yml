@@ -6,13 +6,15 @@
   collections:
     - arista.avd
     - arista.cvp
+    - arista.eos
   tasks:
     - name: BGP link resilency certification test
       block:
         - name: Backup fabric and host configurations prior to destructive tests
-          arista.eos.eos_config:
-            lines: copy running-config flash:backup.cfg
-
+          arista.eos.eos_command:
+            commands:
+              - copy running-config flash:backup.cfg
+        
         - name: Baseline fabrics current state using ANTA NRFU catalog
           import_role:
             name: eos_validate_state
@@ -20,61 +22,59 @@
           vars:
             use_anta: true
             save_catalog: true
-            hosts: ATD_FABRIC
+          when: inventory_hostname in groups['ATD_FABRIC']
 
         # adding chars when inputted
         # unable to translate to json
         # need to find a solution so can query and assert against data
-        - name: Read output of ANTA tests and assign a variable to them
-          ansible.builtin.set_fact:
-            "{{ inventory_hostname | replace('-','_') }}_fact": "{{ lookup('file','/home/coder/project/labfiles/atd-avd/atd-inventory/reports/test_results/{{ inventory_hostname }}-results.json') | to_json }}"
-          when: inventory_hostname in groups['ATD_FABRIC']
+        # - name: Read output of ANTA tests and assign a variable to them
+        #   ansible.builtin.set_fact:
+        #     "{{ inventory_hostname | replace('-','_') }}_fact": "{{ lookup('file','/home/coder/project/labfiles/atd-avd/atd-inventory/reports/test_results/{{ inventory_hostname }}-results.json') | to_yaml }}"
+        #   when: inventory_hostname in groups['ATD_FABRIC']
 
-        - debug: var={{ inventory_hostname | replace('-','_') }}_fact
-          when: inventory_hostname in groups['ATD_FABRIC']
+        # - debug: var={{ inventory_hostname | replace('-','_') }}_fact
+        #   when: inventory_hostname in groups['ATD_FABRIC']
 
         # need to save these files to a different output dir
         # skip tests that are needed in this 
         # should i copy custom catalog before this step so it doesn't get run in baseline or have a separate test catalog dir for this step?
         #
         # is it easier to run anta from command line instead of trying to get anta to do what i want with eos_validate_state 
-        - name: Start a continious ping to validate data-plane between s1-host1 and s1-host2
-          import_role:
-            name: eos_validate_state
-          async: 300
-          poll: 0
-          when: inventory_hostname == "s1-host1"
-          vars:
-            use_anta: true
-            save_catalog: true
+        # - name: Start a continious ping to validate data-plane between s1-host1 and s1-host2
+        #   import_role:
+        #     name: eos_validate_state
+        #   async: 300
+        #   poll: 0
+        #   when: inventory_hostname == "s1-host1"
+        #   vars:
+        #     use_anta: true
+        #     save_catalog: true
 
         - name: Disable uplinks on s1-leaf1 to test BGP resilency
-          arista.eos.eos_commands:
-            lines:
+          arista.eos.eos_command:
+            commands:
               - configure
               - interface ethernet2
               - shutdown
               - interface ethernet3
               - shutdown
-          when: inventory_hostname == "s1-leaf1"
+          when: "'s1-leaf1' in inventory_hostname"
 
         # - name: Test BGP and reachability in network
         # is it easier to run anta from command line instead of trying to get anta to do what i want with eos_validate_state 
 
         # what additional evidence do i need?  
-        - name: collect evidence for reporting
+        - name: collect plain-text evidence for reporting
           arista.eos.eos_command:
-            commands:
-              - command: show ip bgp summary
-              - command: show bgp evpn summary
-              - command: show ip int brief
-          register: results
-          when: inventory_hostname == "s1-leaf1"
+            commands: 
+              - show ip bgp summary
+              - show bgp evpn summary
+              - show ip interface brief
+          register: bgp_evidence
+          when: "'s1-leaf1' in inventory_hostname"
 
-        - name: Read output of evidence and assign a variable to them
-          ansible.builtin.set_fact:
-            evidence: results
-          when: inventory_hostname == "s1-leaf1"
+        - debug: var=bgp_evidence
+          when: "'s1-leaf1' in inventory_hostname"
 
       always:
         - name: Restore backup fabric and host configuration after destructive tests
@@ -88,6 +88,6 @@
           vars:
             use_anta: true
             save_catalog: true
-            hosts: ATD_FABRIC
-        
+          when: inventory_hostname in groups['ATD_FABRIC']
+
         # - name: Use data from certification test to write a report
