@@ -10,15 +10,38 @@
   tasks:
     - name: BGP link resilency certification test
       block:
+        # backup configurations
         - name: Backup fabric and host configurations prior to destructive tests
           arista.eos.eos_command:
             commands:
               - copy running-config flash:backup.cfg
+          tag: [ backup ]
         
+        - name: Remove certification results directories if they already exist
+          ansible.builtin.file:
+            path: {{ item }}
+            state: absent
+          loop:
+            - "atd-inventory/certification/bgp/pre_validate"
+            - "atd-inventory/certification/bgp/step_1"
+            - "atd-inventory/certification/bgp/post_validate"
+          tag: [ backup ]
+          run_once: true
+
+        - name: Create certification results directories
+          ansible.builtin.file:
+            path: {{ item }}
+            state: directory
+          loop:
+            - "atd-inventory/certification/bgp/pre_validate"
+            - "atd-inventory/certification/bgp/step_1"
+            - "atd-inventory/certification/bgp/post_validate"
+          run_once: true
+          tag: [ backup ]
+
         - name: Baseline fabrics current state using ANTA NRFU catalog
           import_role:
             name: eos_validate_state
-          when: inventory_hostname in groups['ATD_FABRIC']
           vars:
             use_anta: true
             save_catalog: true
@@ -40,15 +63,6 @@
         # should i copy custom catalog before this step so it doesn't get run in baseline or have a separate test catalog dir for this step?
         #
         # is it easier to run anta from command line instead of trying to get anta to do what i want with eos_validate_state 
-        # - name: Start a continious ping to validate data-plane between s1-host1 and s1-host2
-        #   import_role:
-        #     name: eos_validate_state
-        #   async: 300
-        #   poll: 0
-        #   when: inventory_hostname == "s1-host1"
-        #   vars:
-        #     use_anta: true
-        #     save_catalog: true
 
         - name: Disable uplinks on s1-leaf1 to test BGP resilency
           arista.eos.eos_command:
@@ -62,6 +76,40 @@
 
         # - name: Test BGP and reachability in network
         # is it easier to run anta from command line instead of trying to get anta to do what i want with eos_validate_state 
+
+        # - name: sleep for convergence
+        #   ansible.builtin.pause:
+        #     seconds: 25
+        #   run_once: true
+
+        - name: Validate data-plane between s1-host1 and s1-host2
+          import_role:
+            name: eos_validate_state
+          async: 300
+          poll: 0
+          when: "'s1-leaf1' in inventory_hostname"
+          vars:
+            use_anta: true
+            save_catalog: true
+
+        - name: Validate control-plane on s1-leaf1
+          import_role:
+            name: eos_validate_state
+          when: inventory_hostname in groups['ATD_HOSTS']
+          vars:
+            use_anta: true
+            save_catalog: true
+
+        # what additional evidence do i need?  
+        - name: collect plain-text evidence for reporting
+          arista.eos.eos_command:
+            commands: 
+              - ping 10.1.10.12 source 10.1.10.11 repeat 100
+          register: ping_evidence
+          when: "'s1-host1' in inventory_hostname"
+
+        - debug: var=ping_evidence
+          when: "'s1-host1' in inventory_hostname"
 
         # what additional evidence do i need?  
         - name: collect plain-text evidence for reporting
@@ -84,7 +132,6 @@
         - name: Baseline restored fabrics using ANTA NRFU catalog
           import_role:
             name: eos_validate_state
-          when: inventory_hostname in groups['ATD_FABRIC']
           vars:
             use_anta: true
             save_catalog: true

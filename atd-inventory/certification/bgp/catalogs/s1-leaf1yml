@@ -1,0 +1,17 @@
+anta.tests.interfaces:
+  - VerifyInterfacesStatus:
+      interfaces:
+        - name: Ethernet2
+          status: adminDown
+        - name: Ethernet3
+          status: adminDown
+anta.tests.routing:
+  bgp:
+    - VerifyBGPPeerCount:
+        address_families:
+          - afi: "evpn"
+            num_peers: 2
+          - afi: "ipv4"
+            safi: "unicast"
+            vrf: "default"
+            num_peers: 1
