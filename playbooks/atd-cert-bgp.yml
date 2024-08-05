@@ -10,42 +10,47 @@
   tasks:
     - name: BGP link resilency certification test
       block:
-        # backup configurations
         - name: Backup fabric and host configurations prior to destructive tests
           arista.eos.eos_command:
             commands:
               - copy running-config flash:backup.cfg
-          tag: [ backup ]
+          tags: [ setup ]
         
         - name: Remove certification results directories if they already exist
           ansible.builtin.file:
-            path: {{ item }}
+            path: "{{ item }}"
             state: absent
           loop:
             - "atd-inventory/certification/bgp/pre_validate"
             - "atd-inventory/certification/bgp/step_1"
             - "atd-inventory/certification/bgp/post_validate"
-          tag: [ backup ]
+          tags: [ setup ]
           run_once: true
 
         - name: Create certification results directories
           ansible.builtin.file:
-            path: {{ item }}
+            path: "{{ item }}"
             state: directory
           loop:
             - "atd-inventory/certification/bgp/pre_validate"
             - "atd-inventory/certification/bgp/step_1"
             - "atd-inventory/certification/bgp/post_validate"
+          tags: [ setup ]
           run_once: true
-          tag: [ backup ]
 
         - name: Baseline fabrics current state using ANTA NRFU catalog
           import_role:
-            name: eos_validate_state
+            name: arista.avd.eos_validate_state
           vars:
             use_anta: true
             save_catalog: true
           when: inventory_hostname in groups['ATD_FABRIC']
+          tags: [ baseline ]
+
+        - name: Move baseline results to pre-validation folder
+          ansible.builtin.shell: "mv atd-inventory/reports/test_results/* atd-inventory/certification/bgp/pre_validate/."
+          tags: [ baseline ]
+          run_once: true
 
         # adding chars when inputted
         # unable to translate to json
