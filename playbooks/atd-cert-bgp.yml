@@ -20,7 +20,8 @@
           ansible.builtin.shell: "rm atd-inventory/reports/test_results/*"
           tags: [ setup ]
           run_once: true
-        
+          ignore_errors: true
+
         - name: Remove certification results directories if they already exist
           ansible.builtin.file:
             path: "{{ item }}"
@@ -37,9 +38,9 @@
             path: "{{ item }}"
             state: directory
           loop:
-            - "atd-inventory/certification/bgp/pre_validate"
-            - "atd-inventory/certification/bgp/step_1"
-            - "atd-inventory/certification/bgp/post_validate"
+            - "atd-inventory/certification/bgp/pre_validate/test_results"
+            - "atd-inventory/certification/bgp/step_1/test_results"
+            - "atd-inventory/certification/bgp/post_validate/test_results"
           tags: [ setup ]
           run_once: true
 
@@ -49,13 +50,19 @@
           vars:
             use_anta: true
             save_catalog: true
+            output_dir_name: pre_validate
+            output_dir: atd-inventory/certification/bgp/pre_validate
+            test_catalogs_dir_name: pre_validate
+            test_catalogs_dir: atd-inventory/certification/bgp/pre_validate
+            eos_validate_state_name: pre_validate
+            eos_validate_state_dir: atd-inventory/certification/bgp/pre_validate
           when: inventory_hostname in groups['ATD_FABRIC']
           tags: [ baseline ]
 
-        - name: Move baseline results to pre-validation folder
-          ansible.builtin.shell: "mv atd-inventory/reports/test_results/* atd-inventory/certification/bgp/pre_validate/."
-          tags: [ baseline ]
-          run_once: true
+        # - name: Move baseline results to pre-validation folder
+        #   ansible.builtin.shell: "mv atd-inventory/reports/test_results/* atd-inventory/certification/bgp/pre_validate/."
+        #   tags: [ baseline ]
+        #   run_once: true
 
         # fix assert
         #
@@ -81,15 +88,33 @@
           when: "'s1-leaf1' in inventory_hostname"
           tags: [ step1_setup ]
 
+        - name: Add custom ANTA test catalogs for validation
+          ansible.builtin.copy:
+            src: "atd-inventory/certification/bgp/catalogs/{{ items }}"
+            dest: atd-inventory/custom_anta_catalogs/{{ items }}
+          loop:
+            - "s1-host1.yml"
+            - "s1-host2.yml"
+            - "s1-leaf1.yml"
+          tags: [ step1_criteria ]
+          run_once: true
+
         - name: Validate data-plane between s1-host1 and s1-host2
           import_role:
             name: eos_validate_state
-          # async: 300
-          # poll: 0
-          when: "'s1-leaf1' in inventory_hostname"
           vars:
             use_anta: true
             save_catalog: true
+            use_anta: true
+            save_catalog: true
+            output_dir_name: step_1
+            output_dir: atd-inventory/certification/bgp/step_1
+            test_catalogs_dir_name: step_1
+            test_catalogs_dir: atd-inventory/certification/bgp/step_1
+            eos_validate_state_name: step_1
+            eos_validate_state_dir: atd-inventory/certification/bgp/step_1
+          when: "'s1-leaf1' in inventory_hostname"
+          tags: [ step1_criteria ]
 
         - name: Validate control-plane on s1-leaf1
           import_role:
@@ -98,16 +123,27 @@
           vars:
             use_anta: true
             save_catalog: true
+            use_anta: true
+            save_catalog: true
+            output_dir_name: step_1
+            output_dir: atd-inventory/certification/bgp/step_1
+            test_catalogs_dir_name: step_1
+            test_catalogs_dir: atd-inventory/certification/bgp/step_1
+            eos_validate_state_name: step_1
+            eos_validate_state_dir: atd-inventory/certification/bgp/step_1
+          when: "'s1-leaf1' in inventory_hostname"
+          tags: [ step1_criteria ]
 
-        - name: collect plain-text evidence for reporting
+        - name: Collect plain-text evidence for reporting
           arista.eos.eos_command:
             commands: 
               - ping 10.1.10.12 source 10.1.10.11 repeat 5
           register: ping_evidence
           when: "'s1-host1' in inventory_hostname"
+          tags: [ step1_criteria ]
 
-        - debug: var=ping_evidence
-          when: "'s1-host1' in inventory_hostname"
+        # - debug: var=ping_evidence
+        #   when: "'s1-host1' in inventory_hostname"
 
         - name: collect plain-text evidence for reporting
           arista.eos.eos_command:
@@ -117,9 +153,10 @@
               - show ip interface brief
           register: bgp_evidence
           when: "'s1-leaf1' in inventory_hostname"
+          tags: [ step1_criteria ]
 
-        - debug: var=bgp_evidence
-          when: "'s1-leaf1' in inventory_hostname"
+        # - debug: var=bgp_evidence
+        #   when: "'s1-leaf1' in inventory_hostname"
 
       always:
         - name: Restore backup fabric and host configuration after destructive tests
