@@ -10,19 +10,13 @@
   tasks:
     - name: BGP link resilency certification test
       block:
-        - name: Backup fabric and host configurations prior to destructive tests
+        - name: "SETUP: Backup fabric and host configurations prior to destructive tests"
           arista.eos.eos_command:
             commands:
               - copy running-config flash:backup.cfg
           tags: [ setup ]
 
-        - name: Delete test results (if they already exist)
-          ansible.builtin.shell: "rm atd-inventory/reports/test_results/*"
-          tags: [ setup ]
-          run_once: true
-          ignore_errors: true
-
-        - name: Delete test catalogs (if they already exist)
+        - name: "SETUP: Delete test catalogs (if they already exist)"
           ansible.builtin.shell: "rm atd-inventory/custom_anta_catalogs/{{ item}}"
           loop:
             - "s1-host1.yml"
@@ -32,18 +26,21 @@
           run_once: true
           ignore_errors: true
 
-        - name: Remove certification results directories if they already exist
+        - name: "SETUP: Remove certification results directories if they already exist"
           ansible.builtin.file:
             path: "{{ item }}"
             state: absent
           loop:
+            - "atd-inventory/certification/bgp/pre_validate/test_results"
+            - "atd-inventory/certification/bgp/step_1/test_results"
+            - "atd-inventory/certification/bgp/post_validate/test_results"
             - "atd-inventory/certification/bgp/pre_validate"
             - "atd-inventory/certification/bgp/step_1"
             - "atd-inventory/certification/bgp/post_validate"
           tags: [ setup ]
           run_once: true
 
-        - name: Create certification results directories
+        - name: "SETUP: Create certification results directories"
           ansible.builtin.file:
             path: "{{ item }}"
             state: directory
@@ -54,7 +51,7 @@
           tags: [ setup ]
           run_once: true
 
-        - name: Baseline fabrics current state using ANTA NRFU catalog
+        - name: "PRE-VALIDATE: Baseline fabrics current state using ANTA NRFU catalog"
           import_role:
             name: arista.avd.eos_validate_state
           vars:
@@ -87,7 +84,7 @@
         # - debug: var={{ inventory_hostname | replace('-','_') }}_fact
         #   when: inventory_hostname in groups['ATD_FABRIC']
 
-        - name: Disable uplinks on s1-leaf1 to test BGP resilency
+        - name: "STEP1 SETUP: Disable uplinks on s1-leaf1 to test BGP resilency"
           arista.eos.eos_command:
             commands:
               - configure
@@ -98,7 +95,7 @@
           when: "'s1-leaf1' in inventory_hostname"
           tags: [ step1_setup ]
 
-        - name: Add custom ANTA test catalogs for validation
+        - name: "STEP1 CRITERIA: Add custom ANTA test catalogs for validation"
           ansible.builtin.copy:
             src: "../atd-inventory/certification/bgp/catalogs/{{ item }}"
             dest: "atd-inventory/custom_anta_catalogs/{{ item }}"
@@ -109,7 +106,7 @@
           tags: [ step1_criteria ]
           run_once: true
 
-        - name: Validate BGP resilency after uplink failure
+        - name: "STEP1 CRITERIA: Validate BGP resilency after uplink failure"
           import_role:
             name: eos_validate_state
           vars:
@@ -124,7 +121,7 @@
           when: "'s1-leaf1' in inventory_hostname or inventory_hostname in groups['ATD_HOSTS']"
           tags: [ step1_criteria ]
 
-        - name: Collect plain-text evidence for reporting
+        - name: "STEP1 CRITERIA: Collect plain-text evidence for reporting"
           arista.eos.eos_command:
             commands: 
               - ping 10.1.10.12 source 10.1.10.11 repeat 5
@@ -135,7 +132,7 @@
         # - debug: var=ping_evidence
         #   when: "'s1-host1' in inventory_hostname"
 
-        - name: collect plain-text evidence for reporting
+        - name: "STEP1 CRITERIA: Collect plain-text evidence for reporting"
           arista.eos.eos_command:
             commands: 
               - show ip bgp summary
@@ -151,13 +148,13 @@
         # add assert statement
 
       always:
-        - name: Restore backup fabric and host configuration after destructive tests
+        - name: "TEARDOWN: Restore backup fabric and host configuration after destructive tests"
           arista.eos.eos_command:
             commands:
               - configure replace flash:backup.cfg
           tags: [ teardown ]
 
-        - name: Delete test catalogs (if they exist)
+        - name: "TEARDOWN: Delete test catalogs (if they exist)"
           ansible.builtin.shell: "rm atd-inventory/custom_anta_catalogs/{{ item}}"
           loop:
             - "s1-host1.yml"
@@ -167,7 +164,7 @@
           run_once: true
           ignore_errors: true
 
-        - name: Baseline fabrics current state using ANTA NRFU catalog
+        - name: "POST-VALIDATE: Baseline fabrics current state using ANTA NRFU catalog"
           import_role:
             name: arista.avd.eos_validate_state
           vars:
