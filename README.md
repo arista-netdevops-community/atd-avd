@@ -54,6 +54,7 @@ The diagram below shows that the ATD lab topology has two data centers. We will 
     ```
 
 2. Set credentials and install any required tools
+> :warning: **Warning:** Specific for the ATD environment. the `pip config` lines disable PIP safety checks and should not be used outside of ATD without understanding them.
 
     ```shell
     cd /home/coder/project/labfiles
