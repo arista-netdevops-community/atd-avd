@@ -30,6 +30,8 @@ The code block below performs the following actions:
 - Clones this repository
 - Moves to the cloned repository folder
 
+     > :warning: __Warning:__ Specific for the ATD environment. the `pip config` lines disable PIP safety checks and should not be used outside of ATD without understanding them.
+
     ```shell
     cd /home/coder/project/labfiles
     export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
