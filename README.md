@@ -54,16 +54,16 @@ The diagram below shows that the ATD lab topology has two data centers. We will 
     ```
 
 2. Set credentials and install any required tools
-> :warning: **Warning:** Specific for the ATD environment. the `pip config` lines disable PIP safety checks and should not be used outside of ATD without understanding them.
+
+    > :warning: __Warning:__ Specific for the ATD environment. the `pip config` lines disable PIP safety checks and should not be used outside of ATD without understanding them.
 
     ```shell
     cd /home/coder/project/labfiles
     export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
-    ansible-galaxy collection install arista.avd:==4.8.0
-    export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
+    ansible-galaxy collection install arista.avd:==4.10.0
     pip3 config set global.break-system-packages true
     pip3 config set global.disable-pip-version-check true
-    pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
+    pip install "pyavd[ansible]==4.10.0"
     git clone https://github.com/arista-netdevops-community/atd-avd.git
     cd atd-avd
     ```

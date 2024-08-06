@@ -25,20 +25,20 @@ export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "pas
 The code block below performs the following actions:
 
 - Moves to the `labfiles` directory
-- Installs version 4.8.0 of the arista.avd collection
-- Exports an environment variable based on the location of the `arista.avd` collection
-- Leverages the new environment variable to install the Python requirements for arista.avd
+- Installs version 4.10.0 of the arista.avd collection
+- Installs PyAVD 4.10.0 and arista.avd Ansible collection Python requirements.
 - Clones this repository
 - Moves to the cloned repository folder
 
+     > :warning: __Warning:__ Specific for the ATD environment. the `pip config` lines disable PIP safety checks and should not be used outside of ATD without understanding them.
+
     ```shell
     cd /home/coder/project/labfiles
-    ansible-galaxy collection install arista.avd:==4.8.0
-    export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
+    export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
+    ansible-galaxy collection install arista.avd:==4.10.0
     pip3 config set global.break-system-packages true
     pip3 config set global.disable-pip-version-check true
-    pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
-    pip3 install 'anta==0.14.0'
+    pip install "pyavd[ansible]==4.10.0"
     git clone https://github.com/arista-netdevops-community/atd-avd.git
     cd atd-avd
     ```
