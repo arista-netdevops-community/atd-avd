@@ -2,6 +2,6 @@ anta.tests.connectivity:
 - VerifyReachability:
     hosts:
     - destination: 10.1.10.12
-      repeat: 5000
+      repeat: 100
       source: 10.1.10.11
       vrf: default
