@@ -87,7 +87,7 @@
           loop: "{{ hostvars[inventory_hostname].pre_results | map(attribute='result') | list }}"
           loop_control:
             loop_var: anta_data
-          register: pre_test_results
+          register: pre_register
           when: inventory_hostname in groups['ATD_FABRIC']
           tags: [ pre_validate ]
 
@@ -173,7 +173,7 @@
           loop: "{{ hostvars[inventory_hostname].step1_results }}"
           loop_control:
             loop_var: anta_data
-          register: step1_test_results
+          register: step1_register
           when: "'s1-leaf1' in inventory_hostname or inventory_hostname in groups['ATD_HOSTS']"
           tags: [ step1_criteria ]
 
@@ -230,8 +230,14 @@
           loop: "{{ hostvars[inventory_hostname].post_results | map(attribute='result') | list }}"
           loop_control:
             loop_var: anta_data
-          register: post_test_results
+          register: post_register
           when: inventory_hostname in groups['ATD_FABRIC']
           tags: [ post_validate ]
+          ignore_errors: true
 
-        # - name: Use data from certification test to write a report
+        - name: "REPORT: Use data from certification test to write a report"
+          ansible.builtin.template:
+            src: report.j2
+            dest: "atd-inventory/reports/report.md"
+          tags: [ report ]
+          run_once: true
