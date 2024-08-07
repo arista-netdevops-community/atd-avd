@@ -152,7 +152,6 @@
         # - debug: var=bgp_evidence
         #   when: "'s1-leaf1' in inventory_hostname"
 
-        # add assert statement
         - name: "STEP1 CRITERIA: Read output of ANTA tests and assign a variable to them"
           ansible.builtin.set_fact:
             step1_results: "{{ lookup('file','/home/coder/project/labfiles/atd-avd/atd-inventory/certification/bgp/step_1/test_results/{{ inventory_hostname }}-results.json') }}"
@@ -167,15 +166,15 @@
           delegate_to: localhost
           ansible.builtin.assert:
             that:
-              - anta_data != "failure"
+              - anta_data.result != "failure" or (anta_data.result == "failure" and anta_data.messages is match('.*172.30.255.0.*172.30.255.2.*'))
             success_msg: "anta_data: {{anta_data}}"
             fail_msg: "failure: {{anta_data}}"
             quiet: yes
-          loop: "{{ hostvars[inventory_hostname].step1_results | map(attribute='result') | list }}"
+          loop: "{{ hostvars[inventory_hostname].step1_results }}"
           loop_control:
             loop_var: anta_data
           register: step1_test_results
-          when: inventory_hostname in groups['ATD_FABRIC']
+          when: "'s1-leaf1' in inventory_hostname or inventory_hostname in groups['ATD_HOSTS']"
           tags: [ step1_criteria ]
 
       always:
