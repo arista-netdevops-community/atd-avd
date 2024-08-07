@@ -68,12 +68,12 @@
 
         - name: "PRE-VALIDATE: Read output of ANTA tests and assign a variable to them"
           ansible.builtin.set_fact:
-            anta_results: "{{ lookup('file','/home/coder/project/labfiles/atd-avd/atd-inventory/certification/bgp/pre_validate/test_results/{{ inventory_hostname }}-results.json') }}"
+            pre_results: "{{ lookup('file','/home/coder/project/labfiles/atd-avd/atd-inventory/certification/bgp/pre_validate/test_results/{{ inventory_hostname }}-results.json') }}"
           when: inventory_hostname in groups['ATD_FABRIC']
           tags: [ pre_validate ]
 
-        # - name: check values of anta_results
-        #   debug: var=hostvars[inventory_hostname].anta_results
+        # - name: check values of pre_results
+        #   debug: var=hostvars[inventory_hostname].pre_results
         #   when: inventory_hostname in groups['ATD_FABRIC']
 
         - name: "PRE-VALIDATE: Verify that none of the pre-validation tests failed"
@@ -84,10 +84,10 @@
             success_msg: "anta_data: {{anta_data}}"
             fail_msg: "failure: {{anta_data}}"
             quiet: yes
-          loop: "{{ hostvars[inventory_hostname].anta_results | map(attribute='result') | list }}"
+          loop: "{{ hostvars[inventory_hostname].pre_results | map(attribute='result') | list }}"
           loop_control:
             loop_var: anta_data
-          register: anta_test_results
+          register: pre_test_results
           when: inventory_hostname in groups['ATD_FABRIC']
           tags: [ pre_validate ]
 
@@ -183,6 +183,31 @@
             test_catalogs_dir: atd-inventory/certification/bgp/post_validate
             eos_validate_state_name: post_validate
             eos_validate_state_dir: atd-inventory/certification/bgp/post_validate
+          when: inventory_hostname in groups['ATD_FABRIC']
+          tags: [ post_validate ]
+
+        - name: "POST-VALIDATE: Read output of ANTA tests and assign a variable to them"
+          ansible.builtin.set_fact:
+            post_results: "{{ lookup('file','/home/coder/project/labfiles/atd-avd/atd-inventory/certification/bgp/post_validate/test_results/{{ inventory_hostname }}-results.json') }}"
+          when: inventory_hostname in groups['ATD_FABRIC']
+          tags: [ post_validate ]
+
+        # - name: check values of post_results
+        #   debug: var=hostvars[inventory_hostname].post_results
+        #   when: inventory_hostname in groups['ATD_FABRIC']
+
+        - name: "POST-VALIDATE: Verify that none of the post-validation tests failed"
+          delegate_to: localhost
+          ansible.builtin.assert:
+            that:
+              - anta_data != "failure"
+            success_msg: "anta_data: {{anta_data}}"
+            fail_msg: "failure: {{anta_data}}"
+            quiet: yes
+          loop: "{{ hostvars[inventory_hostname].post_results | map(attribute='result') | list }}"
+          loop_control:
+            loop_var: anta_data
+          register: post_test_results
           when: inventory_hostname in groups['ATD_FABRIC']
           tags: [ post_validate ]
 
