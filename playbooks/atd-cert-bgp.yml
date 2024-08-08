@@ -7,6 +7,12 @@
     - arista.avd
     - arista.cvp
     - arista.eos
+  vars:
+    # Test reporting information
+    test_name: BGP resilency on a Link Failure
+    test_id: BGP1.1
+    test_description: "Validate BGP Overlay resilency when a Leaf in an MLAG pair has its uplinks disabled.  BGP Overlay control-plane should continue to function and the data-plane should re-route from the uplinks to the MLAG links."
+
   tasks:
     - name: BGP link resilency certification test
       block:
@@ -59,10 +65,14 @@
             save_catalog: true
             output_dir_name: pre_validate
             output_dir: atd-inventory/certification/bgp/pre_validate
-            # test_catalogs_dir_name: test_catalogs
+            test_catalogs_dir_name: test_catalogs
             test_catalogs_dir: atd-inventory/intended/test_catalogs
             eos_validate_state_name: pre_validate
             eos_validate_state_dir: atd-inventory/certification/bgp/pre_validate
+            skip_tests:
+              - category: system
+                tests:
+                  - VerifyNTP
           when: inventory_hostname in groups['ATD_FABRIC']
           tags: [ pre_validate ]
 
@@ -125,6 +135,10 @@
             test_catalogs_dir: atd-inventory/certification/bgp/step_1
             eos_validate_state_name: step_1
             eos_validate_state_dir: atd-inventory/certification/bgp/step_1
+            skip_tests:
+              - category: system
+                tests:
+                  - VerifyNTP
           when: "'s1-leaf1' in inventory_hostname or inventory_hostname in groups['ATD_HOSTS']"
           tags: [ step1_criteria ]
 
@@ -206,6 +220,10 @@
             test_catalogs_dir: atd-inventory/certification/bgp/post_validate
             eos_validate_state_name: post_validate
             eos_validate_state_dir: atd-inventory/certification/bgp/post_validate
+            skip_tests:
+              - category: system
+                tests:
+                  - VerifyNTP
           when: inventory_hostname in groups['ATD_FABRIC']
           tags: [ post_validate ]
 
@@ -238,6 +256,6 @@
         - name: "REPORT: Use data from certification test to write a report"
           ansible.builtin.template:
             src: report.j2
-            dest: "atd-inventory/reports/report.md"
+            dest: "atd-inventory/reports/{{test_id | replace(' ','_')}}_{{now(utc=true,fmt='%Y%m%d%H%M%S')}}.md"
           tags: [ report ]
           run_once: true
