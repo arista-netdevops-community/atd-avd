@@ -3,24 +3,26 @@
 **TEST CASE NAME**: {{ test_name }}
 
 **TEST DESCRIPTION**: {{ test_description }}
-{% set failure = 0 %}
+{% set ns = namespace() %}
+{% set ns.failure = 0 %}
 {% for rtr in groups['ATD_FABRIC'] %}
     {% for result in hostvars[rtr].pre_results %}
        {% if result.result == "failure" %}
-           {%set failure = failure + 1 %}
+           {%set ns.failure = ns.failure + 1 %}
        {% endif %}
     {% endfor %}
 {% endfor %}
-{% if failure > 0 %}
+{% if ns.failure > 0 %}
     {% set test_results = "FAILED" %}
+    {% set span_color = "red" %}
 {% else %}
     {% set test_results = "PASSED" %}
+    {% set span_color = "black" %}
 {% endif %}
 
-**Prevalidation Tests**: {{ test_results }}
+**Pre-Validation Tests**: <span style="color:{{ span_color }}">{{ test_results }}</span>
 | Switch | Success | Failure | Skipped |
 ---------|---------|---------|---------|
-{% set ns = namespace() %}
 {% for rtr in groups['ATD_FABRIC'] %}
     {%- set ns.failure = 0 %}
     {%- set ns.success = 0 %}
@@ -39,3 +41,45 @@
 {% endfor %}
 
 *[Full Pre-Validation Test Report](../../atd-inventory/certification/bgp/pre_validate/ATD_FABRIC-state.md)*
+
+**Evidence Collected during test case**:
+```
+
+```
+{% set ns.failure = 0 %}
+{% for rtr in groups['ATD_FABRIC'] %}
+    {% for result in hostvars[rtr].post_results %}
+       {% if result.result == "failure" %}
+           {%set ns.failure = ns.failure + 1 %}
+       {% endif %}
+    {% endfor %}
+{% endfor %}
+{% if ns.failure > 0 %}
+    {% set test_results = "FAILED" %}
+    {% set span_color = "red" %}
+{% else %}
+    {% set test_results = "PASSED" %}
+    {% set span_color = "black" %}
+{% endif %}
+
+**Post-Validation Tests**: <span style="color:{{ span_color }}">{{ test_results }}</span>
+| Switch | Success | Failure | Skipped |
+---------|---------|---------|---------|
+{% for rtr in groups['ATD_FABRIC'] %}
+    {%- set ns.failure = 0 %}
+    {%- set ns.success = 0 %}
+    {%- set ns.skipped = 0 %}
+    {%- for result in hostvars[rtr].post_results %}
+       {%- if result.result == "failure" %}
+           {%- set ns.failure = ns.failure + 1 %}
+       {%- elif result.result == "success" %}
+           {%- set ns.success = ns.success + 1 %}
+       {%- elif result.result == "skipped" %}
+           {%- set ns.skipped = ns.skipped + 1 %}
+       {%- else %}
+       {%- endif %}
+    {%- endfor %}
+| {{ rtr }} | {{ ns.success }} | {{ ns.failure }} | {{ ns.skipped }} |
+{% endfor %}
+
+*[Full Post-Validation Test Report](../../atd-inventory/certification/bgp/post_validate/ATD_FABRIC-state.md)*
