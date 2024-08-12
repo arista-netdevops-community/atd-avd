@@ -1,0 +1,26 @@
+---
+- name: Manage Arista EOS EVPN/VXLAN Configuration
+  hosts: ATD_FABRIC
+  connection: local
+  gather_facts: false
+  collections:
+    - arista.avd
+  vars:
+    fabric_dir_name: "{{ fabric_name }}"
+  tasks:
+
+    - name: Generate intended variables
+      import_role:
+        name: eos_designs
+
+    - name: Generate device intended config and documentation
+      import_role:
+        name: eos_cli_config_gen
+
+    - name: Provision CV with AVD configuration
+      import_role:
+        name: cv_deploy
+      vars:
+        cv_server: # Update lab cv URL  ex, lab1.topo.testdrive.arista.com
+        cv_token: "{{ lab_token }}"
+        cv_run_change_control: true
