@@ -1,4 +1,4 @@
-# Step-by-step demo
+# AVD with Arista Test Drive
 
 ## 1. Connect to GUI VM
 
