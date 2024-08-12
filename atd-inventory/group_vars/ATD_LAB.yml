@@ -11,3 +11,37 @@ name_servers:
   - 8.8.8.8
 
 dns_domain: atd.lab
+
+local_users:
+
+  - name: arista
+    privilege: 15
+    role: network-admin
+    sha512_password: "{{ user_pass | password_hash('sha512', salt='arista') }}"
+
+cvp_instance_ips:
+  - 192.168.0.5
+terminattr_disable_aaa: True
+terminattr_ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+terminattr_ingestgrpcurl_port: 9910
+terminattr_smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+
+ntp:
+  servers:
+    - name: 192.168.0.1
+      iburst: True
+      local_interface: Management0
+
+aaa_authentication:
+  login:
+    default: group atds local
+aaa_authorization:
+  exec:
+    default: group atds local
+  commands:
+    all_default: local
+aaa_server_groups:
+  - name: atds
+    type: radius
+    servers:
+      - server: 192.168.0.1
