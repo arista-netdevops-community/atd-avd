@@ -17,7 +17,7 @@ Because the password is auto-generated, you must update the `ansible_password` v
 Run the following commands from the Programmability IDE terminal:
 
 ```shell
-export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
+export LABPASSPHRASE=`awk '/password:/{print $2}' /home/coder/.config/code-server/config.yaml`
 ```
 
 ## 3. Install all the requirements
@@ -34,7 +34,7 @@ The code block below performs the following actions:
 
     ```shell
     cd /home/coder/project/labfiles
-    export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
+    export LABPASSPHRASE=`awk '/password:/{print $2}' /home/coder/.config/code-server/config.yaml`
     ansible-galaxy collection install arista.avd:==4.10.0
     pip3 config set global.break-system-packages true
     pip3 config set global.disable-pip-version-check true
