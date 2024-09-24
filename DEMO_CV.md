@@ -116,7 +116,7 @@ bgp_peer_groups:
 ...
 ```
 
-You can rerun the build and provision playbooks to build and provision simultaneously. Remember to create a change control to finalize the deployment on the EOS nodes.
+You can rerun the build and provision playbooks to build and provision simultaneously.
 
 ```bash
 ansible-playbook playbooks/atd-fabric-build.yml
@@ -159,7 +159,6 @@ tenants:
   ansible-playbook playbooks/atd-fabric-deploy-cvp.yml
   ```
 
-  > Once more, create a change control in CVP and execute all tasks.
 
 ## 7. Filter VLANs deployed on the fabric
 
