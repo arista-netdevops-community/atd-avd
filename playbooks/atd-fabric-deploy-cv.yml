@@ -26,4 +26,4 @@
         structured_dir: "{{ inventory_dir }}/intended/structured_configs"
         cv_submit_workspace: true
         cv_submit_workspace_force: true
-        cv_run_change_control: true
+        cv_run_change_control: false

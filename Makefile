@@ -19,8 +19,12 @@ build: ## Build fabric artifacts
 	ansible-playbook playbooks/atd-fabric-build.yml
 
 .PHONY: cvp
-cvp: ## Push configurations to CVP and create tasks (user must execute)
+cvp: ## Push configurations to CV Network Provisioning and create tasks (user must execute)
 	ansible-playbook playbooks/atd-fabric-provision.yml
+
+.PHONY: cv-deploy
+cv-deploy: ## Push configurations to CV Static Config Studio and create tasks (user must execute)
+	ansible-playbook playbooks/atd-fabric-deploy-cv.yml
 
 .PHONY: validate
 validate: ## Validate the fabric from the EOS nodes using eAPI
