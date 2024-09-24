@@ -207,7 +207,7 @@ To enable the filtering feature, uncomment the `only_vlans_in_use` variable with
   ansible-playbook playbooks/atd-fabric-deploy-cvp.yml
   ```
 
-  Once more, in CVP, create a change control and execute all tasks. Below is the new output from leaf1 with VLANs filtered.
+  Below is the new output from leaf1 with VLANs filtered.
 
   ```eos
   leaf1#show vlan
