@@ -75,6 +75,7 @@ You can review the generated output in your VScode instance:
 - Fabric documentation: [atd-inventory/documentation](atd-inventory/documentation)
 
 ### Toggle the Studios - end-to-end provisioning on CVP
+
 On CVP, go to settings and enable `Studios - end-to-end provisioning` option
 
 ![CloudVision Studios end-to-end](./docs/imgs/studios-end-to-end.png)
@@ -82,17 +83,18 @@ On CVP, go to settings and enable `Studios - end-to-end provisioning` option
 ### Create Service account on CVP
 
 - Follow the steps listed here to generate a service account on CVP:
-  - https://avd.arista.com/4.10/roles/cv_deploy/index.html#steps-to-create-service-accounts-on-cloudvision
+  - [Steps to create service accounts on CloudVision](https://avd.arista.com/4.10/roles/cv_deploy/index.html#steps-to-create-service-accounts-on-cloudvision)
 
 - Copy the token and set that as environment variable
+
   ```bash
-  export ATD_TOKEN=<paste token here>
+  export ATD_TOKEN="<paste token here>"
   ```
 
 ### Provision CVP
 
 ```bash
-ansible-playbook playbooks/atd-fabric-deploy-cvp.yml
+ansible-playbook playbooks/atd-fabric-deploy-cv.yml
 ```
 
 This playbook does the following:
@@ -158,7 +160,6 @@ tenants:
   ansible-playbook playbooks/atd-fabric-build.yml
   ansible-playbook playbooks/atd-fabric-deploy-cvp.yml
   ```
-
 
 ## 7. Filter VLANs deployed on the fabric
 
