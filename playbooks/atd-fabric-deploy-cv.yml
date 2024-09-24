@@ -1,0 +1,29 @@
+---
+- name: Converge - Configuration deployment with CVP
+  hosts: ATD_LAB
+  connection: local
+  gather_facts: false
+  vars:
+    cv_server: 192.168.0.5
+    cv_token: "{{ lookup('env', 'ATD_TOKEN') }}"
+    cv_verify_certs: false
+    cv_skip_missing_devices: true
+    eos_config_dir: "{{ playbook_dir }}/intended/configs/test_configs"
+    structured_dir: "{{ playbook_dir }}/intended/structured_configs/test_configs"
+
+  tasks:
+    - name: Provision CVP with AVD configuration
+      run_once: true
+      delegate_to: localhost
+      ansible.builtin.import_role:
+        name: arista.avd.cv_deploy
+      vars:
+        # cv_server: 192.168.0.5
+        cv_token: "{{ lookup('env', 'ATD_TOKEN') }}"
+        cv_verify_certs: false
+        cv_skip_missing_devices: true
+        eos_config_dir: "{{ inventory_dir }}//intended/configs"
+        structured_dir: "{{ inventory_dir }}/intended/structured_configs"
+        cv_submit_workspace: true
+        cv_submit_workspace_force: true
+        cv_run_change_control: true
