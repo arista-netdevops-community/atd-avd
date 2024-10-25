@@ -33,7 +33,7 @@ servers:
 
 # network_ports:
 #   - switches:
-#       - leaf[34] # Simple regex to match on leaf3 and leaf4
+#       - s1-leaf[34] # Simple regex to match on leaf3 and leaf4
 #     switch_ports: # Ex Ethernet1-48 or Ethernet2-3/1-48
 #       - Ethernet4
 #     description: Connection to host2
