@@ -25,8 +25,8 @@ export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "pas
 The code block below performs the following actions:
 
 - Moves to the `labfiles` directory
-- Installs version 4.10.2 of the arista.avd collection
-- Installs PyAVD 4.10.2 and arista.avd Ansible collection Python requirements.
+- Installs version 5.0.0 of the arista.avd collection
+- Installs PyAVD 5.0.0 and arista.avd Ansible collection Python requirements.
 - Clones this repository
 - Moves to the cloned repository folder
 
@@ -35,10 +35,10 @@ The code block below performs the following actions:
     ```shell
     cd /home/coder/project/labfiles
     export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
-    ansible-galaxy collection install arista.avd:==4.10.2
+    ansible-galaxy collection install arista.avd:==5.0.0
     pip3 config set global.break-system-packages true
     pip3 config set global.disable-pip-version-check true
-    pip install "pyavd[ansible]==4.10.2"
+    pip install "pyavd[ansible]==5.0.0"
     git clone https://github.com/arista-netdevops-community/atd-avd.git
     cd atd-avd
     ```

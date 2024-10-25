@@ -1,4 +1,15 @@
 ---
+# Documentation
+eos_designs_documentation:
+  # Generate fabric-wide documentation.
+  enable: true
+  # Include connected endpoints in the fabric-wide documentation.
+  connected_endpoints: true
+  # Generate Topology CSV with all interfaces towards other devices.
+  topology_csv: true
+  # Generate P2P links CSV with all routed point-to-point links between devices.
+  p2p_links_csv: true
+
 # OOB Management network default gateway
 mgmt_gateway: 192.168.0.1
 # If ATD is running cEOS, management interface is Management0
