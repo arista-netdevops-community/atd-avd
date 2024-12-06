@@ -231,7 +231,7 @@ port_channel_interfaces:
   switchport:
     enabled: true
     mode: access
-    access_vlan: '110'
+    access_vlan: 110
   mlag: 4
 ethernet_interfaces:
 - name: Ethernet1
