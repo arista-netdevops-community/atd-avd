@@ -25,8 +25,8 @@ export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "pas
 The code block below performs the following actions:
 
 - Moves to the `labfiles` directory
-- Installs version 5.0.0 of the arista.avd collection
-- Installs PyAVD 5.0.0 and arista.avd Ansible collection Python requirements.
+- Installs version 5.1.0 of the arista.avd collection
+- Installs PyAVD 5.1.0 and arista.avd Ansible collection Python requirements.
 - Clones this repository
 - Moves to the cloned repository folder
 
